@@ -9,8 +9,6 @@ import HomeScreen from './src/screens/HomeScreen';
 import SignInScreen from './src/screens/SignInScreen';
 import { get_AllProducts } from './src/api/controller/products/getProducts';
 import SignUpScreen from './src/screens/SignUpScreen';
-
-
 const Stack = createNativeStackNavigator();
 
 const App = () => {
