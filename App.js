@@ -6,6 +6,7 @@ import { addProduct } from './src/api/controller/products/addProduct';
 import { deleteProduct } from './src/api/controller/products/deleteProduct';
 import { updateProduct } from './src/api/controller/products/updateProduct';
 import { getOrder_status_delivery_pending, get_AllOrder, get_OrderID, get_Order_userID } from './src/api/controller/orders/getOrders';
+import { addOrder } from './src/api/controller/orders/addOrder';
 
 const App = () => {
   const [data, setData] = useState();
@@ -49,6 +50,15 @@ const App = () => {
       })}} />
       <Button title='DELETE' onPress={() => {deleteProduct('gyS0Rhy6FaiW6MMNwYBH')}} />
       <Button title='UPDATE' onPress={() => {updateProduct({name : 'STAN SHOES'},'W6yuAxlFwYV4oqKZV7VK')}} /> */}
+      {/* <Button title='ADD' onPress={() => {addOrder({
+        address : "hhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
+        productsid: [
+            {productid : "W6yuAxlFwYV4oqKZV7VK", quantity: 1},
+            {productid : "oOL0wnEjJczuQhRNiNEs", quantity: 2}
+        ],
+        status: "pending",
+        userid: "kpR4EaNmhIa9RGaLTX26"
+      })}} />  */}
     </View>
   );
 };

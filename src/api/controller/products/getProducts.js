@@ -12,7 +12,7 @@ export const get_AllProducts = (setData) => {
         setData(allEntries);
       }
       
-    function onError(error) {
+    function onError(error) {  
         console.error(error);
     }
 }
