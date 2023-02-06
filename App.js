@@ -1,7 +1,8 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import SplashScreen from 'react-native-splash-screen'
 import React, { useEffect, useState } from 'react';
 import { get_AllProducts } from './src/api/controller/products/getProducts';
+import Slider from './src/components/Slider/Slider';
 
 const App = () => {
   const [data, setData] = useState();
@@ -18,9 +19,9 @@ const App = () => {
   }, []);
   console.log(data);
   return (
-    <View>
-      <Text>App</Text>
-    </View>
+    <SafeAreaView>
+      <Slider />
+    </SafeAreaView>
   );
 };
 
