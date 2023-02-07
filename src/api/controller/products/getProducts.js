@@ -10,7 +10,7 @@ export const get_AllProducts = (setData) => {
         QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
         console.log('Got products collection result.');
         setData(allEntries);
-      }
+    }
       
     function onError(error) {  
         console.error(error);
