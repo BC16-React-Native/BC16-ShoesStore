@@ -99,29 +99,30 @@ const Login = () => {
             <View style={styles.containerBody}>
                 {/* Text input Name*/}
                 <FieldTextInput  
-                stylesContainer={{marginVertical:heightScreen * 0.01}}
+                stylesContainer={{marginVertical:heightScreen * 0.015}}
                 title={'Your Name'}
                 placeholder={'Type your name'}
                 onChangeText={(name) => setName(name)}
                 onSubmitEditing={Keyboard.dismiss}
+                // error = {'Input valid name'}
                 />
                 {/* Text input Phone*/}
                 <FieldTextInput  
-                stylesContainer={{marginVertical:heightScreen * 0.01}}
+                stylesContainer={{marginVertical:heightScreen * 0.015}}
                 title={'Phone Number'}
                 placeholder={'Enter your phone number'}
                 onChangeText={(phone) => setPhone(phone)}
                 onSubmitEditing={Keyboard.dismiss}
                 />
                 <FieldTextInput  
-                stylesContainer={{marginVertical:heightScreen * 0.01}}
+                stylesContainer={{marginVertical:heightScreen * 0.015}}
                 title={'Email'}
                 placeholder={'Enter your email'}
                 onChangeText={(email) => setEmail(email)}
                 onSubmitEditing={Keyboard.dismiss}
                 />
                 <FieldTextInput  
-                stylesContainer={{marginVertical:heightScreen * 0.01}}
+                stylesContainer={{marginVertical:heightScreen * 0.015}}
                 title={'Password'}
                 placeholder={'At least 8 characters'}
                 secureTextEntry={true}
@@ -129,7 +130,7 @@ const Login = () => {
                 onSubmitEditing={Keyboard.dismiss}
                 />
                 <FieldTextInput  
-                stylesContainer={{marginVertical:heightScreen * 0.01}}
+                stylesContainer={{marginVertical:heightScreen * 0.015}}
                 title={'Confirm Password'}
                 placeholder={'At least 8 characters'}
                 secureTextEntry={true}

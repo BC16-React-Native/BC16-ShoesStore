@@ -27,24 +27,25 @@ const App = () => {
     });
   }, []);
 
-  const getProductsAPi = async () => {
-    // const result = await getJobs(dispatch);
-    const result = await get_AllProducts();
-    setData(result);
-  }
+  // const getProductsAPi = async () => {
+  //   // const result = await getJobs(dispatch);
+  //   const result = await get_AllProducts();
+  //   setData(result);
+  // }
   useEffect(() => {
     Platform.OS === 'ios'? null: SplashScreen.hide();
   }, [])
-  useEffect(() => {
-    getProductsAPi();
-  }, []);
-  console.log(data);
+  // useEffect(() => {
+  //   getProductsAPi();
+  // }, []);
+  // console.log(data);
   if (loading) return null;
   return (
     <NavigationContainer>
       <Stack.Navigator>
       
-      {!authenticated ?(<><Stack.Screen options={{headerShown: false}} name="SignIn" component={SignInScreen} />
+      {!authenticated ?(<>
+      <Stack.Screen options={{headerShown: false}} name="SignIn" component={SignInScreen} />
       <Stack.Screen options={{headerShown: false}} name="SignUp" component={SignUpScreen} /></>)
         :(<>
           <Stack.Screen options = {{headerShown: false}} name="BottomTab" component={BottomTab} />

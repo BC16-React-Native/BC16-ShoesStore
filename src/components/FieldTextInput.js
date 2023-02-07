@@ -10,28 +10,40 @@ const FieldTextInput = ({
     stylesContainer,
     stylesTitle,
     stylesInput,
-    onFocus,
+    onFocus = () => {},
+    error,
+    errortxt,
     onSubmitEditing,
+    pattern,
     icon, 
     styleIcon,
 }) => {
     let [state, setState] = useState(secureTextEntry);
+    const [isFocus, setisFocus] = useState(false);
+
     return (
         <View style={[ styles.container, stylesContainer]}>
             <Text 
             style={ [styles.title, stylesTitle]}
             >{title}</Text>
 
-            <View>
+            <View >
             <TextInput
-            style= {[ styles.input, stylesInput ]}
+            style= {[ styles.input, stylesInput]}
             placeholder={ placeholder }
             onChangeText={ onChangeText }
             secureTextEntry= {state}
-            onFocus= {onFocus}
+            onFocus= {() => { 
+                onFocus(); 
+                setisFocus(true);}}
+            onBlur = {() => {
+                setisFocus(false);
+            }}
+            pattern = {pattern}
+            autoCorrect = {false}
             onSubmitEditing = {onSubmitEditing}
             ></TextInput>
-
+            {error && (<Text style = {[styles.errortxt , errortxt]}>{error}</Text>)}
             {
                 secureTextEntry ?
                 <View
@@ -68,16 +80,29 @@ const styles = StyleSheet.create({
         fontSize: 16,
         
     },
+    errortxt:{
+        fontSize: 12,
+        color: '#FF0000',
+        paddingLeft: widthScreen * 0.03,
+        paddingTop: heightScreen * 0.01
+    },
+
     input: {
         height: heightScreen * 0.06,
         paddingLeft: widthScreen * 0.04,
         paddingRight: widthScreen * 0.12,
         borderRadius:20,
         // borderWidth:1,
-        borderColor: GRAY_DARK,
+        // borderColor: GRAY_DARK,
         fontStyle: 'normal',
         fontSize: 14,
-        backgroundColor:"#FFFFFF"
+        backgroundColor:"#FFFFFF",
+        shadowColor: "#000",
+            shadowOffset: {
+                width: widthScreen * 0,
+                height: heightScreen *0.002,
+            },
+        shadowOpacity: heightScreen *0.0002,
     },
     icon : {
         height: heightScreen * 0.03,
