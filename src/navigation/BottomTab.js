@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: Platform.OS == 'ios'? 12 : 0,
   },
   tabBar: {
     height: 70,
@@ -191,7 +192,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: 50,
-    height: 50,
+    height: 50, 
     borderRadius: 25,
     borderWidth: 4,
     borderColor: '#fff',
@@ -204,7 +205,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#5B9EE1',
-    borderRadius: 25,
+    borderRadius: 25, 
   },
   text: {
     fontSize: 12,
