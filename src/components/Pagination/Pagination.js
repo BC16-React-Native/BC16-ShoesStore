@@ -2,12 +2,12 @@ import {StyleSheet, Animated, View, Dimensions} from 'react-native';
 import React from 'react';
 
 const {height,width} = Dimensions.get('screen');
-
+import { heightScreen, widthScreen } from '../../utinity/index';
 const Pagination = ({data, scrollX, index}) => {
   return (
     <View style={styles.container}>
       {data.map((_, idx) => {
-        const inputRange = [(idx - 1) * width, idx * width, (idx + 1) * width];
+        const inputRange = [(idx - 1) * widthScreen, idx * widthScreen, (idx + 1) * widthScreen];
 
         const dotWidth = scrollX.interpolate({
           inputRange,
@@ -47,12 +47,12 @@ export default Pagination;
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: height*0.08,
+    bottom: heightScreen*0.08,
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    left: width * -0.3
+    left: widthScreen * -0.35
   },
   dot: {
     width: 12,
