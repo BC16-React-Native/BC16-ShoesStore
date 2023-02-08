@@ -1,8 +1,7 @@
 import {StyleSheet, Animated, View, Dimensions} from 'react-native';
 import React from 'react';
 
-const {height,width} = Dimensions.get('screen');
-import { heightScreen, widthScreen } from '../../utinity/index';
+import { heightScreen, widthScreen } from '../../utility/index';
 const Pagination = ({data, scrollX, index}) => {
   return (
     <View style={styles.container}>

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React from 'react';
 
-import { heightScreen, widthScreen } from '../../utinity/index';
+import { heightScreen, widthScreen } from '../../utility/index';
 const SlideItem = ({item}) => {
   const translateYImage = new Animated.Value(40);
 
