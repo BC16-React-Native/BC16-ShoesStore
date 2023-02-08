@@ -24,13 +24,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     text:{
-        fontFamily: 'SF-Pro',
+        // fontFamily: 'SF-Pro',
         fontSize: 12,
         marginLeft: 4,
         color: '#707B81',
     },
     address :{
-        fontFamily: 'SF-Pro',
+        // fontFamily: 'SF-Pro',
         fontSize: 14,
         color: '#1A2530',
     }

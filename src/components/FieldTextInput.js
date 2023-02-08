@@ -10,12 +10,15 @@ const FieldTextInput = ({
     stylesContainer,
     stylesTitle,
     stylesInput,
-    onFocus,
+    onFocus = () => {},
+    error,
     onSubmitEditing,
-    icon, 
-    styleIcon,
+    ...props
 }) => {
     let [state, setState] = useState(secureTextEntry);
+    const [isFocused, setIsFocused] = useState(false);
+
+
     return (
         <View style={[ styles.container, stylesContainer]}>
             <Text 
@@ -24,14 +27,27 @@ const FieldTextInput = ({
 
             <View>
             <TextInput
-            style= {[ styles.input, stylesInput ]}
+            style= {[styles.input, stylesInput, {borderWidth:1,
+            borderColor: error
+              ? 'red'
+              : isFocused
+              ? '#5B9EE1'
+              :'white'}]}
             placeholder={ placeholder }
             onChangeText={ onChangeText }
+            autoCorrect={false}
+            onFocus={() => {
+            onFocus();
+            setIsFocused(true);
+            }}
+            onBlur={() => setIsFocused(false)}
             secureTextEntry= {state}
-            onFocus= {onFocus}
+            {...props}
             onSubmitEditing = {onSubmitEditing}
             ></TextInput>
-
+            <Text style={{color: "red", fontSize: 12, marginTop:heightScreen*0.005, paddingLeft:widthScreen*0.035}}>
+            {error}
+            </Text>
             {
                 secureTextEntry ?
                 <View
@@ -65,7 +81,9 @@ const styles = StyleSheet.create({
     title: {
         fontStyle: 'normal',
         fontWeight: '400',
-        fontSize: 16,
+        fontSize: 14,
+        paddingLeft: widthScreen *0.02,
+        marginVertical: heightScreen * 0.005,
         
     },
     input: {
@@ -73,11 +91,18 @@ const styles = StyleSheet.create({
         paddingLeft: widthScreen * 0.04,
         paddingRight: widthScreen * 0.12,
         borderRadius:20,
-        // borderWidth:1,
-        borderColor: GRAY_DARK,
         fontStyle: 'normal',
         fontSize: 14,
-        backgroundColor:"#FFFFFF"
+        backgroundColor:"#FFFFFF",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: heightScreen * 0.001,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+
+        elevation: 4,
     },
     icon : {
         height: heightScreen * 0.03,

@@ -8,11 +8,14 @@ import firestore from '@react-native-firebase/firestore';
 import { heightScreen, widthScreen, ORANGE_DARK, BLUE_DARK } from '../utility'
 import { useNavigation } from '@react-navigation/native'
 import { registerUser } from '../api/controller/users/registerUser'
+import Loader from '../components/Loader'
 
 const Login = () => {
     const headerMotion = useRef(new Animated.Value(0)).current;
     const navigation = useNavigation();
-
+    const regexemail = /\S+@\S+\.\S+/;
+    const regexphone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+    const [loading, setLoading] = useState(false);
     // function handle animation 
     const animatedKeyBoard = (motion, value, duration) => {
         Animated.timing(
@@ -54,19 +57,80 @@ const Login = () => {
 
     const Body = () => {
         // variable dataLogin
-        const [name, setName] = useState('');
-        const [username, setUsername] = useState('');
-        const [phone, setPhone] = useState('');
-        const [email, setEmail] = useState('');
-        const [password, setPassword] = useState('');
-        const [repass, setRepassword] = useState('');
+        // const [name, setName] = useState('');
+        // const [username, setUsername] = useState('');
+        // const [phone, setPhone] = useState('');
+        // const [email, setEmail] = useState('');
+        // const [password, setPassword] = useState('');
+        // const [repass, setRepassword] = useState('');
+        const [inputs, setInputs] = useState({
+            name: '',
+            phone: '',
+            email: '',
+            password: '',
+            repass: ''
+        });
+        const [errors, setErrors] = useState({});
+        const validate = () => {
+            Keyboard.dismiss();
+            let isValid = true;
+        
+            if (!inputs.email) {
+              handleError('Email is a required field.', 'email');
+              isValid = false;
+            } else if (!inputs.email.match(regexemail)) {
+              handleError('Email must be a valid email.', 'email');
+              isValid = false;
+            }
+        
+            if (!inputs.name) {
+              handleError('Name is a required field.', 'name');
+              isValid = false;
+            } else if(inputs.name.length < 3) {
+                handleError('Name must be at least 3 characters.', 'name');
+                isValid = false;
+            }        
+            if (!inputs.phone) {
+              handleError('Please input phone number', 'phone');
+              isValid = false;
+            } else if (!inputs.phone.match(regexphone)) {
+                handleError('Phone must be a valid phone.', 'phone');
+                isValid = false;  
+            } else if (inputs.phone.length < 10) {
+                handleError('Phone must be at least 10 characters.', 'phone');
+                isValid = false;  
+            } 
+        
+            if (!inputs.password) {
+              handleError('Password is a required field.', 'password');
+              isValid = false;
+            } else if (inputs.password.length < 8) {
+              handleError('Password must be at least 8 characters.', 'password');
+              isValid = false;
+            }
+
+            if (!inputs.repass) {
+                handleError('Re-Password is a required field.', 'repass');
+                isValid = false;
+              } else if (inputs.repass == inputs.password){
+                handleError('Password confirmation must match password.', 'repass');
+                isValid = false;
+              }
+
+            if (isValid) {
+                pressRegister();
+            }
+          };
+
         // handle entry data login
         // handle login
         // handle register
         const pressRegister = () => {
-            if(password == repass){
+            setLoading(true);
+            setTimeout(() => {
+            if(inputs.password == inputs.repass){
               auth()
-                .createUserWithEmailAndPassword(email, password)
+                .createUserWithEmailAndPassword(inputs.email, inputs.password)
                 .then(userCredentials => {
                     const user = userCredentials.user;
                     Alert.alert(
@@ -76,10 +140,10 @@ const Login = () => {
                           { text: "OK", onPress: () => console.log('Registered with:', user.email) }
                         ]
                       );
-                    registerUser(name, username, phone, email, password);
+                    registerUser(inputs.name, inputs.username, inputs.phone, inputs.email, inputs.password);
                 }
                 )
-                .catch(error => Alert.alert("Failed",error.message))
+                .catch(error => {Alert.alert("Failed",error.message), setLoading(false)})
               }
               else{
                 Alert.alert(
@@ -89,8 +153,17 @@ const Login = () => {
                     { text: "Try again", onPress: () => console.log('Account Registration Failed! ') }
                   ]
                 );
-              }
+                setLoading(false)
+              }    
+            },1000)
+            
             }
+        const handleOnchange = (text, input) => {
+            setInputs(prevState => ({...prevState, [input]: text}));
+        };
+        const handleError = (error, input) => {
+            setErrors(prevState => ({...prevState, [input]: error}));
+        };
         // handle forgot password 
         const pressSignIn = () => {
             navigation.navigate("SignIn");
@@ -101,53 +174,64 @@ const Login = () => {
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Your Name'}
-                placeholder={'Type your name'}
-                onChangeText={(name) => setName(name)}
+                onFocus={() => handleError(null, 'name')}
+                placeholder={'Type your name...'}
+                onChangeText={text => handleOnchange(text, 'name')}
                 onSubmitEditing={Keyboard.dismiss}
+                error = {errors.name}
                 />
                 {/* Text input Phone*/}
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Phone Number'}
-                placeholder={'Enter your phone number'}
-                onChangeText={(phone) => setPhone(phone)}
+                onFocus={() => handleError(null, 'phone')}
+                placeholder={'Enter your phone number...'}
+                onChangeText={text => handleOnchange(text, 'phone')}
+                error={errors.phone}
                 onSubmitEditing={Keyboard.dismiss}
                 />
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Email'}
-                placeholder={'Enter your email'}
-                onChangeText={(email) => setEmail(email)}
+                placeholder={'Enter your email...'}
+                onFocus={() => handleError(null, 'email')}
+                onChangeText={text => handleOnchange(text, 'email')}
                 onSubmitEditing={Keyboard.dismiss}
+                error={errors.email}
                 />
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Password'}
+                onFocus={() => handleError(null, 'password')}
                 placeholder={'At least 8 characters'}
                 secureTextEntry={true}
-                onChangeText={(password) => setPassword(password)}
+                onChangeText={text => handleOnchange(text, 'password')}
+                error={errors.password}
                 onSubmitEditing={Keyboard.dismiss}
                 />
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Confirm Password'}
+                onFocus={() => handleError(null, 'repass')}
                 placeholder={'At least 8 characters'}
                 secureTextEntry={true}
-                onChangeText={(repass) => setRepassword(repass)}
+                onChangeText={text => handleOnchange(text, 'repass')}
+                error={errors.repass}
                 onSubmitEditing={Keyboard.dismiss}
                 />
+                
                 <FieldButton
-                stylesContainer={{marginVertical:heightScreen * 0.02}}
-                title={'Sign in'}
-                onPress={() => pressRegister()}
+                stylesContainer={{marginVertical:heightScreen * 0.015}}
+                title={'Sign Up'}
+                onPress={validate}
                 />
                 <View 
-                style={{flexDirection:'row', justifyContent:'center'}}>
+                style={{flexDirection:'row', justifyContent:'center', marginVertical: heightScreen *0.01}}>
                     <Text 
                     style={[styles.textForgotPW,{color:'black', fontStyle:"italic"}]}>Already have an account?</Text>
                     <Text 
                     style={[styles.textForgotPW, {fontWeight:'bold'}]}
-                    onPress={() => pressSignIn()}
+                    onPress={() => {pressSignIn()}}
                     > Sign In</Text>
                 </View>
             </View>
@@ -160,7 +244,9 @@ const Login = () => {
         <ScrollView>
             <Header/>
             <Body/>
+            <Loader visible={loading} />
         </ScrollView>
+
         </KeyboardAvoidingView>
         </SafeAreaView>
     )
