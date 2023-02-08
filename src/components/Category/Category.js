@@ -1,18 +1,31 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
+import { heightScreen, widthScreen } from '../../utility'
 
-const Category = () => {
+const Category = ({item, index, focus_index, setFocus_index}) => {
+    // console.log(index);
   return (
-    <TouchableOpacity style={[styles.container, {flexDirection: 'row', alignItems: 'center',
-            backgroundColor: '#fff',
-        }]}>
+    <TouchableOpacity 
+        onPress={() => {setFocus_index(index)}}
+        style={[styles.container, {flexDirection: 'row', alignItems: 'center',
+            backgroundColor: index == focus_index ? '#5B9EE1' : '#FFFFFF',
+        }]}
+    >
             {/*  //not change  */}
         <View style={[styles.boxIcon ,{backgroundColor: '#fff'}]}> 
             {/*  //not change  */}
-            <MaterialCommunityIcons name="shoe-sneaker" size={24} color="black" />
+            {item.name == 'All' ? 
+                <MaterialCommunityIcons name="dots-grid" size={28} color="black" /> 
+                : 
+                <MaterialCommunityIcons name="shoe-sneaker" size={28} color="black" />
+            }
         </View>
-        <Text style={[styles.text, {color: '#000'}]}>Sneaker</Text>
+        <Text style={[styles.text, 
+            {color: index == focus_index ? '#fff' : '#000'}]}
+        >
+            {item?.name}
+        </Text>
     </TouchableOpacity>
   )
 }
@@ -24,26 +37,27 @@ const styles = StyleSheet.create({
         fontFamily: 'SF Pro',
         fontSize: 14,
         color: 'black',
-        marginHorizontal: 8
+        marginHorizontal: widthScreen * 0.02,
     },
     container:{
-        paddingVertical: 6,
-        paddingHorizontal: 6,
+        paddingVertical: heightScreen * 0.01,
+        paddingHorizontal: widthScreen * 0.015,
         borderRadius: 20,
-        flex: 1,
-        marginHorizontal: 4,
+        marginHorizontal: widthScreen * 0.01,
+        marginVertical: heightScreen * 0.016,
 
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 4,
+            height: 3,
         },
-        shadowOpacity: 0.30,
-        shadowRadius: 4.65,
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
 
-        elevation: 8,
+        elevation: 3,
     },
     boxIcon:{
-        borderRadius: 12
+        borderRadius: 14,
+        marginLeft: widthScreen * 0.01
     }
 })

@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View,  } from 'react-native'
 import React from 'react'
 import Ionicons from "react-native-vector-icons/Ionicons"
+import { heightScreen } from '../../utility'
 
  
 const HeaderHome = () => {
@@ -22,6 +23,7 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        marginVertical: heightScreen * 0.013
     },
     text:{
         fontFamily: 'SF-Pro',

@@ -13,7 +13,6 @@ import GettingStarted from './src/screens/GettingStarted';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(true);
   useEffect(() => {
@@ -32,7 +31,6 @@ const App = () => {
     Platform.OS === 'ios'? null: SplashScreen.hide();
   }, [])
 
-  console.log(data);
   if (loading) return null;
   return (
     <NavigationContainer>

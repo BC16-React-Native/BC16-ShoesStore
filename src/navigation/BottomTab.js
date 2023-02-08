@@ -154,6 +154,7 @@ const TabButton = (props) => {
 }
 
 export default function AnimTab1() {
+  console.log(heightScreen, widthScreen)
   return (
     <Tab.Navigator
       screenOptions={{
@@ -180,10 +181,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: Platform.OS == 'ios'? 12 : 0,
+    paddingTop: Platform.OS == 'ios'? heightScreen * 0.015 : 0,
   },
   tabBar: {
-    height: 70,
+    height: heightScreen * 0.09,
     position: 'absolute',
     bottom: heightScreen *0.016,
     right: widthScreen *0.02,
@@ -191,8 +192,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   btn: {
-    width: 50,
-    height: 50, 
+    width: widthScreen * 0.13,
+    height: heightScreen * 0.065, 
     borderRadius: 25,
     borderWidth: 4,
     borderColor: '#fff',

@@ -2,6 +2,7 @@ import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { Surface } from 'react-native-paper';
+import { heightScreen, widthScreen } from '../../utility';
 
 const SearchBar = () => {
   return (
@@ -26,23 +27,24 @@ export default SearchBar
 const styles = StyleSheet.create({
     container:{
         // borderWidth: 1,
-        marginHorizontal: 16,
+        marginHorizontal: widthScreen * 0.04,
         borderRadius:  20,
-        paddingLeft: 10,
-        marginVertical: 16,
+        paddingLeft: widthScreen * 0.025,
+        marginVertical: heightScreen * 0.015,
+        // paddingVertical: heightScreen * 0.015,
 
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 4,
+            height: 3,
         },
-        shadowOpacity: 0.30,
-        shadowRadius: 4.65,
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
 
-        elevation: 8,
+        elevation: 3,
     },
     input:{
-        marginLeft: 12,
+        marginLeft: widthScreen * 0.03,
         // borderWidth: 1,
         flex: 1
     }
