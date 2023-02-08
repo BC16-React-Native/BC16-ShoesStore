@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, KeyboardAvoidingView, Animated, Keyboard,Alert, StyleSheet, ScrollView} from 'react-native'
+import { View, Text, SafeAreaView, KeyboardAvoidingView, Animated, Keyboard,Alert, StyleSheet, ScrollView, TouchableOpacity} from 'react-native'
 import React, { useEffect, useRef, useState,useLayoutEffect } from 'react'
 import FieldTextInput from '../components/FieldTextInput'
 import FieldButton from '../components/FieldButton'
@@ -7,13 +7,13 @@ import auth from "@react-native-firebase/auth"
 import firestore from '@react-native-firebase/firestore';
 import { heightScreen, widthScreen, ORANGE_DARK, BLUE_DARK } from '../utility'
 import { useNavigation } from '@react-navigation/native'
-
+import Loader from '../components/Loader'
 const Login = () => {
     const headerMotion = useRef(new Animated.Value(0)).current;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
-
+    const [loading, setLoading] = useState(false);
     // function handle animation 
     const animatedKeyBoard = (motion, value, duration) => {
         Animated.timing(
@@ -64,16 +64,23 @@ const Login = () => {
         // handle entry data login
         // handle login
         const pressLogin = () => {
+            setLoading(true);
+            setTimeout(() => {
             auth()
             .signInWithEmailAndPassword(email, password)
             .then(userCredentials => {
             const user = userCredentials.user;
             console.log('Logged in with:', user.email);
             })
-            .catch(error => Alert.alert("Login Failed",error.message))
+            .catch(error => Alert.alert("Login Failed",error.message), setLoading(false))   
+            setLoading(false); 
+            },1000)
+
 
         }
         const pressLoginasGuess = () => {
+            setLoading(true);
+            setTimeout(() => {
             auth()
             .signInAnonymously()
             .then(() => {
@@ -82,10 +89,13 @@ const Login = () => {
             .catch(error => {
                 if (error.code === 'auth/operation-not-allowed') {
                 console.log('Enable anonymous in your firebase console.');
-    }
+            }
 
-    console.error(error);
-  });
+            console.error(error);
+            setLoading(false);
+            });
+            },500)
+
         }
         // handle register
         const pressRegister = () => {
@@ -93,7 +103,7 @@ const Login = () => {
         }
         // handle forgot password 
         const pressForgotPW = () => {
-            
+            navigation.navigate("Forgot")
         }
         return (
             <View style={styles.containerBody}>
@@ -115,10 +125,13 @@ const Login = () => {
                 onSubmitEditing={Keyboard.dismiss}
                 />
                 {/* Text forgot password*/}
+                <TouchableOpacity onPress={pressForgotPW}>                
                 <Text 
                 style={styles.textForgotPW}
                 pressForgotPW= {() => pressForgotPW()}
                 > Forgot Password?</Text>
+                </TouchableOpacity>
+
                 <FieldButton
                 stylesContainer={{marginVertical:heightScreen * 0.02}}
                 title={'Sign in'}
@@ -153,6 +166,7 @@ const Login = () => {
             <Body/>
         </ScrollView>
         </KeyboardAvoidingView>
+        <Loader visible={loading} />
         </SafeAreaView>
     )
 }

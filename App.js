@@ -10,7 +10,8 @@ import SignInScreen from './src/screens/SignInScreen';
 import { get_AllProducts } from './src/api/controller/products/getProducts';
 import SignUpScreen from './src/screens/SignUpScreen';
 import GettingStarted from './src/screens/GettingStarted';
-import { storeData, getData } from './src/AsyncStorage/AsyncStorageHelper';
+import { storeData, getData } from './src/Storage/AsyncStorageHelper';
+import ForgotScreen from './src/screens/ForgotScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -63,6 +64,7 @@ const App = () => {
       {!authenticated ?(<>
         <Stack.Screen options={{headerShown: false}} name="SignIn" component={SignInScreen} />
         <Stack.Screen options={{headerShown: false}} name="SignUp" component={SignUpScreen} />
+        <Stack.Screen options={{headerShown: false}} name="Forgot" component={ForgotScreen} />
       </>)
         :(<>
           <Stack.Screen options = {{headerShown: false}} name="BottomTab" component={BottomTab} />
