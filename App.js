@@ -19,9 +19,9 @@ const App = () => {
   }, []);
   console.log(data);
   return (
-    <SafeAreaView>
+    <View>
       <Slider />
-    </SafeAreaView>
+    </View>
   );
 };
 
