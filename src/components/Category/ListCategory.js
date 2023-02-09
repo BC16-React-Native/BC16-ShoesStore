@@ -10,9 +10,9 @@ const ListCategory = () => {
     get_Categories_handle_all(setData);
   }, []);
 
-  const [focus_index, setFocus_index] = useState(1);
+  const [focus_index, setFocus_index] = useState(0);
   return (
-    <View style ={[styles.container,{ flexDirection: 'row',}]}>
+    <View style ={[styles.container,]}>
         <FlatList
           data={data}
           horizontal
@@ -38,6 +38,6 @@ export default ListCategory
 
 const styles = StyleSheet.create({
   container:{
-    marginLeft: widthScreen * 0.04, 
+    marginLeft: widthScreen * 0.05, 
   }
 })

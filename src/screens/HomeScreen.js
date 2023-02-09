@@ -4,6 +4,7 @@ import HeaderHome from '../components/HeaderHome/HeaderHome'
 import SearchBar from '../components/SearchBox/SearchBar'
 import ListCategory from '../components/Category/ListCategory'
 import ListShoes from '../components/ShoesItem/ListShoes'
+import ListNewShoes from '../components/NewShoes/ListNewShoes'
 
 const HomeScreen = () => {
   return (
@@ -24,6 +25,7 @@ const HomeScreen = () => {
       
       <ListShoes />
       
+      <ListNewShoes />
     </ScrollView>
   )
 }

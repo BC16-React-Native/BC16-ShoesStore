@@ -15,7 +15,7 @@ const Category = ({item, index, focus_index, setFocus_index}) => {
             {/*  //not change  */}
         <View style={[styles.boxIcon ,{backgroundColor: '#fff'}]}> 
             {/*  //not change  */}
-            {item.name == 'All' ? 
+            {item?.name == 'All' ? 
                 <MaterialCommunityIcons name="dots-grid" size={28} color="black" /> 
                 : 
                 <MaterialCommunityIcons name="shoe-sneaker" size={28} color="black" />
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 3,
+            height: heightScreen * 0.004,
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,

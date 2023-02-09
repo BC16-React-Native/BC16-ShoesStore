@@ -27,7 +27,7 @@ export default SearchBar
 const styles = StyleSheet.create({
     container:{
         // borderWidth: 1,
-        marginHorizontal: widthScreen * 0.04,
+        marginHorizontal: widthScreen * 0.05,
         borderRadius:  20,
         paddingLeft: widthScreen * 0.025,
         marginVertical: heightScreen * 0.015,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 3,
+            height: heightScreen * 0.004,
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,

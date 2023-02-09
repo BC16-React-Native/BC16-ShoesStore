@@ -8,6 +8,8 @@ export const addOrder = (order) =>{
       productsid : order.productsid,
       status : order.status,
       userid : order.userid,
+      total : order.total,
+      datecreate : order.datecreate,
     };
     db.set(orderObject)
     .then(() => {

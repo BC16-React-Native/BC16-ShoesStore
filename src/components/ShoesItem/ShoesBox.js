@@ -3,22 +3,22 @@ import React, { useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import Feather  from "react-native-vector-icons/Feather"
 
-const ShoesBox = () => {
-  // console.log(widthScreen);
+const ShoesBox = ({item}) => {
+  console.log(item.images[0]);
   const [like, setLike] = useState(false);
   return (
     <TouchableOpacity style={styles.container} onPress={() =>{console.log('go to detail')}}>
-      <Image
-        style={styles.image}
-        source={{
-          uri: 'https://admin.vuahanghieu.com/upload/product/2022/07/giay-the-thao-nam-nike-air-force-1-07-white-cw2288-111-mau-trang-size-41-62d52b4239177-18072022164330.jpg',
-        }}
-      />
+        <Image
+          style={styles.image}
+          source={{
+            uri: item.images[0]
+          }}
+        />
       <View style={{marginVertical: heightScreen * 0.02}}>
-        <Text style={styles.title}>BEST SELLER</Text>
-        <Text style={styles.name}>Nike Jordan</Text>
+        <Text style={styles.title}>BEST SELLER</Text> 
+        <Text numberOfLines={1} style={styles.name}>{item.name}</Text>
       </View>
-        <Text style={styles.price}>$493.00</Text>
+        <Text style={styles.price}>${item.price}</Text>
       <TouchableOpacity style={[styles.icon_like, 
           {backgroundColor: !like ? '#5B9EE1' : '#E15B5B'}
         ]} 
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   image: {
     height: heightScreen * 0.125,
     width: widthScreen * 0.35,
-    
+    transform: [{rotate: '-10deg'}],
   },
   container:{
     backgroundColor: '#fff',
@@ -46,14 +46,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthScreen * 0.02,
     borderRadius: 20,
     marginHorizontal: widthScreen * 0.01,
+    marginVertical: heightScreen * 0.01,
 
     shadowColor: "#000",
     shadowOffset: {
-      width: 0,
-      height: 3,
+        width: 0,
+        height: heightScreen * 0.004,
     },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
 
     elevation: 3,
   },
@@ -66,11 +67,14 @@ const styles = StyleSheet.create({
     fontWeight: 700,
     fontSize: 16,
     lineHeight: 20,
-    color: '#1A2530'
+    color: '#1A2530',
+    width: widthScreen * 0.3768,
+    // maxHeight: 38,
+    
   },
   price:{
     fontFamily: 'SF Pro',
-    fontWeight: 600,
+    fontWeight: 700,
     fontSize: 14,
     lineHeight: 16,
     color: '#1A2530'
