@@ -10,8 +10,13 @@ import SignInScreen from './src/screens/SignInScreen';
 import { get_AllProducts } from './src/api/controller/products/getProducts';
 import SignUpScreen from './src/screens/SignUpScreen';
 import GettingStarted from './src/screens/GettingStarted';
+
 import { storeData, getData } from './src/Storage/AsyncStorageHelper';
 import ForgotScreen from './src/screens/ForgotScreen';
+
+import ProfileScreen from './src/screens/ProfileScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
+import SearchScreen from './src/screens/SearchScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -59,6 +64,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+      {/* <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen}/> */}
       {!lauch? <Stack.Screen options={{headerShown: false}} name="Getting" component={GettingStarted}/>
       : <></>}
       {!authenticated ?(<>
@@ -69,6 +75,8 @@ const App = () => {
         :(<>
           <Stack.Screen options = {{headerShown: false}} name="BottomTab" component={BottomTab} />
           {/* <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} /> */}
+          <Stack.Screen options={{headerShown: false}} name="Settings" component={SettingsScreen}/>
+          <Stack.Screen options={{headerShown: false}} name="Profile" component={ProfileScreen}/>
         </>)}
       
       </Stack.Navigator>
