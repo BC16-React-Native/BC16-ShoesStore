@@ -13,7 +13,12 @@ const FieldTextInput = ({
     onFocus = () => {},
     error,
     onSubmitEditing,
+    value,
+    editable,
+    icon, 
+    styleIcon,
     ...props
+
 }) => {
     let [state, setState] = useState(secureTextEntry);
     const [isFocused, setIsFocused] = useState(false);
@@ -43,6 +48,9 @@ const FieldTextInput = ({
             onBlur={() => setIsFocused(false)}
             secureTextEntry= {state}
             {...props}
+            value={value}
+            editable={editable}
+
             onSubmitEditing = {onSubmitEditing}
             ></TextInput>
             <Text style={{color: "red", fontSize: 12, marginTop:heightScreen*0.005, paddingLeft:widthScreen*0.035}}>
