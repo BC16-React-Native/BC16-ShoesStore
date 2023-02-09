@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
 import React, { useState } from 'react'
 import Ionicons from "react-native-vector-icons/Ionicons"
-import { heightScreen, widthScreen, GRAY_DARK } from '../utility';
+import { heightScreen, widthScreen } from '../../utility';
 const FieldTextInput = ({
     title,
     placeholder,

@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import Lottie from 'lottie-react-native';
-import { heightScreen,widthScreen } from '../utility';
+import { heightScreen,widthScreen } from '../../utility';
 const Loader = ({visible = false}) => {
   return (
     visible && (
@@ -15,7 +15,7 @@ const Loader = ({visible = false}) => {
         {/* <View style={style.loader}> */}
           <Lottie 
           style = {style.loader}
-          source={require('../utility/loading/shoescolor.json')} 
+          source={require('../../utility/loading/shoescolor.json')} 
           autoPlay
           loop />
           {/* <Text style={{marginLeft: 10, fontSize: 16}}>Loading...</Text> */}

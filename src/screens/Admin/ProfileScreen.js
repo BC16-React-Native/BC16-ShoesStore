@@ -1,8 +1,8 @@
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import auth from "@react-native-firebase/auth"
-import FieldButton from '../components/Auth/FieldButton'
-import { heightScreen, widthScreen, ORANGE_DARK, BLUE_DARK } from '../utility'
+import FieldButton from '../../components/Auth/FieldButton'
+import { heightScreen, widthScreen } from '../../utility'
 
 const ProfileScreen = () => {
 

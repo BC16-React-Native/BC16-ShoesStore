@@ -1,12 +1,12 @@
 import { View, Text, SafeAreaView, KeyboardAvoidingView, Animated, Keyboard,Alert, StyleSheet, ScrollView} from 'react-native'
 import React, { useEffect, useRef, useState,useLayoutEffect } from 'react'
-import FieldTextInput from '../components/FieldTextInput'
-import FieldButton from '../components/FieldButton'
+import FieldTextInput from '../components/Auth/FieldTextInput'
+import FieldButton from '../components/Auth/FieldButton'
 // import Ionicons from "react-native-vector-icons/Ionicons"
 import auth from "@react-native-firebase/auth"
 import { heightScreen, widthScreen} from '../utility'
 import { useNavigation } from '@react-navigation/native'
-import Loader from '../components/Loader'
+import Loader from '../components/Auth/Loader'
 
 const ForgotScreen = () => {
     const headerMotion = useRef(new Animated.Value(0)).current;

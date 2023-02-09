@@ -1,5 +1,5 @@
 import { View, Text, Button, TouchableOpacity, Image, StyleSheet } from 'react-native'
-import { heightScreen, widthScreen, BLUE_DARK, WHITE } from '../utility'
+import { heightScreen, widthScreen } from '../../utility'
 import Ionicons from "react-native-vector-icons/Ionicons"
 import React from 'react'
 const FieldButton = ({

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTab from './src/navigation/BottomTab';
+import BottomTabAdmin from './src/navigation/BottomTabAdmin';
 import auth from '@react-native-firebase/auth'
 import HomeScreen from './src/screens/HomeScreen';
 import SignInScreen from './src/screens/SignInScreen';
@@ -37,7 +38,7 @@ const App = () => {
   },[])
 
   useEffect(() => {
-    return auth().onAuthStateChanged((user) => {
+    auth().onAuthStateChanged((user) => {
       if (user) {
         setAuthenticated(true);
       } else {
@@ -67,7 +68,8 @@ const App = () => {
         <Stack.Screen options={{headerShown: false}} name="Forgot" component={ForgotScreen} />
       </>)
         :(<>
-          <Stack.Screen options = {{headerShown: false}} name="BottomTab" component={BottomTab} />
+          {/* <Stack.Screen options = {{headerShown: false}} name="BottomTab" component={BottomTab} /> */}
+           <Stack.Screen options = {{headerShown: false}} name="BottomTabAdmin" component={BottomTabAdmin} />
           {/* <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} /> */}
         </>)}
       

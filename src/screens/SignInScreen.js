@@ -1,17 +1,15 @@
 import { View, Text, SafeAreaView, KeyboardAvoidingView, Animated, Keyboard,Alert, StyleSheet, ScrollView, TouchableOpacity} from 'react-native'
 import React, { useEffect, useRef, useState,useLayoutEffect } from 'react'
-import FieldTextInput from '../components/FieldTextInput'
-import FieldButton from '../components/FieldButton'
+import FieldTextInput from '../components/Auth/FieldTextInput'
+import FieldButton from '../components/Auth/FieldButton'
 // import Ionicons from "react-native-vector-icons/Ionicons"
 import auth from "@react-native-firebase/auth"
 import firestore from '@react-native-firebase/firestore';
-import { heightScreen, widthScreen, ORANGE_DARK, BLUE_DARK } from '../utility'
+import { heightScreen, widthScreen } from '../utility'
 import { useNavigation } from '@react-navigation/native'
-import Loader from '../components/Loader'
+import Loader from '../components/Auth/Loader'
 const Login = () => {
     const headerMotion = useRef(new Animated.Value(0)).current;
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const navigation = useNavigation();
     const [loading, setLoading] = useState(false);
     // function handle animation 
@@ -59,25 +57,57 @@ const Login = () => {
 
     const Body = () => {
         // variable dataLogin
-        const [email, setEmail] = useState('');
-        const [password, setPassword] = useState('');
-        // handle entry data login
-        // handle login
-        const pressLogin = () => {
-            setLoading(true);
-            setTimeout(() => {
-            auth()
-            .signInWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-            const user = userCredentials.user;
-            console.log('Logged in with:', user.email);
-            })
-            .catch(error => Alert.alert("Login Failed",error.message), setLoading(false))   
-            setLoading(false); 
-            },1000)
+        const [inputs, setInputs] = useState({
+            email: '',
+            password: ''
+        });
+        const [errors, setErrors] = useState({});
+        const regexemail = /\S+@\S+\.\S+/;
+        const handleOnchange = (text, input) => {
+            setInputs(prevState => ({...prevState, [input]: text}));
+        };
+        const handleError = (error, input) => {
+            setErrors(prevState => ({...prevState, [input]: error}));
+        };
+        const validate = () => {
+            Keyboard.dismiss();
+            let isValid = true;
+        
+            if (!inputs.email) {
+              handleError('Email is a required field.', 'email');
+              isValid = false;
+            } else if (!inputs.email.match(regexemail)) {
+              handleError('Email must be a valid email.', 'email');
+              isValid = false;
+            }
 
+            if (!inputs.password) {
+                handleError('Password is a required field.', 'password');
+                isValid = false;
+              } else if (inputs.password.length < 6) {
+                handleError('Password must be at least 6 characters.', 'password');
+                isValid = false;
+              }
+            
+              if (isValid) {
+                setLoading(true);
+                setTimeout(() => {
+                auth()
+                .signInWithEmailAndPassword(inputs.email, inputs.password)
+                .then(userCredentials => {
+                const user = userCredentials.user;
+                console.log('Logged in with:', inputs.email);
+                navigation.navigate('BottomTabAdmin');
+                })
+                .catch(error => Alert.alert("Login Failed",error.message), setLoading(false))   
+                setLoading(false); 
+                },1000)
+            }
 
-        }
+         }
+        // const pressLogin = () => {
+
+        // }
         const pressLoginasGuess = () => {
             setLoading(true);
             setTimeout(() => {
@@ -85,6 +115,7 @@ const Login = () => {
             .signInAnonymously()
             .then(() => {
                 console.log('User signed in anonymously');
+                navigation.navigate('BottomTabAdmin');
             })
             .catch(error => {
                 if (error.code === 'auth/operation-not-allowed') {
@@ -112,20 +143,26 @@ const Login = () => {
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Email'}
                 placeholder={'Username or email address'}
-                onChangeText={(email) => setEmail(email)}
+                onFocus={() => handleError(null, 'email')}
+                onChangeText={text => handleOnchange(text, 'email')}
+                error = {errors.email}
                 onSubmitEditing={Keyboard.dismiss}
                 />
                 {/* Text input password*/}
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Password'}
-                placeholder={'At least 8 characters'}
+                placeholder={'At least 6 characters'}
                 secureTextEntry={true}
-                onChangeText={(password) => setPassword(password)}
+                onFocus={() => handleError(null, 'passsword')}
+                onChangeText={text => handleOnchange(text, 'password')}
+                error = {errors.password}
                 onSubmitEditing={Keyboard.dismiss}
                 />
                 {/* Text forgot password*/}
-                <TouchableOpacity onPress={pressForgotPW}>                
+                <TouchableOpacity 
+                style={styles.buttonForgotPW}
+                onPress={pressForgotPW}>                
                 <Text 
                 style={styles.textForgotPW}
                 pressForgotPW= {() => pressForgotPW()}
@@ -135,7 +172,7 @@ const Login = () => {
                 <FieldButton
                 stylesContainer={{marginVertical:heightScreen * 0.02}}
                 title={'Sign in'}
-                onPress={() => pressLogin()}
+                onPress={() => validate()}
                 />
                 {/* button Login*/}
                 <FieldButton
@@ -209,9 +246,12 @@ const styles = StyleSheet.create({
         
     },
     textForgotPW: {
-        fontSize: 16,
-        color:BLUE_DARK,
+        fontSize: 14,
         alignSelf:'flex-end',
-        marginVertical:heightScreen * 0.02
+        marginVertical:heightScreen * 0.01
     },
+    buttonForgotPW:{
+        alignSelf:'flex-end',
+        marginTop:heightScreen*0.003
+    }
 })
