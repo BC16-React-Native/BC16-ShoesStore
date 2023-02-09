@@ -12,6 +12,8 @@ const FieldTextInput = ({
     stylesInput,
     onFocus,
     onSubmitEditing,
+    value,
+    editable,
     icon, 
     styleIcon,
 }) => {
@@ -29,6 +31,8 @@ const FieldTextInput = ({
             onChangeText={ onChangeText }
             secureTextEntry= {state}
             onFocus= {onFocus}
+            value={value}
+            editable={editable}
             onSubmitEditing = {onSubmitEditing}
             ></TextInput>
 
