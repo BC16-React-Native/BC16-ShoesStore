@@ -11,5 +11,4 @@ export default [
         title: "Let's go shopping!",
         description: 'There are many beautiful models waiting for you'
     },
-
 ]

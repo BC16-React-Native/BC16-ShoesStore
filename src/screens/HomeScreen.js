@@ -3,10 +3,14 @@ import React from 'react'
 import HeaderHome from '../components/HeaderHome/HeaderHome'
 import SearchBar from '../components/SearchBox/SearchBar'
 import ListCategory from '../components/Category/ListCategory'
+import ListShoes from '../components/ShoesItem/ListShoes'
+import ListNewShoes from '../components/NewShoes/ListNewShoes'
 
 const HomeScreen = () => {
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container}
+      
+    >
       <StatusBar
         animated={true}
         backgroundColor="#F8F9FA"
@@ -18,8 +22,10 @@ const HomeScreen = () => {
       <SearchBar />
 
       <ListCategory />
-
       
+      <ListShoes />
+      
+      <ListNewShoes />
     </ScrollView>
   )
 }
@@ -29,7 +35,6 @@ export default HomeScreen
 const styles = StyleSheet.create({
   container:{
     flex: 1,
-    height: '100%',
     backgroundColor: '#F8F9FA',
     // borderWidth: 1,
   }

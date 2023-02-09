@@ -22,7 +22,6 @@ const Stack = createNativeStackNavigator();
 
 
 const App = () => {
-
   const [loading, setLoading] = useState(true);
   const [lauch, setLauch] = useState(false);
   const [authenticated, setAuthenticated] = useState(true);
@@ -56,9 +55,6 @@ const App = () => {
   useEffect(() => {
     Platform.OS === 'ios'? null: SplashScreen.hide();
   }, [])
-
-
-  // console.log(data);
 
   if (loading) return null;
   return (

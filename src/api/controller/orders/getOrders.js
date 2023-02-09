@@ -30,7 +30,7 @@ export const get_OrderID = (setData, id) => {
     }
 };
 
-export const get_Order_userID = (setData,id) => {
+export const get_Order_userID = (setData, id) => {
 
     let result = [];
     const queryRef = firestore().collection('orders');
@@ -52,6 +52,23 @@ export const getOrder_status_delivery_pending = (setData) => {
     let orders = [];
     const queryRef = firestore().collection('orders');
     const query = queryRef.where('status', 'in', ['delivering', 'pending']).onSnapshot(onResult, onError);
+
+    function onResult(QuerySnapshot) {
+        orders = [];
+        QuerySnapshot.forEach(doc => orders.push({ ...doc.data(), id: doc.id }));
+        console.log('Got order collection result.');
+        setData(orders);
+    }
+      
+    function onError(error) {
+        console.error(error);
+    }
+  };
+
+  export const getOrder_status_deliveried = (setData) => {
+    let orders = [];
+    const queryRef = firestore().collection('orders');
+    const query = queryRef.where('status', '==', 'deliveried').onSnapshot(onResult, onError);
 
     function onResult(QuerySnapshot) {
         orders = [];
