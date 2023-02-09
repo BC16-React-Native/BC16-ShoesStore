@@ -1,4 +1,4 @@
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {Button, StyleSheet, Text, View, LogBox} from 'react-native';
 import SplashScreen from 'react-native-splash-screen'
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,13 +11,15 @@ import SignInScreen from './src/screens/SignInScreen';
 import { get_AllProducts } from './src/api/controller/products/getProducts';
 import SignUpScreen from './src/screens/SignUpScreen';
 import GettingStarted from './src/screens/GettingStarted';
-
 import { storeData, getData } from './src/Storage/AsyncStorageHelper';
 import ForgotScreen from './src/screens/ForgotScreen';
-
 import ProfileScreen from './src/screens/ProfileScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import SearchScreen from './src/screens/SearchScreen';
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
+
 
 const Stack = createNativeStackNavigator();
 
@@ -27,22 +29,10 @@ const App = () => {
   const [lauch, setLauch] = useState(false);
   const [authenticated, setAuthenticated] = useState(true);
   const HAS_LAUNCHED = 'HAS_LAUNCHED';
-  useEffect(() => {
-    const getState = async () => {
-      const lauch = await getData(HAS_LAUNCHED);
-      if (lauch) {
-        setLauch(true);
-      }
-      else {
-        await storeData(HAS_LAUNCHED, 'true');
-      }
-    };
-    getState().catch((error) => {console.log(error)});
-    console.log('lauch:',lauch);
-  },[])
 
   useEffect(() => {
-    auth().onAuthStateChanged((user) => {
+    setTimeout(() => {
+      auth().onAuthStateChanged((user) => {
       if (user) {
         setAuthenticated(true);
       } else {
@@ -50,19 +40,41 @@ const App = () => {
       }
       console.log(authenticated)
       setLoading(false);
-    });
+    })
+    },500)
+    const getState = async () => {
+        const lauch = await getData(HAS_LAUNCHED);
+        if (lauch) {
+          setLauch(true);
+        }
+        else {
+          await storeData(HAS_LAUNCHED, 'true');
+          if(authenticated == true){
+          auth()
+          .signOut()
+          .then(() => console.log('User signed out when remove app!'))
+          .catch((error) => console.log(error));
+          }
+        }
+      };
+      getState().catch((error) => {console.log(error)});
+      console.log('lauch:',lauch);
   }, []);
+  useEffect(() => {
+  },[])
 
   useEffect(() => {
     Platform.OS === 'ios'? null: SplashScreen.hide();
   }, [])
 
   if (loading) return null;
+  console.log('lauch 2',lauch)
+  console.log("authenticated",authenticated)
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      {/* <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen}/> */}
-      {!lauch? <Stack.Screen options={{headerShown: false}} name="Getting" component={GettingStarted}/>
+      {!lauch? <Stack.Screen 
+      options={{headerShown: false}} name="Getting" component={GettingStarted}/>
       : <></>}
       {!authenticated ?(<>
         <Stack.Screen options={{headerShown: false}} name="SignIn" component={SignInScreen} />
@@ -73,8 +85,8 @@ const App = () => {
           {/* <Stack.Screen options = {{headerShown: false}} name="BottomTab" component={BottomTab} /> */}
            <Stack.Screen options = {{headerShown: false}} name="BottomTabAdmin" component={BottomTabAdmin} />
           {/* <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} /> */}
-          <Stack.Screen options={{headerShown: false}} name="Settings" component={SettingsScreen}/>
-          <Stack.Screen options={{headerShown: false}} name="Profile" component={ProfileScreen}/>
+          {/* <Stack.Screen options={{headerShown: false}} name="Settings" component={SettingsScreen}/>
+          <Stack.Screen options={{headerShown: false}} name="Profile" component={ProfileScreen}/> */}
         </>)}
       
       </Stack.Navigator>

@@ -4,7 +4,7 @@ import auth from "@react-native-firebase/auth"
 import FieldButton from '../components/Auth/FieldButton'
 import { heightScreen, widthScreen, ORANGE_DARK, BLUE_DARK } from '../utility'
 import { useNavigation } from '@react-navigation/native'
-import FieldTextInput from '../components/FieldTextInput'
+import FieldTextInput from '../components/Auth/FieldTextInput'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Image } from 'react-native'
 

@@ -15,7 +15,7 @@ const ProfileScreen = () => {
 
   return (
     <SafeAreaView>
-      <Text>ProfileScreen</Text>
+      <Text>{auth().currentUser.email}</Text>
       <FieldButton
                 stylesContainer={{marginVertical:heightScreen * 0.01 }}
                 title={'Logout'}
