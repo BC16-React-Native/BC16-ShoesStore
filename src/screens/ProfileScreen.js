@@ -1,7 +1,7 @@
 import { Animated, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View, ScrollView, Keyboard, TouchableOpacity } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import auth from "@react-native-firebase/auth"
-import FieldButton from '../components/FieldButton'
+import FieldButton from '../components/Auth/FieldButton'
 import { heightScreen, widthScreen, ORANGE_DARK, BLUE_DARK } from '../utility'
 import { useNavigation } from '@react-navigation/native'
 import FieldTextInput from '../components/FieldTextInput'

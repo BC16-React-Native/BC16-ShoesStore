@@ -1,20 +1,18 @@
 import { View, Text, SafeAreaView, KeyboardAvoidingView, Animated, Keyboard,Alert, StyleSheet, ScrollView} from 'react-native'
 import React, { useEffect, useRef, useState,useLayoutEffect } from 'react'
-import FieldTextInput from '../components/FieldTextInput'
-import FieldButton from '../components/FieldButton'
+import FieldTextInput from '../components/Auth/FieldTextInput'
+import FieldButton from '../components/Auth/FieldButton'
 // import Ionicons from "react-native-vector-icons/Ionicons"
 import auth from "@react-native-firebase/auth"
 import firestore from '@react-native-firebase/firestore';
 import { heightScreen, widthScreen, ORANGE_DARK, BLUE_DARK } from '../utility'
 import { useNavigation } from '@react-navigation/native'
 import { registerUser } from '../api/controller/users/registerUser'
-import Loader from '../components/Loader'
+import Loader from '../components/Auth/Loader'
 
 const Login = () => {
     const headerMotion = useRef(new Animated.Value(0)).current;
     const navigation = useNavigation();
-    const regexemail = /\S+@\S+\.\S+/;
-    const regexphone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
     const [loading, setLoading] = useState(false);
     // function handle animation 
     const animatedKeyBoard = (motion, value, duration) => {
@@ -71,6 +69,14 @@ const Login = () => {
             repass: ''
         });
         const [errors, setErrors] = useState({});
+        const regexemail = /\S+@\S+\.\S+/;
+        const regexphone = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+        const handleOnchange = (text, input) => {
+            setInputs(prevState => ({...prevState, [input]: text}));
+        };
+        const handleError = (error, input) => {
+            setErrors(prevState => ({...prevState, [input]: error}));
+        };
         const validate = () => {
             Keyboard.dismiss();
             let isValid = true;
@@ -104,15 +110,15 @@ const Login = () => {
             if (!inputs.password) {
               handleError('Password is a required field.', 'password');
               isValid = false;
-            } else if (inputs.password.length < 8) {
-              handleError('Password must be at least 8 characters.', 'password');
+            } else if (inputs.password.length < 6) {
+              handleError('Password must be at least 6 characters.', 'password');
               isValid = false;
             }
 
             if (!inputs.repass) {
                 handleError('Re-Password is a required field.', 'repass');
                 isValid = false;
-              } else if (inputs.repass == inputs.password){
+              } else if (inputs.repass !== inputs.password){
                 handleError('Password confirmation must match password.', 'repass');
                 isValid = false;
               }
@@ -128,7 +134,6 @@ const Login = () => {
         const pressRegister = () => {
             setLoading(true);
             setTimeout(() => {
-            if(inputs.password == inputs.repass){
               auth()
                 .createUserWithEmailAndPassword(inputs.email, inputs.password)
                 .then(userCredentials => {
@@ -140,30 +145,16 @@ const Login = () => {
                           { text: "OK", onPress: () => console.log('Registered with:', user.email) }
                         ]
                       );
-                    registerUser(inputs.name, inputs.username, inputs.phone, inputs.email, inputs.password);
+                    registerUser(inputs.name, inputs.phone, inputs.email, inputs.password);
+                    navigation.navigate('BottomTab');
                 }
                 )
-                .catch(error => {Alert.alert("Failed",error.message), setLoading(false)})
-              }
-              else{
-                Alert.alert(
-                  "Failed",
-                  "Password and Confirm Password not match!",
-                  [
-                    { text: "Try again", onPress: () => console.log('Account Registration Failed! ') }
-                  ]
-                );
-                setLoading(false)
-              }    
+                .catch(error => {Alert.alert("Failed",error.message); setLoading(false)})
+                setLoading(false)    
+
             },1000)
             
             }
-        const handleOnchange = (text, input) => {
-            setInputs(prevState => ({...prevState, [input]: text}));
-        };
-        const handleError = (error, input) => {
-            setErrors(prevState => ({...prevState, [input]: error}));
-        };
         // handle forgot password 
         const pressSignIn = () => {
             navigation.navigate("SignIn");
@@ -203,7 +194,7 @@ const Login = () => {
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Password'}
                 onFocus={() => handleError(null, 'password')}
-                placeholder={'At least 8 characters'}
+                placeholder={'At least 6 characters'}
                 secureTextEntry={true}
                 onChangeText={text => handleOnchange(text, 'password')}
                 error={errors.password}
@@ -213,7 +204,7 @@ const Login = () => {
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Confirm Password'}
                 onFocus={() => handleError(null, 'repass')}
-                placeholder={'At least 8 characters'}
+                placeholder={'At least 6 characters'}
                 secureTextEntry={true}
                 onChangeText={text => handleOnchange(text, 'repass')}
                 error={errors.repass}
@@ -244,10 +235,9 @@ const Login = () => {
         <ScrollView>
             <Header/>
             <Body/>
-            <Loader visible={loading} />
         </ScrollView>
-
         </KeyboardAvoidingView>
+        <Loader visible={loading} />
         </SafeAreaView>
     )
 }
