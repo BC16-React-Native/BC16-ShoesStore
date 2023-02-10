@@ -1,18 +1,17 @@
 import firestore from '@react-native-firebase/firestore';
 
-export const get_RolesAdmin = (setData) => {
-    let orders = [];
-    const queryRef = firestore().collection('users');
-    const query = queryRef.where('isAdmin', '==', 'true').onSnapshot(onResult, onError);
 
-    function onResult(QuerySnapshot) {
-        orders = [];
-        QuerySnapshot.forEach(doc => orders.push({ ...doc.data(), id: doc.id }));
-        console.log('Got order collection result.');
-        setData(orders);
-    }
-      
-    function onError(error) {
-        console.error(error);
-    }
-  };
+  export const get_RolesAdmin = (gmail) => {
+    let users = [];
+    const query =  firestore().collection('users')
+    .where('email', '==', gmail)
+    .get()
+    .then(querySnapshot => {
+        querySnapshot.forEach(user => {
+            // console.log(user.data());
+            users.push({ ...user.data(), querySnapshot: user.id });
+        })
+    });
+    console.log(users)
+    return users;
+};

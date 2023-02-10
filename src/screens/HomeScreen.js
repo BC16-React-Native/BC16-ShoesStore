@@ -1,14 +1,15 @@
-import { ScrollView, StyleSheet, Text, View, StatusBar } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, StatusBar , TouchableOpacity,SafeAreaView} from 'react-native'
 import React from 'react'
 import HeaderHome from '../components/HeaderHome/HeaderHome'
 import SearchBar from '../components/SearchBox/SearchBar'
 import ListCategory from '../components/Category/ListCategory'
 import ListShoes from '../components/ShoesItem/ListShoes'
 import ListNewShoes from '../components/NewShoes/ListNewShoes'
+import { get_RolesAdmin } from '../api/controller/users/getRoles'
 
 const HomeScreen = () => {
   return (
-    <View style ={{paddingBottom: 100, flex:1, backgroundColor: '#F8F9FA'}}>
+    <SafeAreaView style ={{paddingBottom: 100, flex:1, backgroundColor: '#F8F9FA'}}>
     <ScrollView style={styles.container}
       
     >
@@ -26,9 +27,9 @@ const HomeScreen = () => {
       
       <ListShoes />
       
-      {/* <ListNewShoes /> */}
+      <ListNewShoes />
     </ScrollView>
-    </View>
+    </SafeAreaView>
   )
 }
 

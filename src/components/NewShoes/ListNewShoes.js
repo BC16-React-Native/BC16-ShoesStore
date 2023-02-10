@@ -59,7 +59,7 @@ const ListNewShoes = () => {
     <View style={styles.container}>
         
     <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
-        marginHorizontal: widthScreen * 0.04,
+        // marginHorizontal: widthScreen * 0.04,
         marginVertical: heightScreen * 0.015,
     }}
     >
@@ -74,7 +74,7 @@ const ListNewShoes = () => {
         <NewShoes />
         <NewShoes />
     </View> */}
-    <FlatList
+    {/* <FlatList
         data={data}
         // horizontal
         showsHorizontalScrollIndicator={false}
@@ -85,7 +85,15 @@ const ListNewShoes = () => {
         }
         keyExtractor={item => item.id}
         style={styles.list}
-    />
+    /> */}
+    <View style={styles.list}>
+        {data.map((item, index) => (
+            <NewShoes 
+                item={item} 
+                key={item.id} 
+            />
+        ))}
+    </View>
 </View>
   )
 }
@@ -102,14 +110,14 @@ const styles = StyleSheet.create({
     },
     title:{
         color: '#000',
-        fontFamily: 'SF-Pro',
+        // fontFamily: 'SF-Pro',
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: '700',
     },
     see_all : {
-        fontFamily: 'SF Pro',
+        // fontFamily: 'SF-Pro',
         fontStyle: 'italic',
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 13,
         lineHeight: 16,
         color: '#5B9EE1',
