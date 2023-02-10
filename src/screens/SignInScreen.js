@@ -80,23 +80,7 @@ const Login = () => {
               handleError('Email must be a valid email.', 'email');
               isValid = false;
             }
-            pressLogin();
-        }
-        // handle entry data login
-        // handle login
-        const pressLogin = () => {
-            setLoading(true);
-            setTimeout(() => {
-            auth()
-            .signInWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-            const user = userCredentials.user;
-            navigation.navigate('BottomTab');
-            console.log('Logged in with:', user.email);
-            })
-            .catch(error => Alert.alert("Login Failed",error.message), setLoading(false))   
-            setLoading(false); 
-            },1000)
+
             if (!inputs.password) {
                 handleError('Password is a required field.', 'password');
                 isValid = false;
@@ -113,7 +97,7 @@ const Login = () => {
                 .then(userCredentials => {
                 const user = userCredentials.user;
                 console.log('Logged in with:', inputs.email);
-                navigation.navigate('BottomTabAdmin');
+                navigation.navigate('BottomTab');
                 })
                 .catch(error => Alert.alert("Login Failed",error.message), setLoading(false))   
                 setLoading(false); 
@@ -121,6 +105,8 @@ const Login = () => {
             }
 
          }
+        // handle entry data login
+        // handle login
         // const pressLogin = () => {
 
         // }
