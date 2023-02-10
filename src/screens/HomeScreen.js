@@ -8,6 +8,7 @@ import ListNewShoes from '../components/NewShoes/ListNewShoes'
 
 const HomeScreen = () => {
   return (
+    <View style ={{paddingBottom: 100, flex:1, backgroundColor: '#F8F9FA'}}>
     <ScrollView style={styles.container}
       
     >
@@ -25,8 +26,9 @@ const HomeScreen = () => {
       
       <ListShoes />
       
-      <ListNewShoes />
+      {/* <ListNewShoes /> */}
     </ScrollView>
+    </View>
   )
 }
 
@@ -36,6 +38,7 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     backgroundColor: '#F8F9FA',
+    paddingBottom: 100
     // borderWidth: 1,
   }
 })

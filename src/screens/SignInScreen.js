@@ -70,6 +70,7 @@ const Login = () => {
             .signInWithEmailAndPassword(email, password)
             .then(userCredentials => {
             const user = userCredentials.user;
+            navigation.navigate('BottomTab');
             console.log('Logged in with:', user.email);
             })
             .catch(error => Alert.alert("Login Failed",error.message), setLoading(false))   
@@ -85,6 +86,7 @@ const Login = () => {
                 .signInAnonymously()
                 .then(() => {
                     console.log('User signed in anonymously');
+                    navigation.navigate('BottomTab');
                 })
                 .catch(error => {
                     if (error.code === 'auth/operation-not-allowed') {

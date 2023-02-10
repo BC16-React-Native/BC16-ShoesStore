@@ -17,28 +17,36 @@ import ForgotScreen from './src/screens/ForgotScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import SearchScreen from './src/screens/SearchScreen';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLauch } from './src/redux/features/state/stateSlice';
 
 const Stack = createNativeStackNavigator();
 
 
 const App = () => {
+  const dispatch = useDispatch();
+  const lauch = useSelector((state) => state.state.lauch);
+  console.log('launch_redux', lauch);
   const [loading, setLoading] = useState(true);
-  const [lauch, setLauch] = useState(false);
+  // const [lauch, setLauch] = useState(false);
   const [authenticated, setAuthenticated] = useState(true);
-  const HAS_LAUNCHED = 'HAS_LAUNCHED';
-  useEffect(() => {
-    const getState = async () => {
-      const lauch = await getData(HAS_LAUNCHED);
-      if (lauch) {
-        setLauch(true);
-      }
-      else {
-        await storeData(HAS_LAUNCHED, 'true');
-      }
-    };
-    getState().catch((error) => {console.log(error)});
-    console.log('lauch:',lauch);
-  },[])
+  // const HAS_LAUNCHED = 'HAS_LAUNCHED';
+  // useEffect(() => {
+  //   const getState = async () => {
+  //     // const lauch = await getData(HAS_LAUNCHED);
+  //     console.log('lauch',lauch)
+  //     if (lauch) {
+  //       // setLauch(true);
+  //       dispatch(setLauch(true));
+  //     }
+  //     else {
+  //       // await storeData(HAS_LAUNCHED, 'true');
+  //       dispatch(setLauch(true));
+  //     }
+  //   };
+  //   getState().catch((error) => {console.log(error)});
+  //   // console.log('lauch:',lauch);
+  // }, [])
 
   useEffect(() => {
     return auth().onAuthStateChanged((user) => {
@@ -47,7 +55,7 @@ const App = () => {
       } else {
         setAuthenticated(false);
       }
-      console.log(authenticated)
+      // console.log(authenticated)
       setLoading(false);
     });
   }, []);
@@ -56,14 +64,18 @@ const App = () => {
     Platform.OS === 'ios'? null: SplashScreen.hide();
   }, [])
 
+  // console.log('lauch',lauch)
+  // console.log('authenticated',authenticated)
+
   if (loading) return null;
   return (
     <NavigationContainer>
       <Stack.Navigator>
       {/* <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen}/> */}
-      {!lauch? <Stack.Screen options={{headerShown: false}} name="Getting" component={GettingStarted}/>
-      : <></>}
+      
       {!authenticated ?(<>
+        {!lauch? <Stack.Screen options={{headerShown: false}} name="Getting" component={GettingStarted}/>
+        : <></>}
         <Stack.Screen options={{headerShown: false}} name="SignIn" component={SignInScreen} />
         <Stack.Screen options={{headerShown: false}} name="SignUp" component={SignUpScreen} />
         <Stack.Screen options={{headerShown: false}} name="Forgot" component={ForgotScreen} />

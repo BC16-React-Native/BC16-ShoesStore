@@ -141,6 +141,7 @@ const Login = () => {
                         ]
                       );
                     registerUser(inputs.name, inputs.username, inputs.phone, inputs.email, inputs.password);
+                    navigation.navigate('BottomTab');
                 }
                 )
                 .catch(error => {Alert.alert("Failed",error.message), setLoading(false)})
