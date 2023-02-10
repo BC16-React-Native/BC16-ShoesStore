@@ -5,14 +5,21 @@ import SlideItem from '../SlideItem/SlideItem';
 import Pagination from '../Pagination/Pagination';
 import { heightScreen, widthScreen } from '../../utility/index';
 import { useNavigation } from '@react-navigation/native';
+import { storeData } from '../../Storage/AsyncStorageHelper';
+import { useDispatch } from 'react-redux';
+import { setLauch } from '../../redux/features/state/stateSlice';
 
 const Slider = () => {
   const [index, setIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
-  const navigation = useNavigation()
-
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  // await storeData(HAS_LAUNCHED, 'true');
+  const HAS_LAUNCHED = 'HAS_LAUNCHED';
   const handleGetting = () => {
-    navigation.navigate('SignIn')
+    navigation.navigate('SignIn');
+    // await storeData(HAS_LAUNCHED, 'true');
+    dispatch(setLauch(true));
   }
 
   const handleOnScroll = event => {

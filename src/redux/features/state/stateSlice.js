@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   loading: false,
+  lauch: false,
 }
 
 export const stateSlice = createSlice({
@@ -13,11 +14,14 @@ export const stateSlice = createSlice({
     },
     endLoading: () => {
       state.loading = false;
+    },
+    setLauch: (state, action) => {
+      state.lauch = action.payload;
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = stateSlice.actions
+export const { startLoading, endLoading, setLauch } = stateSlice.actions
 
 export default stateSlice.reducer

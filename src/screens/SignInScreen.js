@@ -80,7 +80,23 @@ const Login = () => {
               handleError('Email must be a valid email.', 'email');
               isValid = false;
             }
-
+            pressLogin();
+        }
+        // handle entry data login
+        // handle login
+        const pressLogin = () => {
+            setLoading(true);
+            setTimeout(() => {
+            auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(userCredentials => {
+            const user = userCredentials.user;
+            navigation.navigate('BottomTab');
+            console.log('Logged in with:', user.email);
+            })
+            .catch(error => Alert.alert("Login Failed",error.message), setLoading(false))   
+            setLoading(false); 
+            },1000)
             if (!inputs.password) {
                 handleError('Password is a required field.', 'password');
                 isValid = false;
@@ -111,16 +127,17 @@ const Login = () => {
         const pressLoginasGuess = () => {
             setLoading(true);
             setTimeout(() => {
-            auth()
-            .signInAnonymously()
-            .then(() => {
-                console.log('User signed in anonymously');
-                navigation.navigate('BottomTabAdmin');
-            })
-            .catch(error => {
-                if (error.code === 'auth/operation-not-allowed') {
-                console.log('Enable anonymous in your firebase console.');
-            }
+                auth()
+                .signInAnonymously()
+                .then(() => {
+                    console.log('User signed in anonymously');
+                    navigation.navigate('BottomTab');
+                })
+                .catch(error => {
+                    if (error.code === 'auth/operation-not-allowed') {
+                    console.log('Enable anonymous in your firebase console.');
+                }
+
                 console.error(error);
                 setLoading(false);
                 });
