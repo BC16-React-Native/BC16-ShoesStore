@@ -25,7 +25,7 @@ export const get_AllProducts_limit = (setData) => {
     function onResult(QuerySnapshot) {
         allEntries = [];
         QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
-        console.log('Got products collection result.');
+        // console.log('Got products collection result.');
         setData(allEntries);
     }
       
@@ -86,7 +86,7 @@ export const get_Products_new = (setData) => {
 
             day_dist < 7 ?  allEntries.push({...doc.data(), id: doc.id}) : null;
         });
-        console.log('Got products collection result.');
+        console.log('Got new  products collection result.', allEntries);
         setData(allEntries);
     }
 

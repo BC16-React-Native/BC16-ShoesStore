@@ -105,12 +105,12 @@ const styles = StyleSheet.create({
     },
     title:{
         color: '#000',
-        // fontFamily: 'SF-Pro',
+        fontFamily: 'SF-Pro',
         fontSize: 18,
         fontWeight: '700',
     },
     see_all : {
-        // fontFamily: 'SF-Pro',
+        fontFamily: 'SF-Pro',
         fontStyle: 'italic',
         fontWeight: '400',
         fontSize: 13,

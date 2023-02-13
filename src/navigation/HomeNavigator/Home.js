@@ -8,7 +8,7 @@ const Home = () => {
       //
         <Stack.Navigator screenOptions={{}}>
             <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}}/>
-            <Stack.Screen name="Detail" 
+            {/* <Stack.Screen name="Detail" 
                 component={DetailScreen} 
                 options={{
                     // headerShown: false,
@@ -18,7 +18,7 @@ const Home = () => {
                     headerShadowVisible: false,
                     headerTitleAlign: 'center',
                 }}
-            />
+            /> */}
         </Stack.Navigator>
     );
 }

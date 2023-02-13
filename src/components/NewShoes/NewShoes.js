@@ -8,7 +8,7 @@ const NewShoes = ({item}) => {
     <TouchableOpacity style={styles.container}>
       <View>
         <Text numberOfLines={1} style={styles.name}>{item?.name}</Text>
-        <Text style={styles.price}>${item?.price}</Text>
+        <Text style={styles.price}>${item?.prices}</Text>
       </View>
       <View style ={{width: widthScreen * 0.05}}/>
       <View style={styles.boxImage}>

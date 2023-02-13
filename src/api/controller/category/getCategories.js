@@ -36,3 +36,10 @@ export const get_Categories_handle_all = (setData) => {
         console.error(error);
     }
 };
+
+export const get_Categories_byID = (id) => {
+    // console.log(req.params.id)
+    let result = [];
+    const queryRef = firestore().collection('category').doc(id).get();
+    return queryRef;
+};

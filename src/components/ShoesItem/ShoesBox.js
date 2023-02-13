@@ -10,11 +10,12 @@ const ShoesBox = ({item}) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity style={styles.container} onPress={() =>{
-      navigation.navigate('Home' , {
-        screen: 'Detail',
-        params : {
-          item: item
-        }
+      navigation.push('Detail' , {
+        // screen: 'Detail',
+        // params : {
+        //   item: item
+        // }
+        item: item
       })
     }}>
         <Image
