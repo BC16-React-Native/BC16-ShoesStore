@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import ShoesBox from './ShoesBox'
 import { heightScreen, widthScreen } from '../../utility'
@@ -99,12 +99,10 @@ const styles = StyleSheet.create({
     },
     title:{
         color: '#000',
-        fontFamily: 'SF-Pro',
         fontSize: 18,
         fontWeight: 'bold',
     },
     see_all : {
-        fontFamily: 'SF-Pro',
         fontStyle: 'italic',
         fontWeight: 400,
         fontSize: 13,

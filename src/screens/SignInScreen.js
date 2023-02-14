@@ -8,6 +8,10 @@ import firestore from '@react-native-firebase/firestore';
 import { heightScreen, widthScreen } from '../utility'
 import { useNavigation } from '@react-navigation/native'
 import Loader from '../components/Auth/Loader'
+import { get_RolesbyEmail } from '../api/controller/users/getRoles'
+import { useDispatch } from 'react-redux'
+import { setEmail, setRole } from '../redux/features/auth/authSlice'
+
 const Login = () => {
     const headerMotion = useRef(new Animated.Value(0)).current;
     const navigation = useNavigation();
@@ -61,6 +65,8 @@ const Login = () => {
             email: '',
             password: ''
         });
+        const dispatch = useDispatch();
+        let roles = null;
         const [errors, setErrors] = useState({});
         const regexemail = /\S+@\S+\.\S+/;
         const handleOnchange = (text, input) => {
@@ -69,7 +75,7 @@ const Login = () => {
         const handleError = (error, input) => {
             setErrors(prevState => ({...prevState, [input]: error}));
         };
-        const validate = () => {
+        const validate = async () => {
             Keyboard.dismiss();
             let isValid = true;
         
@@ -90,6 +96,11 @@ const Login = () => {
               }
             
               if (isValid) {
+                const result = await get_RolesbyEmail(inputs.email);
+                roles = await result[0]["isAdmin"];
+                console.log(roles);
+                dispatch(setRole(roles));
+                dispatch(setEmail(inputs.email));
                 setLoading(true);
                 setTimeout(() => {
                 auth()
@@ -97,12 +108,16 @@ const Login = () => {
                 .then(userCredentials => {
                 const user = userCredentials.user;
                 console.log('Logged in with:', inputs.email);
-                navigation.navigate('BottomTab');
+                console.log(roles)
                 })
-                .catch(error => Alert.alert("Login Failed",error.message), setLoading(false))   
+                .catch((error) => {
+                    Alert.alert("Login Failed",error.message);
+                    setLoading(false);
+                })   
                 setLoading(false); 
                 },1000)
             }
+            console.log("ROLESASYNC",roles)
 
          }
         // handle entry data login

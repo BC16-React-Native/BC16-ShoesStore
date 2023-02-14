@@ -13,6 +13,8 @@ const FieldTextInput = ({
     onFocus = () => {},
     error,
     onSubmitEditing,
+    onChangeValue,
+    onEndEditing,
     value,
     editable,
     icon, 
@@ -50,7 +52,7 @@ const FieldTextInput = ({
             {...props}
             value={value}
             editable={editable}
-
+            onChangeValue={onChangeValue}
             onSubmitEditing = {onSubmitEditing}
             ></TextInput>
             <Text style={{color: "red", fontSize: 12, marginTop:heightScreen*0.005, paddingLeft:widthScreen*0.035}}>

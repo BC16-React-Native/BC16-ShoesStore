@@ -4,16 +4,36 @@ import OrderCart from '../../components/Admin/OrderCart'
 import MaterialCommunityIcons from'react-native-vector-icons/MaterialCommunityIcons'
 import  { heightScreen, widthScreen } from '../../utility'
 import { getOrder_status_delivery_pending} from '../../api/controller/orders/getOrders'
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 const HomeScreen = () => {
 
-  const [data, setData] = useState()
+  const [data, setData] = useState();
+  const [datauser, setDatauser] = useState();
+
+  const getUser = async() => {
+    const currentUser = await firestore()
+    .collection('users')
+    .doc(auth().currentUser.uid)
+    .get()
+    .then((documentSnapshot) => {
+      if( documentSnapshot.exists ) {
+        console.log('User Data', documentSnapshot.data());
+        setDatauser(documentSnapshot.data());
+      }
+    })
+  }
+
   useEffect(() => {
-    getOrder_status_delivery_pending(setData)
+    getOrder_status_delivery_pending(setData);
+    getUser();
   },[])
   return (
     <SafeAreaView style={styles.container}>
       <Image 
-          source={require('../../assets/images/profile.png')}  
+          source={{
+            uri: datauser?.image
+          }} 
           style={styles.avt} 
       />
       <Text style = {styles.titletxt}>Hey, 
@@ -24,7 +44,7 @@ const HomeScreen = () => {
         />
       </Text>
       <Text style = {styles.titletxt1}>
-        Gerard M. NGUYEN
+        {datauser?.name}
       </Text>
       {/* <OrderCart stylesContainer = {{marginVertical:heightScreen *0.02}}
       />
@@ -60,11 +80,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FA',
   },
   avt: {
-    width: 80,
-    height: 80,
+    width: 60,
+    height: 60,
     marginTop: heightScreen * 0.01,
     marginVertical: heightScreen * 0.03,
-    borderRadius: 100/ 2,
+    borderRadius: 60/ 2,
     alignSelf: 'flex-start',
     marginLeft: widthScreen * 0.08
   },

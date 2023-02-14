@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     marginVertical: heightScreen * 0.006
   },
   name:{
-    fontFamily: 'SF Pro',
     fontWeight: 700,
     fontSize: 16,
     lineHeight: 20,
@@ -73,7 +72,6 @@ const styles = StyleSheet.create({
     
   },
   price:{
-    fontFamily: 'SF Pro',
     fontWeight: 700,
     fontSize: 14,
     lineHeight: 16,

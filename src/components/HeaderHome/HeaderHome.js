@@ -26,13 +26,11 @@ const styles = StyleSheet.create({
         marginVertical: heightScreen * 0.013
     },
     text:{
-        // fontFamily: 'SF-Pro',
         fontSize: 12,
         marginLeft: 4,
         color: '#707B81',
     },
     address :{
-        // fontFamily: 'SF-Pro',
         fontSize: 14,
         color: '#1A2530',
     }

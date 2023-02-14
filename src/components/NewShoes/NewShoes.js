@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import { Image } from 'react-native-animatable'
@@ -48,14 +48,12 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     price :{
-        fontFamily: 'SF-Pro',
         fontWeight: 700,
         fontSize: 16,
         lineHeight: heightScreen * 0.03,
         color: '#1A2530',
     },
     name:{
-        fontFamily: 'SF-Pro',
         fontWeight: 700,
         fontSize: 20,
         lineHeight: heightScreen * 0.03,

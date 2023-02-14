@@ -211,7 +211,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'center',
     color: '#5B9EE1',
-    // fontFamily: 'SF-Pro',
     fontWeight: 'bold'
   }
 })

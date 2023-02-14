@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, Platform } from 'react-native'
 import React from 'react'
 import NewShoes from './NewShoes'
 import { heightScreen, widthScreen } from '../../utility'
@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
     },
     title:{
         color: '#000',
-        fontFamily: 'SF-Pro',
         fontSize: 18,
         fontWeight: 'bold',
     },

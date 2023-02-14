@@ -5,10 +5,11 @@ import SearchBar from '../components/SearchBox/SearchBar'
 import ListCategory from '../components/Category/ListCategory'
 import ListShoes from '../components/ShoesItem/ListShoes'
 import ListNewShoes from '../components/NewShoes/ListNewShoes'
+import { heightScreen } from '../utility'
 
 const HomeScreen = () => {
   return (
-    <View style ={{paddingBottom: 100, flex:1, backgroundColor: '#F8F9FA'}}>
+    <View style ={{paddingBottom: heightScreen * 0.12, flex:1, backgroundColor: '#F8F9FA'}}>
     <ScrollView style={styles.container}
       
     >
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     backgroundColor: '#F8F9FA',
-    paddingBottom: 100
+    // paddingBottom: 100
     // borderWidth: 1,
   }
 })

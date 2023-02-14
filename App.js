@@ -32,6 +32,7 @@ const App = () => {
   console.log('launch_redux', lauch);
   const [loading, setLoading] = useState(true);
   // const [lauch, setLauch] = useState(false);
+  const roles = useSelector((state) => state.auth.role);
   const [authenticated, setAuthenticated] = useState(true);
   // const HAS_LAUNCHED = 'HAS_LAUNCHED';
   // useEffect(() => {
@@ -85,11 +86,16 @@ const App = () => {
         <Stack.Screen options={{headerShown: false}} name="Forgot" component={ForgotScreen} />
       </>)
         :(<>
-          <Stack.Screen options = {{headerShown: false}} name="BottomTab" component={BottomTab} />
-           {/* <Stack.Screen options = {{headerShown: false}} name="BottomTabAdmin" component={BottomTabAdmin} /> */}
-          {/* <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} /> */}
-          {/* <Stack.Screen options={{headerShown: false}} name="Settings" component={SettingsScreen}/>
-          <Stack.Screen options={{headerShown: false}} name="Profile" component={ProfileScreen}/> */}
+          {!roles ? (<>
+          <Stack.Screen options = {{headerShown: false}} name="BottomTab" component={BottomTab}/>
+          <Stack.Screen options={{headerShown: false}} name="Settings" component={SettingsScreen}/>
+        </>)
+        : (<>
+          <Stack.Screen options = {{headerShown: false}} name="BottomTabAdmin" component={BottomTabAdmin} /> 
+          <Stack.Screen options={{headerShown: false}} name="Settings" component={SettingsScreen}/>
+          </>)
+        }
+      
         </>)}
       
       </Stack.Navigator>
