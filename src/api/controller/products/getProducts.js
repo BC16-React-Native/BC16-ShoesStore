@@ -8,7 +8,7 @@ export const get_AllProducts = (setData) => {
     function onResult(QuerySnapshot) {
         allEntries = [];
         QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
-        console.log('Got products collection result.');
+        // console.log('Got products collection result.');
         setData(allEntries);
     }
       
@@ -26,7 +26,8 @@ export const get_AllProducts_limit = (setData) => {
         allEntries = [];
         QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
         // console.log('Got products collection result.');
-        setData(allEntries);
+        // return allEntries;
+        setData(allEntries)
     }
       
     function onError(error) {
@@ -38,7 +39,7 @@ export const get_ProductID = (setData, id) => {
     const querySnapshot = firestore().collection('products').doc(id).onSnapshot(onResult, onError);
 
     function onResult(QuerySnapshot) {
-        console.log('Got products collection result.');
+        // console.log('Got products collection result.');
         setData({...QuerySnapshot.data() , id: QuerySnapshot.id});
     }
       
@@ -57,7 +58,7 @@ export const get_Products_categoryID =  (setData, id) => {
     function onResult(QuerySnapshot) {
         allEntries = [];
         QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
-        console.log('Got products collection result.');
+        // console.log('Got products collection result.');
         setData(allEntries);
     }
       
@@ -86,7 +87,7 @@ export const get_Products_new = (setData) => {
 
             day_dist < 7 ?  allEntries.push({...doc.data(), id: doc.id}) : null;
         });
-        console.log('Got new  products collection result.', allEntries);
+        // console.log('Got new  products collection result.', allEntries);
         setData(allEntries);
     }
 

@@ -21,7 +21,7 @@ const ShoesBox = ({item}) => {
         <Image
           style={styles.image}
           source={{
-            uri: item.images[0]
+            uri: item?.images[0]
           }}
         />
       <View style={{marginVertical: heightScreen * 0.02}}>

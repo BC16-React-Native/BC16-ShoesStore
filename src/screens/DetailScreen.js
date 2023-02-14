@@ -1,19 +1,22 @@
 import { StyleSheet, Text, View, ScrollView, StatusBar, TouchableOpacity, Image, FlatList, Animated } from 'react-native'
-import React, {useEffect, useLayoutEffect, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react'
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import { useNavigation } from '@react-navigation/native'
 import { heightScreen, widthScreen } from '../utility'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import Carousel from 'react-native-reanimated-carousel';
+// import Carousel, {ParallaxImage, Pagination } from 'react-native-new-snap-carousel';
 import EvilIcons from "react-native-vector-icons/EvilIcons"
 import { get_Categories_byID } from '../api/controller/category/getCategories'
 import { get_Products_categoryID, get_Products_new } from '../api/controller/products/getProducts'
 import ShoesBox from '../components/ShoesItem/ShoesBox'
+import  RenderSilde  from '../components/SlideImage/RenderSlide'
+import Slide from '../components/SlideImage/Slide'
+import Carousel from '../components/Carousel'
 
 const DetailScreen = ({route}) => {
   
   const item = route.params.item;
-  console.log(item);
+  // console.log(item);
     const navigation = useNavigation();
     useLayoutEffect(() => { 
         navigation.setOptions({ 
@@ -70,130 +73,147 @@ const DetailScreen = ({route}) => {
         if(mm<10){mm='0'+mm};
         return d = dd+'-'+mm+'-'+yyyy
       }
+
+      const isCarousel = React.useRef(null);
+      const [index, setIndex] = React.useState(0);
+
+
+      const [activeNutrientIndex, setActiveNutrientIndex] = React.useState(0);
+      const onNutrientUpdate = React.useRef(({viewableItems}) => {
+          if (viewableItems.length > 0) {
+            setActiveNutrientIndex(viewableItems[0].index || 0);
+          }
+      }, []);
+      const viewConfigRef = React.useRef({viewAreaCoveragePercentThreshold: 6});
+
   return (
     <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA',}}>
-    <ScrollView style={styles.container}
-      
-    >
+    <FlatList
+      data={[]}
+      keyExtractor={(e, i) => 'dom' + i.toString()}
+      ListEmptyComponent={null}
+      renderItem={null}
+      ListHeaderComponent={() => (
+        <>
+          {/* <Slide carouselRef={isCarousel} selectedItems={item?.images} setActiveSlide={setIndex}/>
+
+          <Pagination
+            dotsLength={item?.images.length}s
+            activeDotIndex={index}
+            carouselRef={isCarousel}
+            dotStyle={{
+              width: 10,
+              height: 10,
+              borderRadius: 5,
+              marginHorizontal: 0,
+              backgroundColor: '#5B9EE1'
+            }}
+            inactiveDotOpacity={0.4}
+            inactiveDotScale={0.6}
+            tappableDots={true}
+          /> */}
+          <Carousel
+            data={[1,2,3,4,5]}
+            renderItem={({item, index}) => (
+              <View key={index}>
+              <RenderSilde item={item} />
+              </View>
+            )}
+            snapToInterval={widthScreen - 5}
+            viewabilityConfig={viewConfigRef.current}
+            onViewableItemsChanged={onNutrientUpdate.current}
+            activeIndex={activeNutrientIndex}
+            dotColor={'#5B9EE1'}
+          />
+          
+          <View style={styles.boxInf}>
+            <Text style={styles.name}>{item?.name}</Text>
+            <Text style={styles.price}>$ {item?.prices}</Text>
+            <View style={{flexDirection: 'row'}}>
+              <Text numberOfLines = {view_Detail? null : 3} style={styles.detail}>
+                {item?.info}
+              </Text>
+              <Text
+                onPress={() => setView_Detail(!view_Detail)}
+                style={{
+                  alignSelf: 'flex-end',      
+                  lineHeight: 22,
+                  color:"#5B9EE1"
+                }}
+              >
+                    {view_Detail ? "Hide" : "Show"}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', paddingVertical: heightScreen * 0.0077}}>
+              <Image
+                source={require('../assets/images/shoes-icon.png')} 
+                style={[styles.icon,{
+                  height: heightScreen * 0.04, 
+                  width: widthScreen * 0.08,
+
+                }]} 
+              />
+              <Text style={styles.category}>Category: {category?.name}</Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', paddingVertical: heightScreen * 0.0077}}>
+            <Image
+                source={require('../assets/images/calendar.png')} 
+                style={[styles.icon,{
+                  height: heightScreen * 0.04, 
+                  width: widthScreen * 0.08,
+
+                }]} 
+              />
+              <Text style={styles.category}>{formatDate(item?.datecreate)}</Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', paddingVertical: heightScreen * 0.0077}}>
+              <Image
+                source={require('../assets/images/warehouse.png')} 
+                style={[styles.icon,{
+                  height: heightScreen * 0.04, 
+                  width: widthScreen * 0.08,
+
+                }]} 
+              />
+              <Text style={styles.category}>Warehouse: {item?.amount}</Text>
+            </View>
+          </View>
+
+          <View style={{
+            backgroundColor: '#fff' ,
+            paddingHorizontal: widthScreen * 0.05,
+            paddingTop: heightScreen * 0.015,
+            paddingBottom: heightScreen * 0.01,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+            <Text style={styles.recommend}>Recommend Shoes</Text>   
+            <Text style={styles.see_all}>See all</Text>
+          </View>
+          <FlatList
+            data={recommend}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            renderItem={
+                ({item, index}) => 
+                <View style={{ marginRight: widthScreen * 0.02}}>
+                    <ShoesBox item={item}/>
+                </View>
+            }
+            keyExtractor={item => item.id}
+            style={styles.list}
+            numColumns={2}
+            nestedScrollEnabled 
+          /> 
+        </>
+      )}
+    />
       <StatusBar
         animated={true}
         backgroundColor="#F8F9FA"
         barStyle= 'dark-content'
       />
-      <Carousel
-          loop
-          width={widthScreen}
-          height={widthScreen / 2}
-          autoPlayInterval={1500}
-          // autoPlay={true}
-          pagingEnabled ={true}
-          data={item?.images}
-          mode="parallax"
-          modeConfig={{
-            parallaxScrollingScale: 0.9,
-            parallaxScrollingOffset: 50,
-          }}
-          onSnapToItem={(index) => console.log('current index:', index)}
-          renderItem={({item, index }) => {
-              return <View
-                  style={{
-                      flex: 1,
-                      // borderWidth: 1,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      // borderWidth: 1,
-                  }}
-              >
-                  <Image source={{
-                    uri: item
-                  }} style={styles.image} 
-                  resizeMode="contain"
-                  />
-
-              </View>
-          }}
-      />
-      <View style={styles.boxInf}>
-        <Text style={styles.name}>{item?.name}</Text>
-        <Text style={styles.price}>$ {item?.prices}</Text>
-        <View style={{flexDirection: 'row'}}>
-          <Text numberOfLines = {view_Detail? null : 3} style={styles.detail}>
-            {item?.info}
-          </Text>
-          <Text
-            onPress={() => setView_Detail(!view_Detail)}
-            style={{
-              alignSelf: 'flex-end',      
-              lineHeight: 22,
-              color:"#5B9EE1"
-            }}
-          >
-                {view_Detail ? "Hide" : "Show"}
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center', paddingVertical: heightScreen * 0.0077}}>
-          <Image
-            source={require('../assets/images/shoes-icon.png')} 
-            style={[styles.icon,{
-              height: heightScreen * 0.04, 
-              width: widthScreen * 0.08,
-
-            }]} 
-          />
-          <Text style={styles.category}>Category: {category?.name}</Text>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center', paddingVertical: heightScreen * 0.0077}}>
-        <Image
-            source={require('../assets/images/calendar.png')} 
-            style={[styles.icon,{
-              height: heightScreen * 0.04, 
-              width: widthScreen * 0.08,
-
-            }]} 
-          />
-          <Text style={styles.category}>{formatDate(item?.datecreate)}</Text>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center', paddingVertical: heightScreen * 0.0077}}>
-          <Image
-            source={require('../assets/images/warehouse.png')} 
-            style={[styles.icon,{
-              height: heightScreen * 0.04, 
-              width: widthScreen * 0.08,
-
-            }]} 
-          />
-          <Text style={styles.category}>Warehouse: {item?.amount}</Text>
-        </View>
-      </View>
-
-      <View style={{
-        backgroundColor: '#fff' ,
-        paddingHorizontal: widthScreen * 0.05,
-        paddingTop: heightScreen * 0.015,
-        paddingBottom: heightScreen * 0.01,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}>
-        <Text style={styles.recommend}>Recommend Shoes</Text>   
-        <Text style={styles.see_all}>See all</Text>
-      </View>
-      <FlatList
-        data={recommend}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        renderItem={
-            ({item, index}) => 
-            <View style={{ marginRight: widthScreen * 0.02}}>
-                <ShoesBox item={item}/>
-            </View>
-        }
-        keyExtractor={item => item.id}
-        style={styles.list}
-        numColumns={2}
-        nestedScrollEnabled 
-      /> 
-    </ScrollView>
     </SafeAreaView>
   )
 }
@@ -207,11 +227,20 @@ const styles = StyleSheet.create({
         paddingBottom: 100,
         // borderWidth: 1,
     },
+    item: {
+      width: widthScreen - 60,
+      height: widthScreen - 100,
+      // borderWidth:1
+    },
+    imageContainer: {
+      flex: 1,
+      marginBottom: Platform.select({ ios: 0, android: 1 }), // Prevent a random Android rendering issue
+      backgroundColor: 'white',
+      borderRadius: 8,
+    },
     image: {
-      alignSelf: 'center',
-      height:'100%', 
-      width:'100%',
-      // transform: [{rotate: '-10deg'}],
+      ...StyleSheet.absoluteFillObject,
+      resizeMode: 'contain',
     },
     boxInf: {
       flex: 1 ,
@@ -238,7 +267,7 @@ const styles = StyleSheet.create({
       marginVertical: heightScreen * 0.015,
     },
     detail: {
-      fontfamily: 'SF-Pro',
+      fontFamily: 'SF-Pro',
       fontWeight: '400',
       fontSize: 14,
       lineHeight: 22,
@@ -246,7 +275,7 @@ const styles = StyleSheet.create({
       width: '86%',
     },
     category: {
-      fontfamily: 'SF-Pro',
+      fontFamily: 'SF-Pro',
       fontWeight: '400',
       fontSize: 14,
       lineheight: 16,
