@@ -64,14 +64,14 @@ const SettingsScreen = () => {
     
 
     return (
-        <View style= {styles.container}>
+        <SafeAreaView style= {styles.container}>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
           <ScrollView>
             <Header/>
             <Body />
           </ScrollView>
         </KeyboardAvoidingView>
-        </View>
+        </SafeAreaView>
     )
 
 
@@ -84,6 +84,8 @@ const styles = StyleSheet.create({
       flex:1,
       height : heightScreen,
       width: widthScreen,
+      alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor:'#F8F9FA',
   },
   containerHeader: {
@@ -105,7 +107,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 40,
     marginLeft: widthScreen * 0.05,
-    marginTop: heightScreen * 0.03,
     justifyContent: 'center'
   },
   iconBack:{
@@ -113,10 +114,10 @@ const styles = StyleSheet.create({
   },
   textProfile:{
     position: 'absolute',
-    right: widthScreen * 0.45,
-    marginTop: heightScreen * 0.045,
     fontSize: 16,
+    marginTop: heightScreen * 0.02,
     fontWeight: 'bold',
+    alignSelf: 'center',
     color: '#1A2530'
   },
   viewCheckBox:{

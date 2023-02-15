@@ -155,7 +155,6 @@ const ProfileScreen = () => {
     .get()
     .then((documentSnapshot) => {
       if( documentSnapshot.exists ) {
-        console.log('User Data', documentSnapshot.data());
         setData(documentSnapshot.data());
       }
     })

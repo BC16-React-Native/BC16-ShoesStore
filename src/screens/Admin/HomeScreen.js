@@ -18,7 +18,6 @@ const HomeScreen = () => {
     .get()
     .then((documentSnapshot) => {
       if( documentSnapshot.exists ) {
-        console.log('User Data', documentSnapshot.data());
         setDatauser(documentSnapshot.data());
       }
     })
