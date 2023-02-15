@@ -6,15 +6,15 @@ import Carousel, {ParallaxImage, Pagination } from 'react-native-new-snap-carous
 const RenderSilde = ({item, index, parallaxProps}) => {
     return (
         <View style={styles.item}>
-            {/* <ParallaxImage
+            <ParallaxImage
                 source={{ uri: item }}
                 containerStyle={styles.imageContainer}
                 style={styles.image}
                 parallaxFactor={0.4}
                 {...parallaxProps}
-            /> */}
+            />
             {/* <Image source={{ uri: item }} style={styles.image}/> */}
-            <Text>{item}</Text>
+            {/* <Text>{item}</Text> */}
         </View>
     );
 }
@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
     item: {
         width: widthScreen - 60,
         height: widthScreen - 100,
-        alignItems: 'center',
-        justifyContent: 'center',
+        // alignItems: 'center',
+        // justifyContent: 'center',
         // borderWidth:1
     },
         imageContainer: {

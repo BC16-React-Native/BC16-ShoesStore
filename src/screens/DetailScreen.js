@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, StatusBar, TouchableOpacity, Image, FlatList, Animated } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, StatusBar, TouchableOpacity, Image, FlatList, Animated, TouchableOpacityBase } from 'react-native'
 import React, {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react'
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import { useNavigation } from '@react-navigation/native'
@@ -12,15 +12,17 @@ import ShoesBox from '../components/ShoesItem/ShoesBox'
 import  RenderSilde  from '../components/SlideImage/RenderSlide'
 import Slide from '../components/SlideImage/Slide'
 import Carousel from '../components/Carousel'
+import RecommendShoes from '../components/RecommendShoes/RecommendShoes'
 
 const DetailScreen = ({route}) => {
   
   const item = route.params.item;
-  // console.log(item);
+  // console.log("Detail Screen",route.params.item);
+  const image = item.images;
     const navigation = useNavigation();
     useLayoutEffect(() => { 
         navigation.setOptions({ 
-          title: item?.name,
+          title: 'Detail',
           headerLeft : () => (    
                 <TouchableOpacity onPress={() => navigation.goBack()} 
                   style={{
@@ -61,6 +63,7 @@ const DetailScreen = ({route}) => {
           setCategory(data.data());
         });
         get_Products_categoryID(setRecommend, item?.categoryid);
+        console.log('useeffect')
       }, []) 
       // console.log(`Categories:`, category);
       function formatDate(d)
@@ -93,41 +96,13 @@ const DetailScreen = ({route}) => {
       keyExtractor={(e, i) => 'dom' + i.toString()}
       ListEmptyComponent={null}
       renderItem={null}
+      showsVerticalScrollIndicator={false}
       ListHeaderComponent={() => (
         <>
-          {/* <Slide carouselRef={isCarousel} selectedItems={item?.images} setActiveSlide={setIndex}/>
-
-          <Pagination
-            dotsLength={item?.images.length}s
-            activeDotIndex={index}
-            carouselRef={isCarousel}
-            dotStyle={{
-              width: 10,
-              height: 10,
-              borderRadius: 5,
-              marginHorizontal: 0,
-              backgroundColor: '#5B9EE1'
-            }}
-            inactiveDotOpacity={0.4}
-            inactiveDotScale={0.6}
-            tappableDots={true}
-          /> */}
-          <Carousel
-            data={[1,2,3,4,5]}
-            renderItem={({item, index}) => (
-              <View key={index}>
-              <RenderSilde item={item} />
-              </View>
-            )}
-            snapToInterval={widthScreen - 5}
-            viewabilityConfig={viewConfigRef.current}
-            onViewableItemsChanged={onNutrientUpdate.current}
-            activeIndex={activeNutrientIndex}
-            dotColor={'#5B9EE1'}
-          />
+          <Slide  item={image} />
           
           <View style={styles.boxInf}>
-            <Text style={styles.name}>{item?.name}</Text>
+            <Text numberOfLines={1} style={styles.name}>{item?.name}</Text>
             <Text style={styles.price}>$ {item?.prices}</Text>
             <View style={{flexDirection: 'row'}}>
               <Text numberOfLines = {view_Detail? null : 3} style={styles.detail}>
@@ -139,7 +114,7 @@ const DetailScreen = ({route}) => {
                   alignSelf: 'flex-end',      
                   lineHeight: 22,
                   color:"#5B9EE1"
-                }}
+                }} 
               >
                     {view_Detail ? "Hide" : "Show"}
               </Text>
@@ -150,7 +125,6 @@ const DetailScreen = ({route}) => {
                 style={[styles.icon,{
                   height: heightScreen * 0.04, 
                   width: widthScreen * 0.08,
-
                 }]} 
               />
               <Text style={styles.category}>Category: {category?.name}</Text>
@@ -191,24 +165,48 @@ const DetailScreen = ({route}) => {
             <Text style={styles.recommend}>Recommend Shoes</Text>   
             <Text style={styles.see_all}>See all</Text>
           </View>
-          <FlatList
-            data={recommend}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            renderItem={
-                ({item, index}) => 
-                <View style={{ marginRight: widthScreen * 0.02}}>
-                    <ShoesBox item={item}/>
-                </View>
-            }
-            keyExtractor={item => item.id}
-            style={styles.list}
-            numColumns={2}
-            nestedScrollEnabled 
-          /> 
+          <RecommendShoes recommend={recommend} />
+
         </>
       )}
     />
+      <View style={styles.bottomDetail}>
+        <View>
+          <Text style={{
+            fontFamily: 'SF-Pro',
+            fontWeight: '500',
+            fontSize: 18,
+            lineHeight: 20,
+            color:'#707B81',
+          }}>
+            Price
+          </Text>
+          <Text style ={{
+            fontFamily: 'SF-Pro',
+            fontWeight: '7 00',
+            fontSize: 20,
+            lineHeight: 24,
+            color: '#1A2530',
+            marginTop: heightScreen * 0.01
+          }}>
+            $ {item.prices}
+          </Text>
+        </View>
+            <TouchableOpacity style={styles.buttonAdd}>
+              <Text style={{
+                fontFamily: 'SF-Pro',
+                fontWeight: '700',
+                fontSize: 18,
+                lineHeight: 22,
+                /* identical to box height, or 122% */
+                
+                
+                /* Light/BG Color */
+                
+                color: '#FFFFFF',
+              }}>Add To Cart</Text>
+            </TouchableOpacity>
+      </View>
       <StatusBar
         animated={true}
         backgroundColor="#F8F9FA"
@@ -278,7 +276,7 @@ const styles = StyleSheet.create({
       fontFamily: 'SF-Pro',
       fontWeight: '400',
       fontSize: 14,
-      lineheight: 16,
+      lineHeight: 16,
       color: '#414141',
     },
     icon : {
@@ -304,5 +302,33 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         color: '#5B9EE1',
         marginRight: widthScreen * 0.0127,
+    },
+    bottomDetail:{
+      backgroundColor: '#fff', 
+        flexDirection: 'row', 
+        justifyContent:'space-between',
+        paddingHorizontal: widthScreen * 0.05,
+        paddingTop : heightScreen * 0.02,
+        paddingBottom : heightScreen * 0.032,
+        marginTop: 2,
+        alignItems: 'center',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: -heightScreen * 0.004,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 3,
+
+    },
+    buttonAdd:{
+      backgroundColor: '#5B9EE1',
+      paddingHorizontal: widthScreen * 0.08,
+      paddingVertical: heightScreen * 0.02,
+      borderRadius: 50
     }
 })

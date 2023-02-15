@@ -20,19 +20,21 @@ export const get_AllProducts = (setData) => {
 export const get_AllProducts_limit = (setData) => {
     let allEntries = [];
       
-    const querySnapshot = firestore().collection('products').orderBy('prices', 'desc').limit(5).onSnapshot(onResult, onError);
+    const querySnapshot = firestore().collection('products').orderBy('prices', 'desc').limit(5)
+    // .onSnapshot(onResult, onError);
 
-    function onResult(QuerySnapshot) {
-        allEntries = [];
-        QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
-        // console.log('Got products collection result.');
-        // return allEntries;
-        setData(allEntries)
-    }
+    // function onResult(QuerySnapshot) {
+    //     allEntries = [];
+    //     QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
+    //     // console.log('Got products collection result.');
+    //     // return allEntries;
+    //     setData(allEntries)
+    // }
       
-    function onError(error) {
-        console.error(error);
-    }
+    // function onError(error) {
+    //     console.error(error);
+    // }
+    return querySnapshot
 };
 
 export const get_ProductID = (setData, id) => {

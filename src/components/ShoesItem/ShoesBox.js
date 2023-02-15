@@ -5,7 +5,7 @@ import Feather  from "react-native-vector-icons/Feather"
 import { useNavigation } from '@react-navigation/native'
 
 const ShoesBox = ({item}) => {
-  // console.log(item.images[0]);
+  // console.log("View box home",item);
   const [like, setLike] = useState(false);
   const navigation = useNavigation();
   return (

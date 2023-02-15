@@ -56,9 +56,28 @@ import { get_AllProducts_limit } from '../../api/controller/products/getProducts
 // ]
 const ListShoes = () => {
     const [data, setData] = useState();
-    useEffect(() => {
-        get_AllProducts_limit(setData);
-    }, []);
+        // async function fetchData() {
+        //     const result = await get_AllProducts_limit();
+        //     setData(result)
+        //   }
+        //   fetchData();
+        // return result;
+        // get_AllProducts_limit(setData)
+        useEffect(() => {
+            get_AllProducts_limit()
+                .onSnapshot(
+                    querySnapshot => {
+                        const newEntities = []
+                        querySnapshot.forEach(doc => {
+                            newEntities.push({ ...doc.data(), id: doc.id })
+                        });
+                        setData(newEntities)
+                    },
+                    error => {
+                        console.log(error)
+                    }
+                )
+        }, [])
   return (
     <View style={styles.container}>
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 

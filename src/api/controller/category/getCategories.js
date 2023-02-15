@@ -28,7 +28,7 @@ export const get_Categories_handle_all = (setData) => {
         result = [];
         result.push({ id : 'all', name: "All"});
         QuerySnapshot.forEach(doc => result.push({ ...doc.data(), id: doc.id }));
-        console.log('Got Categories collection result.', result);
+        // console.log('Got Categories collection result.', result);
         setData(result);
     }
     
