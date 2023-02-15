@@ -23,7 +23,7 @@ const SlideItem = ({item}) => {
   return (
     <View style={styles.container}>
       <Animated.Image
-        source={item.img}
+        source={item?.img}
         resizeMode="contain"
         
         style={[
@@ -40,8 +40,8 @@ const SlideItem = ({item}) => {
       />
 
       <View style={styles.content}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.description}>{item.description}</Text>
+        <Text style={styles.title}>{item?.title}</Text>
+        <Text style={styles.description}>{item?.description}</Text>
       </View>
     </View>
   );

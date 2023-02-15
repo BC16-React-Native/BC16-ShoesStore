@@ -8,7 +8,7 @@ const NewShoes = ({item}) => {
     <TouchableOpacity style={styles.container}>
       <View>
         <Text numberOfLines={1} style={styles.name}>{item?.name}</Text>
-        <Text style={styles.price}>${item?.price}</Text>
+        <Text style={styles.price}>${item?.prices}</Text>
       </View>
       <View style ={{width: widthScreen * 0.05}}/>
       <View style={styles.boxImage}>
@@ -48,13 +48,15 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     price :{
-        fontWeight: 700,
+        fontFamily: 'SF-Pro',
+        fontWeight: '700',
         fontSize: 16,
         lineHeight: heightScreen * 0.03,
         color: '#1A2530',
     },
     name:{
-        fontWeight: 700,
+        fontFamily: 'SF-Pro',
+        fontWeight: '700',
         fontSize: 20,
         lineHeight: heightScreen * 0.03,
         color: '#1A2530',

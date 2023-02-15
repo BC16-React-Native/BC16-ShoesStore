@@ -2,23 +2,33 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import Feather  from "react-native-vector-icons/Feather"
+import { useNavigation } from '@react-navigation/native'
 
 const ShoesBox = ({item}) => {
-  console.log(item.images[0]);
+  // console.log("View box home",item);
   const [like, setLike] = useState(false);
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.container} onPress={() =>{console.log('go to detail')}}>
+    <TouchableOpacity style={styles.container} onPress={() =>{
+      navigation.push('Detail' , {
+        // screen: 'Detail',
+        // params : {
+        //   item: item
+        // }
+        item: item
+      })
+    }}>
         <Image
           style={styles.image}
           source={{
-            uri: item.images[0]
+            uri: item?.images[0]
           }}
         />
       <View style={{marginVertical: heightScreen * 0.02}}>
         <Text style={styles.title}>BEST SELLER</Text> 
         <Text numberOfLines={1} style={styles.name}>{item.name}</Text>
       </View>
-        <Text style={styles.price}>${item.price}</Text>
+        <Text style={styles.price}>${item.prices}</Text>
       <TouchableOpacity style={[styles.icon_like, 
           {backgroundColor: !like ? '#5B9EE1' : '#E15B5B'}
         ]} 
@@ -63,7 +73,8 @@ const styles = StyleSheet.create({
     marginVertical: heightScreen * 0.006
   },
   name:{
-    fontWeight: 700,
+    fontFamily: 'SF-Pro',
+    fontWeight: '700',
     fontSize: 16,
     lineHeight: 20,
     color: '#1A2530',
@@ -72,7 +83,8 @@ const styles = StyleSheet.create({
     
   },
   price:{
-    fontWeight: 700,
+    fontFamily: 'SF-Pro',
+    fontWeight: '700',
     fontSize: 14,
     lineHeight: 16,
     color: '#1A2530'

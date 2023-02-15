@@ -8,7 +8,7 @@ export const get_AllProducts = (setData) => {
     function onResult(QuerySnapshot) {
         allEntries = [];
         QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
-        console.log('Got products collection result.');
+        // console.log('Got products collection result.');
         setData(allEntries);
     }
       
@@ -20,25 +20,28 @@ export const get_AllProducts = (setData) => {
 export const get_AllProducts_limit = (setData) => {
     let allEntries = [];
       
-    const querySnapshot = firestore().collection('products').orderBy('prices', 'desc').limit(5).onSnapshot(onResult, onError);
+    const querySnapshot = firestore().collection('products').orderBy('prices', 'desc').limit(5)
+    // .onSnapshot(onResult, onError);
 
-    function onResult(QuerySnapshot) {
-        allEntries = [];
-        QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
-        console.log('Got products collection result.');
-        setData(allEntries);
-    }
+    // function onResult(QuerySnapshot) {
+    //     allEntries = [];
+    //     QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
+    //     // console.log('Got products collection result.');
+    //     // return allEntries;
+    //     setData(allEntries)
+    // }
       
-    function onError(error) {
-        console.error(error);
-    }
+    // function onError(error) {
+    //     console.error(error);
+    // }
+    return querySnapshot
 };
 
 export const get_ProductID = (setData, id) => {
     const querySnapshot = firestore().collection('products').doc(id).onSnapshot(onResult, onError);
 
     function onResult(QuerySnapshot) {
-        console.log('Got products collection result.');
+        // console.log('Got products collection result.');
         setData({...QuerySnapshot.data() , id: QuerySnapshot.id});
     }
       
@@ -57,7 +60,7 @@ export const get_Products_categoryID =  (setData, id) => {
     function onResult(QuerySnapshot) {
         allEntries = [];
         QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
-        console.log('Got products collection result.');
+        // console.log('Got products collection result.');
         setData(allEntries);
     }
       
@@ -86,7 +89,7 @@ export const get_Products_new = (setData) => {
 
             day_dist < 7 ?  allEntries.push({...doc.data(), id: doc.id}) : null;
         });
-        console.log('Got products collection result.');
+        // console.log('Got new  products collection result.', allEntries);
         setData(allEntries);
     }
 

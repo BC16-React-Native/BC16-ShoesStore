@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import {Button, StyleSheet, Text, View, LogBox} from 'react-native';
 import SplashScreen from 'react-native-splash-screen'
 import React, { useEffect, useState } from 'react';
@@ -18,6 +19,11 @@ import SettingsScreen from './src/screens/SettingsScreen';
 import SearchScreen from './src/screens/SearchScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLauch } from './src/redux/features/state/stateSlice';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import DetailScreen from './src/screens/DetailScreen';
+
+
+
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -75,6 +81,7 @@ const App = () => {
   console.log('lauch 2',lauch)
   console.log("authenticated",authenticated)
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
     <NavigationContainer>
       <Stack.Navigator>
       {/* <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen}/> */}
@@ -88,6 +95,18 @@ const App = () => {
         :(<>
           {!roles ? (<>
           <Stack.Screen options = {{headerShown: false}} name="BottomTab" component={BottomTab}/>
+          <Stack.Screen 
+              options={{
+                  // headerShown: false,
+                  headerStyle: {
+                      backgroundColor: '#F8F9FA',
+                  },
+                  headerShadowVisible: false,
+                  headerTitleAlign: 'center',
+              }} 
+              name="Detail" 
+              component={DetailScreen}
+          />
           <Stack.Screen options={{headerShown: false}} name="Settings" component={SettingsScreen}/>
         </>)
         : (<>
@@ -96,10 +115,12 @@ const App = () => {
           </>)
         }
       
+
         </>)}
       
       </Stack.Navigator>
     </NavigationContainer>
+    </GestureHandlerRootView>
   );
 };
 

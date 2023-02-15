@@ -34,6 +34,7 @@ export default Category
 
 const styles = StyleSheet.create({
     text:{
+        fontFamily: 'SF-Pro',
         fontSize: 14,
         color: 'black',
         marginHorizontal: widthScreen * 0.02,
