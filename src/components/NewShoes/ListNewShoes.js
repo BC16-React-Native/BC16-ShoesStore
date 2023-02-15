@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import NewShoes from './NewShoes'
 import { heightScreen, widthScreen } from '../../utility'
 import { get_Products_new } from '../../api/controller/products/getProducts'

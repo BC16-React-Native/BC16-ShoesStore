@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   tabBar: {
     height: heightScreen * 0.09,
     position: 'absolute',
-    // bottom: heightScreen *0.016,
+    bottom: heightScreen *0.016,
     right: widthScreen *0.02,
     left: widthScreen *0.02,
     borderRadius: 16,

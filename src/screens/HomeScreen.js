@@ -11,7 +11,7 @@ import { get_RolesAdmin } from '../api/controller/users/getRoles'
 
 const HomeScreen = () => {
   return (
-    <SafeAreaView style ={{paddingBottom: heightScreen * 0.25, flex:1, backgroundColor: '#F8F9FA'}}>
+    <SafeAreaView style ={{paddingBottom: heightScreen * 0.09, flex:1, backgroundColor: '#F8F9FA'}}>
     <ScrollView style={styles.container}
       
     >

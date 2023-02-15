@@ -13,6 +13,7 @@ import  RenderSilde  from '../components/SlideImage/RenderSlide'
 import Slide from '../components/SlideImage/Slide'
 import Carousel from '../components/Carousel'
 import RecommendShoes from '../components/RecommendShoes/RecommendShoes'
+import Description from '../components/DescriptionShoes'
 
 const DetailScreen = ({route}) => {
   
@@ -54,8 +55,6 @@ const DetailScreen = ({route}) => {
         }) 
       }, []);
 
-      const [view_Detail, setView_Detail] = useState(false);
-
       const [category, setCategory] = useState();
       const [recommend, setRecommend] = useState();
       useEffect(() => {
@@ -77,17 +76,6 @@ const DetailScreen = ({route}) => {
         return d = dd+'-'+mm+'-'+yyyy
       }
 
-      const isCarousel = React.useRef(null);
-      const [index, setIndex] = React.useState(0);
-
-
-      const [activeNutrientIndex, setActiveNutrientIndex] = React.useState(0);
-      const onNutrientUpdate = React.useRef(({viewableItems}) => {
-          if (viewableItems.length > 0) {
-            setActiveNutrientIndex(viewableItems[0].index || 0);
-          }
-      }, []);
-      const viewConfigRef = React.useRef({viewAreaCoveragePercentThreshold: 6});
 
   return (
     <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA',}}>
@@ -104,21 +92,9 @@ const DetailScreen = ({route}) => {
           <View style={styles.boxInf}>
             <Text numberOfLines={1} style={styles.name}>{item?.name}</Text>
             <Text style={styles.price}>$ {item?.prices}</Text>
-            <View style={{flexDirection: 'row'}}>
-              <Text numberOfLines = {view_Detail? null : 3} style={styles.detail}>
-                {item?.info}
-              </Text>
-              <Text
-                onPress={() => setView_Detail(!view_Detail)}
-                style={{
-                  alignSelf: 'flex-end',      
-                  lineHeight: 22,
-                  color:"#5B9EE1"
-                }} 
-              >
-                    {view_Detail ? "Hide" : "Show"}
-              </Text>
-            </View>
+
+            <Description description={item?.info} />
+
             <View style={{flexDirection: 'row', alignItems: 'center', paddingVertical: heightScreen * 0.0077}}>
               <Image
                 source={require('../assets/images/shoes-icon.png')} 
