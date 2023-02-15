@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 // import Carousel, {ParallaxImage, Pagination } from 'react-native-new-snap-carousel';
 import EvilIcons from "react-native-vector-icons/EvilIcons"
 import { get_Categories_byID } from '../api/controller/category/getCategories'
-import { get_Products_categoryID, get_Products_new } from '../api/controller/products/getProducts'
+import { get_ProductID, get_Products_categoryID, get_Products_new } from '../api/controller/products/getProducts'
 import ShoesBox from '../components/ShoesItem/ShoesBox'
 import  RenderSilde  from '../components/SlideImage/RenderSlide'
 import Slide from '../components/SlideImage/Slide'
@@ -18,7 +18,7 @@ import Description from '../components/DescriptionShoes'
 const DetailScreen = ({route}) => {
   
   const item = route.params.item;
-  // console.log("Detail Screen",route.params.item);
+  // console.log("Detail Screen",item);
   const image = item.images;
     const navigation = useNavigation();
     useLayoutEffect(() => { 
@@ -57,7 +57,9 @@ const DetailScreen = ({route}) => {
 
       const [category, setCategory] = useState();
       const [recommend, setRecommend] = useState();
+      const [data, setData] = useState();
       useEffect(() => {
+        get_ProductID(setData, item?.id);
         get_Categories_byID(item?.categoryid).then((data) => {
           setCategory(data.data());
         });
@@ -76,6 +78,7 @@ const DetailScreen = ({route}) => {
         return d = dd+'-'+mm+'-'+yyyy
       }
 
+      // console.log(data);
 
   return (
     <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA',}}>
@@ -87,13 +90,13 @@ const DetailScreen = ({route}) => {
       showsVerticalScrollIndicator={false}
       ListHeaderComponent={() => (
         <>
-          <Slide  item={image} />
+          <Slide  item={data?.images} />
           
           <View style={styles.boxInf}>
-            <Text numberOfLines={1} style={styles.name}>{item?.name}</Text>
-            <Text style={styles.price}>$ {item?.prices}</Text>
+            <Text numberOfLines={1} style={styles.name}>{data?.name}</Text>
+            <Text style={styles.price}>$ {data?.prices}</Text>
 
-            <Description description={item?.info} />
+            <Description description={data?.info} />
 
             <View style={{flexDirection: 'row', alignItems: 'center', paddingVertical: heightScreen * 0.0077}}>
               <Image
@@ -114,7 +117,7 @@ const DetailScreen = ({route}) => {
 
                 }]} 
               />
-              <Text style={styles.category}>{formatDate(item?.datecreate)}</Text>
+              <Text style={styles.category}>{formatDate(data?.datecreate)}</Text>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center', paddingVertical: heightScreen * 0.0077}}>
               <Image
@@ -125,7 +128,7 @@ const DetailScreen = ({route}) => {
 
                 }]} 
               />
-              <Text style={styles.category}>Warehouse: {item?.amount}</Text>
+              <Text style={styles.category}>Warehouse: {data?.amount}</Text>
             </View>
           </View>
 
