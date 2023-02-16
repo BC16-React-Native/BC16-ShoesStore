@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 import { heightScreen, widthScreen } from '../../utility'
@@ -34,7 +34,7 @@ export default Category
 
 const styles = StyleSheet.create({
     text:{
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontSize: 14,
         color: 'black',
         marginHorizontal: widthScreen * 0.02,

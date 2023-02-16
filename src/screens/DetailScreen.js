@@ -165,7 +165,7 @@ const DetailScreen = ({route}) => {
       <View style={styles.bottomDetail}>
         <View>
           <Text style={{
-            fontFamily: 'SF-Pro',
+            fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
             fontWeight: '500',
             fontSize: 18,
             lineHeight: 20,
@@ -174,7 +174,7 @@ const DetailScreen = ({route}) => {
             Price
           </Text>
           <Text style ={{
-            fontFamily: 'SF-Pro',
+            fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
             fontWeight: '700',
             fontSize: 20,
             lineHeight: 24,
@@ -186,7 +186,7 @@ const DetailScreen = ({route}) => {
         </View>
             <TouchableOpacity style={styles.buttonAdd} onPress={Add_Cart}>
               <Text style={{
-                fontFamily: 'SF-Pro',
+                fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
                 fontWeight: '700',
                 fontSize: 18,
                 lineHeight: 22,
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
 
     },
     name:{
-      fontFamily: 'SF-Pro',
+      fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
       fontWeight: '700',
       fontSize: 24,
       lineHeight: 28,
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
       marginTop: heightScreen * 0.0257,
     },
     price:{
-      fontFamily: 'SF-Pro',
+      fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
       fontWeight: '600',
       fontSize: 20,
       lineHeight: 24,
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
       marginVertical: heightScreen * 0.015,
     },
     detail: {
-      fontFamily: 'SF-Pro',
+      fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
       fontWeight: '400',
       fontSize: 14,
       lineHeight: 22,
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
       width: '86%',
     },
     category: {
-      fontFamily: 'SF-Pro',
+      fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
       fontWeight: '400',
       fontSize: 14,
       lineHeight: 16,
@@ -280,14 +280,14 @@ const styles = StyleSheet.create({
       paddingHorizontal: widthScreen * 0.05
     },
     recommend: {
-      fontFamily: 'SF-Pro',
+      fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
       fontWeight: '700',
       fontSize: 16,
       lineHeight: 24,
       color: '#1A2530',
     },
     see_all:{
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontStyle: 'italic',
         fontWeight: '400',
         fontSize: 13,

@@ -27,7 +27,7 @@ export default Description;
 
 const styles = StyleSheet.create({
     detail: {
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '400',
         fontSize: 14,
         lineHeight: 22,
