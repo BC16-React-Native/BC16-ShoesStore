@@ -8,7 +8,6 @@ const GettingStarted = () => {
     <View>
       <Slider />
     </View>
-
   )
 }
 

@@ -42,6 +42,7 @@ export const get_ProductID = (setData, id) => {
 
     function onResult(QuerySnapshot) {
         // console.log('Got products collection result.');
+
         setData({...QuerySnapshot.data() , id: QuerySnapshot.id});
     }
       
@@ -49,6 +50,7 @@ export const get_ProductID = (setData, id) => {
         console.error(error);
     }
   };
+
 
 export const get_Products_categoryID =  (setData, id) => {
     // console.log(req.params.id);
@@ -61,6 +63,25 @@ export const get_Products_categoryID =  (setData, id) => {
         allEntries = [];
         QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
         // console.log('Got products collection result.');
+        setData(allEntries);
+    }
+      
+    function onError(error) {
+        console.error(error);
+    }
+}
+
+export const get_Products_name =  (setData, name) => {
+    // console.log(req.params.name);
+    let allEntries = [];
+
+    const queryRef = firestore().collection('products');
+    const query =  queryRef.where('name', '==', name).onSnapshot(onResult, onError);
+
+    function onResult(QuerySnapshot) {
+        allEntries = [];
+        QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
+        console.log('Got products collection result.');
         setData(allEntries);
     }
       

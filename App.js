@@ -11,12 +11,12 @@ import HomeScreen from './src/screens/HomeScreen';
 import SignInScreen from './src/screens/SignInScreen';
 import { get_AllProducts } from './src/api/controller/products/getProducts';
 import SignUpScreen from './src/screens/SignUpScreen';
+
 import GettingStarted from './src/screens/GettingStarted';
 import { storeData, getData } from './src/Storage/AsyncStorageHelper';
 import ForgotScreen from './src/screens/ForgotScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
-import SearchScreen from './src/screens/SearchScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLauch } from './src/redux/features/state/stateSlice';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -28,6 +28,10 @@ import DetailScreen from './src/screens/DetailScreen';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
+import SearchScreen from './src/screens/SearchScreen';
+import ResultScreen from './src/screens/ResultScreen';
+import FavoriteScreen from './src/screens/FavoriteScreen';
+import MyCartScreen from './src/screens/MyCartScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -76,6 +80,7 @@ const App = () => {
 
   // console.log('lauch',lauch)
   // console.log('authenticated',authenticated)
+
 
   if (loading) return null;
   console.log('lauch 2',lauch)
