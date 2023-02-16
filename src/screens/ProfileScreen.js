@@ -1,12 +1,11 @@
-import { Animated, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View, ScrollView, Keyboard, TouchableOpacity } from 'react-native'
+import { Animated, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View, ScrollView, Keyboard,Image, TouchableOpacity } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import auth from "@react-native-firebase/auth"
 import FieldButton from '../components/FieldButton'
-import { heightScreen, widthScreen, ORANGE_DARK, BLUE_DARK } from '../utility'
+import { heightScreen, widthScreen } from '../utility'
 import { useNavigation } from '@react-navigation/native'
 import FieldTextInput from '../components/FieldTextInput'
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Image } from 'react-native'
 
 const ProfileScreen = () => {
   
@@ -47,9 +46,6 @@ const ProfileScreen = () => {
         return(
             <Animated.View style = {[styles.containerHeader, {marginTop: headerMotion}]}>
               <Text style={styles.textProfile}>Profile</Text>
-              <TouchableOpacity onPress={()=>console.log('press button back')} style={styles.buttonBack}>
-                <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack}/>
-              </TouchableOpacity> 
               <TouchableOpacity onPress={()=>navigation.navigate('Settings')} style={styles.buttonSettings}>
                 <Icon name='settings-outline' color={'black'} size={30} style={styles.iconBack}/>
               </TouchableOpacity> 
@@ -143,8 +139,7 @@ const ProfileScreen = () => {
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
           <ScrollView>
             <Header/>
-            <Body>
-            </Body>
+            <Body />
           </ScrollView>
         </KeyboardAvoidingView>
         </SafeAreaView>
@@ -181,16 +176,6 @@ containerBody: {
     height : heightScreen ,
     paddingHorizontal: widthScreen * 0.075,
     
-},
-buttonBack: {
-  position: 'absolute',
-  width: widthScreen * 0.14,
-  height: heightScreen * 0.067,
-  backgroundColor: 'white',
-  borderRadius: 40,
-  marginLeft: widthScreen * 0.05,
-  marginTop: heightScreen * 0.03,
-  justifyContent: 'center'
 },
 buttonSettings:{
   position: 'absolute',

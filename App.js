@@ -17,6 +17,9 @@ import ForgotScreen from './src/screens/ForgotScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import SearchScreen from './src/screens/SearchScreen';
+import ResultScreen from './src/screens/ResultScreen';
+import Favorite from './src/screens/FavoriteScreen';
+import MyCartScreen from './src/screens/MyCartScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -64,7 +67,11 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      {/* <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen}/> */}
+      <Stack.Screen options={{headerShown: false}} name="Favorite" component={Favorite}/>
+      <Stack.Screen options={{headerShown: false}} name="MyCart" component={MyCartScreen}/>
+      <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen}/>
+      <Stack.Screen options={{headerShown: false}} name="Result" component={ResultScreen}/>
+
       {!lauch? <Stack.Screen options={{headerShown: false}} name="Getting" component={GettingStarted}/>
       : <></>}
       {!authenticated ?(<>
