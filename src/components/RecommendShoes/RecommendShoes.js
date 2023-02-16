@@ -4,7 +4,7 @@ import ShoesBox from '../ShoesItem/ShoesBox'
 import { widthScreen } from '../../utility'
 
 const RecommendShoes = ({recommend}) => {
-    console.log('recommend')
+    // console.log('recommend')
   return (
     <FlatList
             data={recommend}

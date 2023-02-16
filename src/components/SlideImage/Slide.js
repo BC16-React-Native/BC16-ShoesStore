@@ -7,7 +7,7 @@ import RenderSlide from './RenderSlide';
 const Slide = ({ item }) => {
     const isCarousel = React.useRef(null);
     const [index, setIndex] = React.useState(0);
-    console.log("render"); // <== This will render only when props change (ie. the ref - which should not change, or you pass fresh data - in which case you want it to re-render)
+    // console.log("render"); // <== This will render only when props change (ie. the ref - which should not change, or you pass fresh data - in which case you want it to re-render)
     return (
         // <Carousel
         //     initialNumToRender={selectedItems.length}
@@ -42,7 +42,7 @@ const Slide = ({ item }) => {
             onBeforeSnapToItem={(index) => setIndex(index)}
         />
         <Pagination
-            dotsLength={item.length}
+            dotsLength={item?.length}
             activeDotIndex={index}
             carouselRef={isCarousel}
             dotStyle={{

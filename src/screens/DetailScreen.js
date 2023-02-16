@@ -1,23 +1,36 @@
-import { StyleSheet, Text, View, ScrollView, StatusBar, TouchableOpacity, Image, FlatList, Animated, TouchableOpacityBase } from 'react-native'
-import React, {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react'
+import { StyleSheet, Text, View, StatusBar, TouchableOpacity, Image, FlatList, } from 'react-native'
+import React, { useEffect, useLayoutEffect, useRef, useState} from 'react'
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import { useNavigation } from '@react-navigation/native'
 import { heightScreen, widthScreen } from '../utility'
 import { SafeAreaView } from 'react-native-safe-area-context'
-// import Carousel, {ParallaxImage, Pagination } from 'react-native-new-snap-carousel';
-import EvilIcons from "react-native-vector-icons/EvilIcons"
 import { get_Categories_byID } from '../api/controller/category/getCategories'
 import { get_ProductID, get_Products_categoryID, get_Products_new } from '../api/controller/products/getProducts'
-import ShoesBox from '../components/ShoesItem/ShoesBox'
-import  RenderSilde  from '../components/SlideImage/RenderSlide'
 import Slide from '../components/SlideImage/Slide'
-import Carousel from '../components/Carousel'
 import RecommendShoes from '../components/RecommendShoes/RecommendShoes'
 import Description from '../components/DescriptionShoes'
+import { showMessage, hideMessage } from "react-native-flash-message";
+import { addCart } from '../api/controller/cart/addToCart'
 
 const DetailScreen = ({route}) => {
   
   const item = route.params.item;
+  const Add_Cart = () => {
+    addCart(data);
+    showMessage({
+      message: "Success",
+      description: `${data?.name} is added to cart.`,
+      type: "success",
+      backgroundColor: "#5B9EE1", 
+      icon: "success",
+      style:{ 
+        alignItems: 'center',
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+        paddingVertical: 20,
+      },
+    });
+  } 
   // console.log("Detail Screen",item);
   const image = item.images;
     const navigation = useNavigation();
@@ -162,7 +175,7 @@ const DetailScreen = ({route}) => {
           </Text>
           <Text style ={{
             fontFamily: 'SF-Pro',
-            fontWeight: '7 00',
+            fontWeight: '700',
             fontSize: 20,
             lineHeight: 24,
             color: '#1A2530',
@@ -171,7 +184,7 @@ const DetailScreen = ({route}) => {
             $ {item.prices}
           </Text>
         </View>
-            <TouchableOpacity style={styles.buttonAdd}>
+            <TouchableOpacity style={styles.buttonAdd} onPress={Add_Cart}>
               <Text style={{
                 fontFamily: 'SF-Pro',
                 fontWeight: '700',
