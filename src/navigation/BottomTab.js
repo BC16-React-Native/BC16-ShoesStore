@@ -92,13 +92,14 @@ import Icon, { Icons } from '../utility/icons/index';
 import * as Animatable from 'react-native-animatable';
 import { heightScreen, widthScreen } from '../utility';
 import Home from './HomeNavigator/Home';
+import MyCartScreen from '../screens/MyCartScreen';
 
 
 
 const TabArr = [
   { route: 'Home', label: 'Home', type: Icons.Feather, icon: 'home', component: Home },
   { route: 'Favorite', label: 'Favorite', type: Icons.Feather, icon: 'heart', component: FavoriteScreen },
-  { route: 'Order', label: 'Order', type: Icons.Feather, icon: 'shopping-bag', component: OrderScreen },
+  { route: 'Order', label: 'Order', type: Icons.Feather, icon: 'shopping-bag', component: MyCartScreen },
   { route: 'Profile', label: 'Profile', type: Icons.FontAwesome, icon: 'user-o', component: ProfileScreen },
 ];
 

@@ -1,13 +1,9 @@
 import firestore from '@react-native-firebase/firestore';
 const getProducts_id = (id) => {
     const query = firestore().collection('products').doc(id).get();
-
-
     return query;
-}
-
-
-export const get_Favorite_userID =  (setData, id) => {
+ }
+ export const get_Favorite_userID = (setData, id) => {
         // console.log(req.params.id)
    
     const queryRef = firestore().collection('favorite');

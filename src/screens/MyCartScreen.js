@@ -4,19 +4,13 @@ import { heightScreen, widthScreen } from '../utility'
 import Icon from 'react-native-vector-icons/Ionicons';
 import ShoesBoxMyCart from '../components/ShoesBoxMyCart';
 import { useNavigation } from '@react-navigation/native';
-import FieldButton from '../components/FieldButton';
-import { get_Cart_uID, get_Cart_userID, get_PriceCart_userID } from '../api/controller/cart/getCart';
+import auth from "@react-native-firebase/auth"
 
-
-const MyCartScreen = ({route}) => {
-    const {usid} = route.params
-    const [subprice, setSubprice] = useState()
+const MyCartScreen = () => {
+    // const {usid} = route.params
     const [pro, setPro] = useState()
     useEffect(() => {
-        get_Cart_uID(setPro,setSubprice, 'EYihLRbHq1eBm7gsCqhZcPHVesJ2');
-        console.log(pro);
-        // get_PriceCart_userID(setSubprice, usid);
-        // get_Cart_userID(setPro, 'SuFetFTdc3jAGTSnrDoE');
+        get_Favorite_userID(setPro, auth().currentUser.uid);
     }, [])
     const navigation = useNavigation()
     const subTotal = (list) =>{
@@ -29,9 +23,9 @@ const MyCartScreen = ({route}) => {
     }
     console.log(subTotal(pro));
     return (
-        <View style={styles.containerHeader}>
-            <Text style={styles.textSearch}>MyCart</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Favorite', {usid:'EYihLRbHq1eBm7gsCqhZcPHVesJ2'})} style={styles.buttonBack}>
+        <View style={styles.containerHeader} onTouchStart = {console.log('em')}>
+            <Text style={styles.textSearch}>My Cart</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('BottomTab')} style={styles.buttonBack}>
                 <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack} />
             </TouchableOpacity>
             <FlatList
