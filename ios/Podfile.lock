@@ -807,7 +807,7 @@ PODS:
   - Libuv-gRPC/Implementation (0.0.10):
     - Libuv-gRPC/Interface (= 0.0.10)
   - Libuv-gRPC/Interface (0.0.10)
-  - lottie-ios (3.4.0)
+  - lottie-ios (3.4.1)
   - lottie-react-native (5.1.5):
     - lottie-ios (~> 3.4.0)
     - React-Core
@@ -1127,19 +1127,19 @@ PODS:
     - React-perflogger (= 0.71.1)
   - RNCAsyncStorage (1.17.11):
     - React-Core
-  - RNFBApp (17.1.0):
+  - RNFBApp (17.2.0):
     - Firebase/CoreOnly (= 10.5.0)
     - React-Core
-  - RNFBAuth (17.1.0):
+  - RNFBAuth (17.2.0):
     - Firebase/Auth (= 10.5.0)
     - React-Core
     - RNFBApp
-  - RNFBFirestore (17.1.0):
+  - RNFBFirestore (17.2.0):
     - Firebase/Firestore (= 10.5.0)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - React-Core
     - RNFBApp
-  - RNFBStorage (17.1.0):
+  - RNFBStorage (17.2.0):
     - Firebase/Storage (= 10.5.0)
     - React-Core
     - RNFBApp
@@ -1404,7 +1404,7 @@ SPEC CHECKSUMS:
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
-  lottie-ios: 69495122151a378fdc7d1bb4c5930347e37baf1f
+  lottie-ios: 016449b5d8be0c3dcbcfa0a9988469999cd04c5d
   lottie-react-native: 3e722c63015fdb9c27638b0a77969fc412067c18
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
@@ -1438,10 +1438,10 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 311feb67600774723fe10eb8801d3138cae9ad67
   ReactCommon: fa9f2604824fa93b3504e8c1cd2670fc58e1d2df
   RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
-  RNFBApp: 360ea009d4fc306f62e3eb899cb7c922901db7f3
-  RNFBAuth: d9de58fd17e81286ddf7c2bb65292d3803de9a16
-  RNFBFirestore: 98cdeaa42da363488756bc64b078a19493df730f
-  RNFBStorage: 4a536005e2a7279eaa7304325c5703d8f4810a66
+  RNFBApp: 4f8ea53443d52c7db793234d2398a357fc6cfbf1
+  RNFBAuth: 493fb29e48f138d448c8db01ecc566fe9c32e6b8
+  RNFBFirestore: 4a1b6cf7f262824ffa93780341b68be6f38079ab
+  RNFBStorage: 4a8007d8d92b13893621e3e5fe6fef9a61995f1c
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   RNImageCropPicker: 14fe1c29298fb4018f3186f455c475ab107da332
   RNReanimated: cc5e3aa479cb9170bcccf8204291a6950a3be128

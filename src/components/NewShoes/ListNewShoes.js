@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     },
     title:{
         color: '#000',
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontSize: 18,
         fontWeight: '700',
     },

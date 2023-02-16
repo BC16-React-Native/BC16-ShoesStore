@@ -42,7 +42,7 @@ const Slide = ({ item }) => {
             onBeforeSnapToItem={(index) => setIndex(index)}
         />
         <Pagination
-            dotsLength={item.length}
+            dotsLength={item?.length}
             activeDotIndex={index}
             carouselRef={isCarousel}
             dotStyle={{

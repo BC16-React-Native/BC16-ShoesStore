@@ -48,14 +48,14 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     price :{
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '700',
         fontSize: 16,
         lineHeight: heightScreen * 0.03,
         color: '#1A2530',
     },
     name:{
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '700',
         fontSize: 20,
         lineHeight: heightScreen * 0.03,

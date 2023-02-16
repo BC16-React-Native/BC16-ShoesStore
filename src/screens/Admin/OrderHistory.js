@@ -5,7 +5,7 @@ import auth from '@react-native-firebase/auth';
 import MaterialCommunityIcons from'react-native-vector-icons/MaterialCommunityIcons'
 import  { heightScreen, widthScreen } from '../../utility'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { getFirstProductInOrders, getOrder_status_deliveried, getOrder_status_deliveried_img, getProduct_id } from '../../api/controller/orders/getOrders';
 import ProductCart from '../../components/Admin/ProductCart';
 
@@ -18,9 +18,16 @@ const OrderHistory = () => {
       // getOrder_status_deliveried(setData)
       getFirstProductInOrders(setData);
   },[])
-
+  const Header = () => {
+    return(
+        <View style={styles.containerHeader}>
+          <Text style={styles.textProfile}>Order History</Text>
+        </View>
+    )
+}
   return (
     <SafeAreaView style = {styles.container}>
+    <Header/>
     <FlatList
       style={styles.containerfl} 
       // contentContainerStyle={styles.listContainer}
@@ -47,6 +54,7 @@ const styles = StyleSheet.create({
     height: heightScreen,
     width: widthScreen,
     backgroundColor: '#F8F9FA',
+    paddingBottom: heightScreen * 0.08
   },
   avt: {
     width: 60,
@@ -57,6 +65,19 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginLeft: widthScreen * 0.08
   },
+  containerHeader: {
+    height : heightScreen * 0.07,
+    width: widthScreen,
+    // borderWidth:1
+},
+textProfile:{
+  position: 'absolute',
+  fontSize: 16,
+  marginTop: heightScreen * 0.02,
+  fontWeight: 'bold',
+  alignSelf: 'center',
+  color: '#1A2530'
+},
   titletxt:{
     position:'absolute',
     marginTop: heightScreen * 0.08,
@@ -72,7 +93,7 @@ const styles = StyleSheet.create({
     color: '#5B9EE1',
   },
   containerfl:{
-    // backgroundColor: 'red'
+    height: heightScreen * 1
   }
 
 })

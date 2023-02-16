@@ -127,7 +127,6 @@ const TabButton = (props) => {
       textRef.current.transitionTo({ scale: 0 });
     }
   }, [focused])
-
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -166,7 +165,7 @@ export default function AnimTab1() {
           <Tab.Screen key={index} name={item.route} component={item.component}
             options={{
               tabBarShowLabel: false,
-              tabBarButton: (props) => <TabButton {...props} item={item} />
+              tabBarButton: (props) => <TabButton {...props} item={item} />,
             }}
           />
         )

@@ -21,6 +21,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLauch } from './src/redux/features/state/stateSlice';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import DetailScreen from './src/screens/DetailScreen';
+import OrderDetail from './src/screens/Admin/OrderDetail';
+import ProductDetail from './src/screens/Admin/ProductDetail';
 
 
 
@@ -112,6 +114,8 @@ const App = () => {
         : (<>
           <Stack.Screen options = {{headerShown: false}} name="BottomTabAdmin" component={BottomTabAdmin} /> 
           <Stack.Screen options={{headerShown: false}} name="Settings" component={SettingsScreen}/>
+          <Stack.Screen options={{headerShown: false}} name="OrderDetail" component={OrderDetail}/>
+          <Stack.Screen options={{headerShown: false}} name="ProductDetail" component={ProductDetail}/>
           </>)
         }
       

@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     height: heightScreen,
     width: widthScreen,
     backgroundColor: '#F8F9FA',
+    marginBottom: heightScreen * 0.09
   },
   avt: {
     width: 60,

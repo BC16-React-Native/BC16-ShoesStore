@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux'
 import { setRole } from '../redux/features/auth/authSlice'
 import firestore from '@react-native-firebase/firestore'
 import storage from '@react-native-firebase/storage'
+import Loader from '../components/Auth/Loader'
 
 const ProfileScreen = () => {
   
@@ -53,8 +54,10 @@ const ProfileScreen = () => {
     const [image, setImage] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [transferred, setTransferred] = useState(0);
+    const [loading, setLoading] = useState(false);
 
   const handleUpdate = async () => {
+    setLoading(true)
     let imgUrl = await uploadImage();
 
     if( imgUrl == null && data?.image ) {
@@ -72,6 +75,7 @@ const ProfileScreen = () => {
       image: imgUrl,
     })
     .then(() => {
+      setLoading(true)
       console.log('User Updated!');
       Alert.alert(
         'Profile Updated!',
@@ -81,6 +85,11 @@ const ProfileScreen = () => {
   }
   const uploadImage = async () => {
     if( image == null ) {
+      Alert.alert(
+        'Opps!',
+        'Please choose your image.'
+      );
+      setLoading(false)
       return null;
     }
     const uploadUri = image;
@@ -312,6 +321,7 @@ const ProfileScreen = () => {
           </ScrollView>
         </KeyboardAvoidingView>
         </AnimatedLib.View>
+        <Loader visible={loading} />
         </SafeAreaView>
     )
 
