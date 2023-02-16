@@ -9,6 +9,11 @@ import HomeScreen from './src/screens/HomeScreen';
 import SignInScreen from './src/screens/SignInScreen';
 import { get_AllProducts } from './src/api/controller/products/getProducts';
 import SignUpScreen from './src/screens/SignUpScreen';
+import SearchScreen from './src/screens/SearchScreen';
+import ResultScreen from './src/screens/ResultScreen';
+import FavoriteScreen from './src/screens/FavoriteScreen';
+import MyCartScreen from './src/screens/MyCartScreen';
+
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -27,23 +32,26 @@ const App = () => {
     });
   }, []);
 
-  const getProductsAPi = async () => {
-    // const result = await getJobs(dispatch);
-    const result = await get_AllProducts();
-    setData(result);
-  }
+  // const getProductsAPi = async () => {
+  //   // const result = await getJobs(dispatch);
+  //   const result = await get_AllProducts();
+  //   setData(result);
+  // }
   useEffect(() => {
     Platform.OS === 'ios'? null: SplashScreen.hide();
   }, [])
-  useEffect(() => {
-    getProductsAPi();
-  }, []);
-  console.log(data);
+  // useEffect(() => {
+  //   getProductsAPi();
+  // }, []);
+  // console.log(data);
   if (loading) return null;
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      
+      <Stack.Screen options={{headerShown: false}} name="Favorite" component={FavoriteScreen} />
+      <Stack.Screen options={{headerShown: false}} name="MyCart" component={MyCartScreen} />
+      <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen} />
+      <Stack.Screen options={{headerShown: false}} name="Result" component={ResultScreen} />
       {!authenticated ?(<><Stack.Screen options={{headerShown: false}} name="SignIn" component={SignInScreen} />
       <Stack.Screen options={{headerShown: false}} name="SignUp" component={SignUpScreen} /></>)
         :(<>
