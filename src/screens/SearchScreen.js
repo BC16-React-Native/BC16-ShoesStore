@@ -1,4 +1,3 @@
-
 import { Animated, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View, ScrollView, Keyboard,Image, TouchableOpacity, TextInput } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import auth from "@react-native-firebase/auth"
@@ -85,9 +84,6 @@ const SearchScreen = () => {
        </SafeAreaView>
    )
 
-
-
-
 }
 
 
@@ -171,4 +167,3 @@ input:{
 
 
 })
-

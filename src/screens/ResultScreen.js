@@ -47,10 +47,9 @@ const ResultScreen = ({ route }) => {
         />}
 
       </SafeAreaView>
-    </View>
+      </View>
   )
-}
-
+  }
 export default ResultScreen
 
 const styles = StyleSheet.create({

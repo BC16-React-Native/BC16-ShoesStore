@@ -32,7 +32,7 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
 
 import SearchScreen from './src/screens/SearchScreen';
 import ResultScreen from './src/screens/ResultScreen';
-import FavoriteScreen from './src/screens/FavoriteScreen';
+import Favorite from './src/screens/FavoriteScreen';
 import MyCartScreen from './src/screens/MyCartScreen';
 
 const Stack = createNativeStackNavigator();
@@ -91,7 +91,13 @@ const App = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
     <NavigationContainer>
       <Stack.Navigator>
-      {/* <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen}/> */}
+      <Stack.Screen options={{headerShown: false}} name="Favorite" component={Favorite}/>
+      <Stack.Screen options={{headerShown: false}} name="MyCart" component={MyCartScreen}/>
+      <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen}/>
+      <Stack.Screen options={{headerShown: false}} name="Result" component={ResultScreen}/>
+
+      {!lauch? <Stack.Screen options={{headerShown: false}} name="Getting" component={GettingStarted}/>
+      : <></>}
       {!authenticated ?(<>
         {!lauch? <Stack.Screen options={{headerShown: false}} name="Getting" component={GettingStarted}/>
         : <></>}

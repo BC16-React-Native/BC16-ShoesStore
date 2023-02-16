@@ -18,7 +18,7 @@ const SettingsScreen = () => {
         return(
             <View style={styles.containerHeader}>
               <Text style={styles.textProfile}>Settings</Text>
-              <TouchableOpacity onPress={()=>navigation.navigate('Profile')} style={styles.buttonBack}>
+              <TouchableOpacity onPress={()=>navigation.navigate('BottomTab')} style={styles.buttonBack}>
                 <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack}/>
               </TouchableOpacity> 
             </View>

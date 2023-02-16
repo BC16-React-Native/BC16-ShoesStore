@@ -1,25 +1,42 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+
+import React, { useEffect, useState } from 'react'
+
 import { heightScreen, widthScreen } from '../utility/index'
 import Feather from "react-native-vector-icons/Feather"
 
 
+
+
 const ShoesBoxMyCart = ({ item }) => {
     const [nums, setNums] = useState(1);
+    useEffect(() => {
+      setNums(item?.quantity);
+    }, [])
+    
     return (
         <TouchableOpacity style={styles.container} onPress={() => { console.log('go to detail') }}>
             <Image
                 style={styles.image}
                 source={{
-                    uri: item?.images[0] 
+                    uri: item?.images[0]
                 }}
             />
             <View style={{ marginVertical: heightScreen * 0.02, justifyContent: 'space-evenly', marginHorizontal: widthScreen*0.02 }}>
                 <Text numberOfLines={1} style={styles.name}>{item.name}</Text>
                 <Text style={styles.price}>${item.prices}</Text>
-                <View style={{ flexDirection: 'row', width: widthScreen * 0.2, justifyContent: 'space-between' }}>
-                    <TouchableOpacity onPress={()=>setNums(nums-1)} style={{ height: 25, width: 25, borderRadius: 25 / 2, backgroundColor: '#F8F9FA', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ fontSize:15, }}>-</Text></TouchableOpacity>
+
+                <View style={{ 
+                        flexDirection: 'row', 
+                        width: widthScreen * 0.2, 
+                        justifyContent: 'space-between' ,
+                        
+                    }}>
+                    <TouchableOpacity 
+                        onPress={()=>setNums(nums-1)} 
+                        style={{ height: 25, width: 25, borderRadius: 25 / 2, backgroundColor: '#F8F9FA', justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ fontSize:15, }}>-</Text>
+                    </TouchableOpacity>
                     <Text>{nums}</Text>
                     <TouchableOpacity onPress={()=>setNums(nums+1)} style={{ height: 25, width: 25, borderRadius: 25 / 2, backgroundColor: '#5B9EE1', justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={{fontSize:15, color: 'white' }}>+</Text></TouchableOpacity>
@@ -35,7 +52,12 @@ const ShoesBoxMyCart = ({ item }) => {
 }
 
 
+
+
+
 export default ShoesBoxMyCart
+
+
 
 
 const styles = StyleSheet.create({
@@ -48,13 +70,12 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         alignSelf: 'center',
-        paddingVertical: heightScreen * 0.01,
+
         paddingHorizontal: widthScreen * 0.02,
         borderRadius: 20,
-        marginTop: heightScreen * 0.15,
+        marginTop: heightScreen * 0.03,
         width: widthScreen * 0.9,
         flexDirection: 'row',
-
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -62,8 +83,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-
-
         elevation: 3,
     },
     title: {
@@ -71,18 +90,19 @@ const styles = StyleSheet.create({
         marginVertical: heightScreen * 0.006
     },
     name: {
-        fontFamily: 'SF Pro',
-        fontWeight: 700,
+        fontFamily: 'SF-Pro',
+        fontWeight: '700',
         fontSize: 16,
         lineHeight: 20,
         color: '#1A2530',
         width: widthScreen * 0.3768,
         // maxHeight: 38,
 
+
     },
     price: {
-        fontFamily: 'SF Pro',
-        fontWeight: 700,
+        fontFamily: 'SF-Pro',
+        fontWeight: '700',
         fontSize: 14,
         lineHeight: 16,
         color: '#1A2530',

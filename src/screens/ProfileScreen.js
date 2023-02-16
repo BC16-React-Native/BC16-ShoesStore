@@ -1,3 +1,4 @@
+
 import { Image,KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View, ScrollView, Keyboard, TouchableOpacity, Platform, Alert, Animated } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import auth from "@react-native-firebase/auth"
@@ -355,24 +356,6 @@ containerBody: {
     height : heightScreen ,
     paddingHorizontal: widthScreen * 0.075,
     
-},
-buttonBack: {
-  position: 'absolute',
-  width: widthScreen * 0.14,
-  height: heightScreen * 0.067,
-  backgroundColor: 'white',
-  borderRadius: 40,
-  marginLeft: widthScreen * 0.05,
-  justifyContent: 'center',
-  shadowColor: "#000",
-  shadowOffset: {
-      width: 0,
-      height: heightScreen * 0.001,
-  },
-  shadowOpacity: 0.23,
-  shadowRadius: 2.62,
-
-  elevation: 4,
 },
 buttonSettings:{
   position: 'absolute',
