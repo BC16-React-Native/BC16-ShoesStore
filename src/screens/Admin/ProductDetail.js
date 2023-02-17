@@ -1,4 +1,4 @@
-import { Keyboard,View,StyleSheet, Text, TouchableOpacity, Image, Animated, KeyboardAvoidingView, ScrollView} from 'react-native'
+import { Keyboard,View,StyleSheet, Text, TouchableOpacity, Image, Animated, KeyboardAvoidingView, ScrollView, FlatList, Alert} from 'react-native'
 import React, { useEffect, useLayoutEffect, useRef, useState} from 'react'
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import { useNavigation } from '@react-navigation/native'
@@ -12,12 +12,18 @@ import AnimatedLib from 'react-native-reanimated'
 import FieldTextInput from '../../components/Auth/FieldTextInput';
 import FieldButton from '../../components/Auth/FieldButton';
 import Loader from '../../components/Auth/Loader';
+import firestore from '@react-native-firebase/firestore'
+import DropDownPicker from 'react-native-dropdown-picker';
 // import Carousel, {ParallaxImage, Pagination } from 'react-native-new-snap-carousel';
 
 const DetailScreen = ({route}) => {
   
-  const item = route.params.item;
-  // console.log("Detail Screen",item);
+  const [item,setItem] = useState(route.params.item);
+  const [categories, setCategories] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(item?.categoryid);
+  console.log("value",value);
+  console.log('item', item);
     const navigation = useNavigation();
     useLayoutEffect(() => { 
         navigation.setOptions({ 
@@ -38,11 +44,18 @@ const DetailScreen = ({route}) => {
           ), 
         }) 
       }, []);
-      const [data, setData] = useState();
-
-
-
-
+      const fetchCategories = async () => {
+        const categoriesSnapshot = await firestore().collection('category').get();
+        const categoriesList = categoriesSnapshot.docs.map(doc => ({ label: doc.data().name, value: doc.id }));
+        setCategories(categoriesList);
+      }
+      useEffect(() => {
+        fetchCategories();
+      }, []);
+      const handleCategoryChange = (value) => {
+        setCategory(value);
+      }
+      console.log("categories",categories)
       const headerMotion = useRef(new Animated.Value(0)).current;
       const dispatch = useDispatch();
         // function handle animation 
@@ -78,94 +91,124 @@ const DetailScreen = ({route}) => {
         const [uploading, setUploading] = useState(false);
         const [transferred, setTransferred] = useState(0);
         const [loading, setLoading] = useState(false);
-    
-    //   const handleUpdate = async () => {
-    //     setLoading(true);
-    //     setEdit(!edit);
-    //     let imgUrl = await uploadImage();
-    
-    //     if( imgUrl == null && data?.image ) {
-    //       imgUrl = data?.userImg;
-    //     }
-    //     else {
-    //     }
-    
-    //     firestore()
-    //     .collection('users')
-    //     .doc(auth().currentUser.uid)
-    //     .update({
-    //       name: data.name,
-    //       email: auth().currentUser.email,
-    //       phone: data.phone,
-    //       address: data.address,
-    //       image: imgUrl,
-    //     })
-    //     .then(() => {
-    //       console.log('User Updated!');
-    //       setLoading(false);
-    //       Alert.alert(
-    //         'Profile Updated!',
-    //         'Your profile has been updated successfully.'
-    //       );
-    //     })
-    //     .catch(err => {console.log(err)})
-    //   }
-    //   const uploadImage = async () => {
-    //     if( image == null ) {
-    //       Alert.alert(
-    //         'Opps!',
-    //         'Please choose your image.'
-    //       );
-    //       setLoading(false)
-    //       return null;
-    //     }
-    //     const uploadUri = image;
-    //     let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
-    //     const extension = filename.split('.').pop(); 
-    //     const name = filename.split('.').slice(0, -1).join('.');
-    //     filename = name + Date.now() + '.' + extension;
-    //     setUploading(true);
-    //     setTransferred(0);
-    //     const storageRef = storage().ref(`userimg/${filename}`);
-    //     const task = storageRef.putFile(uploadUri);
-    
-    //     task.on('state_changed', (taskSnapshot) => {
-    //       console.log(
-    //         `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
-    //       );
-    
-    //       setTransferred(
-    //         Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-    //           100,
-    //       );
-    //     });
-    
-    //     try {
-    //       await task;
-    
-    //       const url = await storageRef.getDownloadURL();
-    
-    //       setUploading(false);
-    //       setImage(null);
-    //       return url;
-    
-    //     } catch (e) {
-    //       console.log(e);
-    //       return null;
-    //     }
-    
-    //   };
+        const handleUpdate = async () => {
+          setLoading(true);
+          // setEdit(!edit);
+          let imgUrls = await uploadImages();
+          if( imgUrls == null) {
+            firestore()
+            .collection('products')
+            .doc(item.id)
+            .update({
+              name: item.name,
+              amount: item.amount,
+              prices: item.prices,
+              categoryid: value,
+              info: item.info,
+              datecreate: new Date().toISOString(),
+            })
+            .then(() => {
+              console.log('Product Updated!');
+              setLoading(false);
+              Alert.alert(
+                'Product Updated!',
+                'Your product has been updated successfully.',
+              );
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+        else {
+          const newImages = {};
+          if (imgUrls) {
+            for (let i = 0; i < imgUrls.length; i++) {
+              newImages[`image${i}`] = imgUrls[i];
+            }
+          }
+          firestore()
+            .collection('products')
+            .doc(item.id)
+            .update({
+              name: item.name,
+              amount: item.amount,
+              categoryid: value,
+              datecreate: new Date.now().toUTCString(),
+              images: newImages,
+            })
+            .then(() => {
+              console.log('Product Updated!');
+              setLoading(false);
+              Alert.alert(
+                'Product Updated!',
+                'Your product has been updated successfully.',
+              );
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+          
+        };
+      const uploadImages = async () => {
+        if (!images || images.length === 0) {
+          return null;
+        }
+        else {
+          const urls = [];
+      
+        for (let i = 0; i < images.length; i++) {
+          const uploadUri = images[i];
+          let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+          const extension = filename.split('.').pop();
+          const name = filename.split('.').slice(0, -1).join('.');
+          filename = name + Date.now() + '.' + extension;
+          setUploading(true);
+          setTransferred(0);
+          const storageRef = storage().ref(`productimgs/${filename}`);
+          const task = storageRef.putFile(uploadUri);
+      
+          task.on('state_changed', (taskSnapshot) => {
+            console.log(
+              `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+            );
+      
+            setTransferred(
+              Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 100,
+            );
+          });
+      
+          try {
+            await task;
+      
+            const url = await storageRef.getDownloadURL();
+      
+            urls.push(url);
+          } catch (e) {
+            console.log(e);
+            return null;
+          }
+        }
+      
+        setUploading(false);
+        setImages(null);
+      
+        return urls;
+        }
+        
+      };
     
       const takePhotoFromCamera = () => {
         ImagePicker.openCamera({
           compressImageMaxWidth: 300,
           compressImageMaxHeight: 300,
           cropping: true,
+          multiple: true,
           compressImageQuality: 0.7,
         }).then((image) => {
           console.log(image);
           const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
-          setImage(imageUri);
+          setImages(imageUri);
           this.bs.current.snapTo(1);
         });
       };
@@ -221,6 +264,7 @@ const DetailScreen = ({route}) => {
           </View>
         );
 
+
   return (
     <SafeAreaView style= {styles.container}>
         <BottomSheet
@@ -240,54 +284,98 @@ const DetailScreen = ({route}) => {
         }}>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
           <ScrollView>
-            {/* <Header/>
-            <Body/> */}
             <Animated.View style = {[styles.containerHeader, {marginTop: headerMotion}]}>
               <Text style={styles.textProfile}>Update Product</Text>
               <View style = {styles.containerImg}>
-              {images?.map((image) => (
-                <Image key={image.path} source={{ uri: image.path }} style={{ width: 100, height: 100, borderRadius: 60/ 2, marginHorizontal: widthScreen * 0.01}} />
-                ))}
-                </View>
-                {/*<Image 
-                source={{
-                  uri: image
-                    ? image
-                    : 'https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
-                }} 
-                style={{width: 100, height: 100, borderRadius: 70/ 2}} 
-              /> */}
-              <TouchableOpacity onPress={() => bs.current.snapTo(0)} style={styles.buttonCamera}>
+                <FlatList
+                  data={item?.images}
+                  // horizontal={false}
+                  showsVerticalScrollIndicator={false}
+                  showsHorizontalScrollIndicator={false}
+                  horizontal
+                  renderItem={({item,index}) => <View
+                  style = {{
+                    backgroundColor:'#F8F9FA',
+                    shadowColor: "#000",
+                    shadowOffset: {
+                    width: 0,
+                    height: heightScreen * 0.001,
+                    },
+                    shadowOpacity: 0.23,
+                    shadowRadius: 2.62,
+              
+                    elevation: 4,
+                    marginHorizontal: widthScreen * 0.01,
+                    borderRadius: 20
+                  }}
+      
+                  ><Image 
+                      source={{ uri: item }} 
+                      style={{ width: 100, height: 100, borderRadius: 60/ 2, marginHorizontal: widthScreen * 0.01}} />
+                      <TouchableOpacity onPress={() => {
+                            const newImages = images.filter((img) => img !== item);
+                            setImages(newImages);
+                      }} style={styles.buttonDel}>
+                        <Icon name='close-circle' color={'red'} size={20} style={styles.iconBack}/>
+                  </TouchableOpacity></View>
+                  }
+                  keyExtractor={item => item.id}
+                />
+                <TouchableOpacity onPress={() => bs.current.snapTo(0)} style={styles.buttonCamera1}>
                 <Icon name='camera-outline' color={'white'} size={20} style={styles.iconBack}/>
-              </TouchableOpacity> 
+                </TouchableOpacity> 
+                </View>
             </Animated.View>
 
             <View style={styles.containerBody}>
-              <Text style={{fontSize:20, alignSelf: 'center', fontWeight: 'bold', marginTop: heightScreen * -0.05}}>{data?.name}</Text>
+              <Text style={{fontSize:22, alignSelf: 'center', fontWeight: 'bold', marginTop: heightScreen * -0.01, textAlign:'center', lineHeight:32}}>{item?.name}</Text>
                 {/* Text input Name*/}
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Name'}
-                onChangeText={(txt) => setData({...data, name: txt})}
-                value={data?.name}
+                onChangeText={(txt) => setItem({...item, name: txt})}
+                value={item?.name}
                 onSubmitEditing={Keyboard.dismiss}
                 stylesTitle={{fontWeight: 'bold'}}
                 />
-                <FieldTextInput  
-                stylesContainer={{marginVertical:heightScreen * 0.01}}
-                title={'Category'}
-                onChangeText={(txt) => setData({...data, email: txt})}
-                value={data?.email}
-                editable={false}
-                onSubmitEditing={Keyboard.dismiss}
-                stylesTitle={{fontWeight: 'bold'}}
+                <Text 
+                  style={ [styles.titlecategory]}
+                >Category</Text>
+                <DropDownPicker
+                    title = {'Name'}
+                    open={open}
+                    // placehoder = {value}
+                    value={value}
+                    items={categories}
+                    setOpen={setOpen}
+                    setValue = {setValue}
+                    style= {styles.dropdown}
+                    dropDownContainerStyle={{borderWidth:0.2,
+                      backgroundColor: '#fafafa'
+                    }}
+                    itemStyle={{
+                    justifyContent: 'flex-start'
+                    }}
+                    listItemContainerStyle = {{
+                      borderRadius:20,
+                    }}
+                    labelStyle= {{paddingLeft: widthScreen * 0.02}}
                 />
+
                 {/* Text input Phone*/}
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Price'}
-                onChangeText={(txt) => setData({...data, phone: txt})}
-                value={data?.phone}
+                onChangeText={(txt) => setItem({...item, prices: Number(txt)})}
+                value={item?.prices.toString()}
+                onSubmitEditing={Keyboard.dismiss}
+                stylesTitle={{fontWeight: 'bold'}}
+                />
+                <FieldTextInput  
+                stylesContainer={{marginVertical:heightScreen * 0.01}}
+                title={'Amount'}
+                onChangeText={(txt) => setItem({...item, amount: Number(txt)})}
+                value={item?.amount.toString()}
                 onSubmitEditing={Keyboard.dismiss}
                 stylesTitle={{fontWeight: 'bold'}}
                 />
@@ -295,20 +383,24 @@ const DetailScreen = ({route}) => {
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Description'}
-                onChangeText={(txt) => setData({...data, address: txt})}
-                value={data?.address}
+                onChangeText={(txt) => setData({...item, info: txt})}
+                value={item?.info}
                 onSubmitEditing={Keyboard.dismiss}
                 stylesTitle={{fontWeight: 'bold'}}
-                /><FieldButton
-                title={'Create'}
+                />
+                <FieldButton
+                title={'Update'}
                 // stylesTitle={{color:"#5B9EE1"}}
-                onPress={()=>{}}
+                onPress={handleUpdate}
                 stylesContainer = {{ marginVertical:heightScreen * 0.02}}
                 />
+
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
+        
         </AnimatedLib.View>
+        
         <Loader visible={loading} />
         </SafeAreaView>
   )
@@ -343,7 +435,43 @@ const styles = StyleSheet.create({
         alignContent: "center",
         alignItems: "center",
         justifyContent: "center",
-        paddingTop: heightScreen * 0.08
+        paddingTop: heightScreen * 0.08,
+    },
+    titlecategory:{
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+      fontSize: 14,
+      paddingLeft: widthScreen *0.02,
+      marginVertical: heightScreen * 0.005,
+
+    },
+    dropdown:{
+      borderRadius:20, 
+      borderWidth:-1,
+      backgroundColor:"#FFFFFF",
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: heightScreen * 0.001,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+
+      elevation: 4,
+      marginVertical: heightScreen *0.01
+    },
+    viewnimg:{
+      marginLeft: heightScreen * 0.012,
+      position: "absolute",
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: heightScreen * 0.001,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+    
+      elevation: 4,
     },
     title: {
         fontSize: 28,
@@ -376,43 +504,6 @@ const styles = StyleSheet.create({
     
       elevation: 4,
     },
-    buttonSettings:{
-      position: 'absolute',
-      width: widthScreen * 0.14,
-      height: heightScreen * 0.067,
-      backgroundColor: 'white',
-      borderRadius: 40,
-      right: widthScreen * 0.05,
-      justifyContent: 'center',
-      shadowColor: "#000",
-      shadowOffset: {
-          width: 0,
-          height: heightScreen * 0.001,
-      },
-      shadowOpacity: 0.23,
-      shadowRadius: 2.62,
-    
-      elevation: 4,
-    },
-    buttonEdit:{
-      position: 'absolute',
-      width: widthScreen * 0.14,
-      height: heightScreen * 0.067,
-      backgroundColor: 'white',
-      borderRadius: 40,
-      right: widthScreen * 0.2,
-      justifyContent: 'center',
-      shadowColor: "#000",
-      shadowOffset: {
-          width: 0,
-          height: heightScreen * 0.001,
-      },
-      shadowOpacity: 0.23,
-      shadowRadius: 2.62,
-    
-      elevation: 4,
-    }
-    ,
     iconBack:{
       alignSelf: 'center'
     },
@@ -422,15 +513,32 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       color: '#1A2530',
       alignSelf: 'center',
+      marginTop: heightScreen * 0.02,
     },
-    buttonCamera:{
-      width: widthScreen * 0.07,
-      height: heightScreen * 0.033,
+    buttonCamera1:{
+      position: 'absolute',
+      width: widthScreen * 0.08,
+      height: heightScreen * 0.036,
       backgroundColor: '#5B9EE1',
+      borderRadius: 20,
+      top: heightScreen * 0.2,
+      justifyContent: 'center',
+    },
+    textAdd:{
+      position: 'absolute',
+      fontSize:20,
+      fontWeight: 'bold',
+      marginTop: heightScreen * 0.04,
+      textAlign: 'center',
+      marginLeft: widthScreen * 0.35
+    },
+    buttonDel:{
       borderRadius: 40,
       justifyContent: 'center',
       alignSelf: 'center',
-      marginTop: heightScreen * -0.015
+      position: 'absolute',
+      top: 0,
+      right: 0
     },
     panel: {
       padding: 20,

@@ -91,15 +91,9 @@ const App = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen options={{headerShown: false}} name="Favorite" component={Favorite}/>
-      <Stack.Screen options={{headerShown: false}} name="MyCart" component={MyCartScreen}/>
-      <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen}/>
-      <Stack.Screen options={{headerShown: false}} name="Result" component={ResultScreen}/>
-
-      {!lauch? <Stack.Screen options={{headerShown: false}} name="Getting" component={GettingStarted}/>
-      : <></>}
       {!authenticated ?(<>
         {!lauch? <Stack.Screen options={{headerShown: false}} name="Getting" component={GettingStarted}/>
+
         : <></>}
         <Stack.Screen options={{headerShown: false}} name="SignIn" component={SignInScreen} />
         <Stack.Screen options={{headerShown: false}} name="SignUp" component={SignUpScreen} />
@@ -108,6 +102,10 @@ const App = () => {
         :(<>
           {!roles ? (<>
           <Stack.Screen options = {{headerShown: false}} name="BottomTab" component={BottomTab}/>
+          <Stack.Screen options={{headerShown: false}} name="Favorite" component={Favorite}/>
+          <Stack.Screen options={{headerShown: false}} name="MyCart" component={MyCartScreen}/>
+          <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen}/>
+          <Stack.Screen options={{headerShown: false}} name="Result" component={ResultScreen}/>
           <Stack.Screen 
               options={{
                   // headerShown: false,

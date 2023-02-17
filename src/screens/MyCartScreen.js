@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import ShoesBoxMyCart from '../components/ShoesBoxMyCart';
 import { useNavigation } from '@react-navigation/native';
 import auth from "@react-native-firebase/auth"
+import FieldButton from '../components/Auth/FieldButton';
+import { get_Favorite_userID } from '../api/controller/favorite/getFavorite';
 
 const MyCartScreen = () => {
     // const {usid} = route.params
@@ -40,7 +42,7 @@ const MyCartScreen = () => {
         <View style={styles.view_checkout}>
             <View style={{flexDirection:'row', width: widthScreen*0.9, justifyContent: 'space-between', alignSelf: 'center', marginVertical: heightScreen*0.02}}>
                 <Text style={{color: '#707B81', fontSize: 16}}>Subtotal</Text>
-                <Text style={{color: 'black', fontSize: 18, fontWeight: 'bold',}}>$ {subprice}</Text>
+                <Text style={{color: 'black', fontSize: 18, fontWeight: 'bold',}}>$ {}</Text>
             </View>
             <View style={{flexDirection:'row', width: widthScreen*0.9, justifyContent: 'space-between', alignSelf: 'center', marginBottom: heightScreen*0.01}}>
                 <Text style={{color: '#707B81', fontSize: 16}}>Shipping</Text>

@@ -16,7 +16,15 @@ const ProductManage = ({
     const localDateString = date.toLocaleDateString("en-US", options);
     const navigation = useNavigation();
 return (
-    <TouchableOpacity style = {[styles.container, stylesContainer]}>
+    <TouchableOpacity style = {[styles.container, stylesContainer]}
+    onPress = {() =>navigation.push('ProductDetail' , {
+        // screen: 'Detail',
+        // params : {
+        //   item: item
+        // }
+        item: item
+      })}
+    >
     <View>
     <View style = {[styles.containerv1]}>
         <Text style = {[styles.titleid]}>{item.name.length > 25 ? `${item.name.slice(0,25)}...` : item.name}</Text>
