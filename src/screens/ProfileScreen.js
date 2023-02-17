@@ -41,6 +41,131 @@ const ProfileScreen = () => {
             hideSubscription.remove();
         }
     },[]);
+    const [data, setData] = useState();
+    const [image, setImage] = useState(null);
+    const [uploading, setUploading] = useState(false);
+    const [transferred, setTransferred] = useState(0);
+    const [loading, setLoading] = useState(false);
+
+  const handleUpdate = async () => {
+    setLoading(true)
+    let imgUrl = await uploadImage();
+
+    if( imgUrl == null && data?.image ) {
+      imgUrl = data?.userImg;
+    }
+
+    firestore()
+    .collection('users')
+    .doc(auth().currentUser.uid)
+    .update({
+      name: data.name,
+      email: auth().currentUser.email,
+      phone: data.phone,
+      address: data.address,
+      image: imgUrl,
+    })
+    .then(() => {
+      setLoading(false)
+      console.log('User Updated!');
+      Alert.alert(
+        'Profile Updated!',
+        'Your profile has been updated successfully.'
+      );
+    })
+    setImage(imgUrl);
+  }
+  const uploadImage = async () => {
+    // if( image == null ) {
+    //   Alert.alert(
+    //     'Opps!',
+    //     'Please choose your image.'
+    //   );
+    //   setLoading(false)
+    //   return null;
+    // }
+    const uploadUri = image;
+    let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+    const extension = filename.split('.').pop(); 
+    const name = filename.split('.').slice(0, -1).join('.');
+    filename = name + Date.now() + '.' + extension;
+    setUploading(true);
+    setTransferred(0);
+    const storageRef = storage().ref(`userimg/${filename}`);
+    const task = storageRef.putFile(uploadUri);
+
+    task.on('state_changed', (taskSnapshot) => {
+      console.log(
+        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+      );
+
+      setTransferred(
+        Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
+          100,
+      );
+    });
+
+    try {
+      await task;
+
+      const url = await storageRef.getDownloadURL();
+
+      setUploading(false);
+      setImage(null);
+      return url;
+
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+
+  };
+
+  const takePhotoFromCamera = () => {
+    ImagePicker.openCamera({
+      compressImageMaxWidth: 300,
+      compressImageMaxHeight: 300,
+      cropping: true,
+      compressImageQuality: 0.7,
+    }).then((image) => {
+      console.log(image);
+      const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+      setImage(imageUri);
+      this.bs.current.snapTo(1);
+    });
+  };
+
+  const choosePhotoFromLibrary = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+      compressImageQuality: 0.7,
+    }).then((image) => {
+      console.log(image);
+      const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+      setImage(imageUri);
+      this.bs.current.snapTo(1);
+    });
+  };
+
+  const getUser = async() => {
+    const currentUser = await firestore()
+    .collection('users')
+    .doc(auth().currentUser.uid)
+    .get()
+    .then((documentSnapshot) => {
+      if( documentSnapshot.exists ) {
+        setData(documentSnapshot.data());
+      }
+    })
+  }
+    useEffect(() => {
+      getUser();
+    },[])
+    useEffect(() => {
+      console.log('data',data);
+    },[data])
     
     const Header = () => {
         return(
@@ -53,7 +178,13 @@ const ProfileScreen = () => {
                 <Icon name='pencil' color={'black'} size={30} style={styles.iconBack}/>
               </TouchableOpacity> 
               <Image 
-                source={require('../assets/images/avtgerrard.png')}  
+                source={{
+                  uri: image
+                    ? image
+                    : data?.image
+                    ? data?.image
+                    : 'https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
+                }} 
                 style={{width: 100, height: 100, borderRadius: 100/ 2, alignSelf: 'center'}} 
               />
               <TouchableOpacity onPress={()=>console.log('press button Edit avatar')} style={styles.buttonCamera}>

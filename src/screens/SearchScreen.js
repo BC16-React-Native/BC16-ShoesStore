@@ -58,45 +58,42 @@ const SearchScreen = () => {
             </View>
         )
     }
-    
     const Body = () => {
-      
-        return (       
-            <View style={styles.containerBody}>
-                <Text style={{fontSize:18, color: '#1A2530', fontWeight: 'bold', marginBottom: heightScreen*0.02}}>Suggested</Text>
-                <SearchItem 
-                    nameicon={'hearto'}
-                    nameitem='Nike Air Pod 1'
-                />
-                <SearchItem 
-                    nameicon={'hearto'}
-                    nameitem='Nike Pro Max'
-                />
-                <SearchItem 
-                    nameicon={'hearto'}
-                    nameitem='Nike kì'
-                />
-                <Text style={{fontSize:18, color: '#1A2530', fontWeight: 'bold', marginBottom: heightScreen*0.02}}>History</Text>
-                <SearchItem 
-                    nameicon={'clockcircleo'}
-                    nameitem='Boot super'
-                />
-                <SearchItem 
-                    nameicon={'clockcircleo'}
-                    nameitem='Nice xu'
-                />
-                <SearchItem 
-                    nameicon={'clockcircleo'}
-                    nameitem='Boot rainy'
-                />
-                <SearchItem 
-                    nameicon={'clockcircleo'}
-                    nameitem='Scandal Bitis'
-                />
-            </View>
-        )
-    }
-
+       return (      
+           <View style={styles.containerBody}>
+               <Text style={styles.text}>Suggested</Text>
+               <SearchItem
+                   nameicon={'hearto'}
+                   nameitem='Air Jordan'
+               />
+               <SearchItem
+                   nameicon={'hearto'}
+                   nameitem='Boot Company'
+               />
+               <SearchItem
+                   nameicon={'hearto'}
+                   nameitem='Sandal Adidas'
+               />
+               <Text style={styles.text}>History</Text>
+               <SearchItem
+                   nameicon={'clockcircleo'}
+                   nameitem='Stan Smith'
+               />
+               <SearchItem
+                   nameicon={'clockcircleo'}
+                   nameitem='Nice xu'
+               />
+               <SearchItem
+                   nameicon={'clockcircleo'}
+                   nameitem='Boot rainy'
+               />
+               <SearchItem
+                   nameicon={'clockcircleo'}
+                   nameitem='Scandal Bitis'
+               />
+           </View>
+       )
+}
     return (
         <SafeAreaView style= {styles.container}>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
@@ -108,9 +105,7 @@ const SearchScreen = () => {
         </SafeAreaView>
     )
 
-
 }
-
 export default SearchScreen
 
 const styles = StyleSheet.create({
@@ -167,7 +162,13 @@ serachBar:{
     alignSelf: 'center'
 },
 input:{
-    marginLeft: widthScreen * 0.05,
+   marginLeft: widthScreen * 0.05,
+},
+text:{
+    fontSize:18, 
+    color: '#1A2530', 
+    fontWeight: 'bold', 
+    marginBottom: heightScreen*0.02
 }
 
 })

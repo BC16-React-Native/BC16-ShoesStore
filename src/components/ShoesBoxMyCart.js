@@ -2,27 +2,34 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../utility/index'
 import Feather from "react-native-vector-icons/Feather"
+import { deleteCart } from '../api/controller/cart/deleteCart'
+import { get_ProductID } from '../api/controller/products/getProducts'
 
 
 
 
 const ShoesBoxMyCart = ({ item }) => {
     const [nums, setNums] = useState(1);
+    const [data, setData] = useState();
     useEffect(() => {
       setNums(item?.quantity);
+      get_ProductID(setData, item?.productid);
     }, [])
-    
+    console.log(data);
     return (
         <TouchableOpacity style={styles.container} onPress={() => { console.log('go to detail') }}>
             <Image
                 style={styles.image}
                 source={{
-                    uri: item?.images[0]
+                    uri: data?.images[0]
                 }}
             />
             <View style={{ marginVertical: heightScreen * 0.02, justifyContent: 'space-evenly', marginHorizontal: widthScreen*0.02 }}>
                 <Text numberOfLines={1} style={styles.name}>{item.name}</Text>
                 <Text style={styles.price}>${item.prices}</Text>
+                <Text numberOfLines={1} style={styles.name}>{data?.name}</Text>
+                <Text style={styles.price}>${data?.prices}</Text>
+
                 <View style={{ 
                         flexDirection: 'row', 
                         width: widthScreen * 0.2, 
@@ -40,7 +47,7 @@ const ShoesBoxMyCart = ({ item }) => {
                 </View>
             </View>
             <TouchableOpacity style={styles.icon_delete}
-                onPress={()=>console.log('delete')}
+                onPress={()=>deleteCart(data?.id)}
             >
                 <Feather name="trash-2" size={22} color="#707B81" />
             </TouchableOpacity>
