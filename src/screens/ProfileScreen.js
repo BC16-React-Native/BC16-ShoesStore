@@ -78,6 +78,7 @@ const ProfileScreen = () => {
         'Your profile has been updated successfully.'
       );
     })
+    setImage(imgUrl);
   }
   const uploadImage = async () => {
     if( image == null ) {
@@ -216,7 +217,7 @@ const ProfileScreen = () => {
         <SafeAreaView style= {styles.container}>
         <BottomSheet
         ref={bs}
-        snapPoints={[heightScreen * 0.38, -heightScreen * 0.10]}
+        snapPoints={Platform.OS == "ios" ? [heightScreen * 0.38, -heightScreen * 0.10]: [heightScreen * 0.53, -heightScreen * 0.10]}
         showSubscription={{}}
         renderContent={renderInner}
         renderHeader={renderHeader}
@@ -245,8 +246,8 @@ const ProfileScreen = () => {
                 source={{
                   uri: image
                     ? image
-                    : data
-                    ? data?.image
+                    : data?.image 
+                    ? data.image
                     : 'https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
                 }} 
                 style={{width: 100, height: 100, borderRadius: 100/ 2, alignSelf: 'center'}} 

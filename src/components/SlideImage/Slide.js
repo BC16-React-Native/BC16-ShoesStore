@@ -34,7 +34,7 @@ const Slide = ({ item }) => {
                 return <RenderSlide item={item} parallaxProps={parallaxProps} />
             }}
             hasParallaxImages={true}
-            swipeThreshold={5}
+            // swipeThreshold={5}
             loop={true}
             // autoplay
             lockScrollWhileSnapping={true}

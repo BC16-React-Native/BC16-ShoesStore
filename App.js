@@ -32,6 +32,7 @@ import SearchScreen from './src/screens/SearchScreen';
 import ResultScreen from './src/screens/ResultScreen';
 import FavoriteScreen from './src/screens/FavoriteScreen';
 import MyCartScreen from './src/screens/MyCartScreen';
+import Payment from './src/screens/Payment';
 
 const Stack = createNativeStackNavigator();
 
@@ -111,6 +112,18 @@ const App = () => {
               }} 
               name="Detail" 
               component={DetailScreen}
+          />
+          <Stack.Screen 
+              options={{
+                  // headerShown: false,
+                  headerStyle: {
+                      backgroundColor: '#F8F9FA',
+                  },
+                  headerShadowVisible: false,
+                  headerTitleAlign: 'center',
+              }} 
+              name="Payment" 
+              component={Payment}
           />
           <Stack.Screen options={{headerShown: false}} name="Settings" component={SettingsScreen}/>
         </>)
