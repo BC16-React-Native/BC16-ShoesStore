@@ -12,14 +12,21 @@ import { get_User_byID } from '../api/controller/users/getRoles';
 const Payment = ({route}) => {
     const item = route.params.item;
     const [user, setUser] = useState();
+    const [phone, setPhone] = React.useState(user?.phone);
+    const [address, setAddress] = React.useState(user?.address);
     const getUser = async () => {
         const result = await get_User_byID();
         setUser(result);
+        // setPhone(user?.phone)
     }
     useEffect(() => {
         getUser();
     }, [])
-    console.log(item);
+    useEffect(() => {
+        setPhone(user?.phone);
+        setAddress(user?.address);
+    }, [user])
+    // console.log(item);
     const navigation = useNavigation();
     useLayoutEffect(() => { 
         navigation.setOptions({ 
@@ -40,13 +47,17 @@ const Payment = ({route}) => {
           ), 
         }) 
       }, []);
+    //   console.log('user', user)
+    //   console.log(phone)
+    
+
   return (
     <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA', paddingHorizontal: 20}}>
 
         <View style={{ backgroundColor: '#fff', paddingHorizontal: 20, paddingVertical: 16, borderRadius: 16}}>
             <View>
                 {item?.map((item, index) => (
-                    <View style={{
+                    <View key={item.id} style={{
                         flexDirection: 'row', 
                         alignItems: 'center', 
                         backgroundColor: '#F8F9FA',
@@ -61,14 +72,14 @@ const Payment = ({route}) => {
                             <Text numberOfLines={1} style={styles.nameProduct}>{item?.name}</Text>
                             <Text style={styles.priceProduct}>$ {item?.prices}</Text>
                         </View>
-                        <Text style={{alignSelf: 'flex-end', padding: 8}}>x1</Text>   
+                        <Text style={{alignSelf: 'flex-end', padding: 8}}>x{item?.quantity}</Text>   
                     </View>
                 ))}
             </View>
             <View style={{marginBottom : 12}}>
                 <Text style={{
                     fontFamily: 'SF-Pro',
-                    fontWeight: '700',
+                    fontWeight: '700', 
                     fontSize: 14,
                     lineHeight: 20,
                     color: '#1A2530',
@@ -76,7 +87,7 @@ const Payment = ({route}) => {
                 }}>Contact Information</Text>
 
                 <Contact type={'mail'} email = {user?.email}/>
-                <Contact type={'phone'} phone = {user?.phone}/>
+                <Contact type={'phone'} phone={phone} setPhone={setPhone}/>
             </View>
             <View style={{marginBottom : 12}}>
                 <Text style={{
@@ -87,7 +98,7 @@ const Payment = ({route}) => {
                     color: '#1A2530',
                     marginBottom: 16
                 }}>Address</Text>
-                <Address />
+                <Address address={address} setAddress={setAddress}/>
             </View>
             <View style={{marginBottom : 12}}>
                 <Text style={{

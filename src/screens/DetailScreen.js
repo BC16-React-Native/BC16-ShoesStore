@@ -213,7 +213,7 @@ const DetailScreen = ({route}) => {
             <TouchableOpacity style={styles.buttonBuy} 
               onPress={
                   () => navigation.navigate('Payment', {
-                    item : [item]
+                    item : [{...item, quantity: 1}]
                   })
               }
             >

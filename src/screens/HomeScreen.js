@@ -7,8 +7,6 @@ import ListShoes from '../components/ShoesItem/ListShoes'
 import ListNewShoes from '../components/NewShoes/ListNewShoes'
 import { heightScreen, widthScreen } from '../utility'
 import AntDesign from "react-native-vector-icons/AntDesign"
-
-import { get_RolesAdmin } from '../api/controller/users/getRoles'
 import { useNavigation } from '@react-navigation/native'
 
 const HomeScreen = () => {
@@ -30,6 +28,16 @@ const HomeScreen = () => {
               }}
             >
                 <AntDesign name="shoppingcart" size={24} color="black" />
+                <View 
+                  style={{
+                    backgroundColor: 'red', 
+                    padding: 6, 
+                    borderRadius: 6,
+                    position: 'absolute',
+                    top: 4,
+                    right: 0
+                  }}
+                />
         </TouchableOpacity>
         </View>
       ),
