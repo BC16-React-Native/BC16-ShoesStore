@@ -17,7 +17,7 @@ const HomeScreen = () => {
       headerTitle: (props) => <HeaderHome {...props} />,
       headerRight: () => (
         <View style= {{flexDirection: 'row'}}>
-        <TouchableOpacity onPress={() =>{}} 
+        <TouchableOpacity onPress={() =>{navigation.navigate("MyCart")}} 
               style={{
                 alignItems: 'center',
                 justifyContent: 'center',

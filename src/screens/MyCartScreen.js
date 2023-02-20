@@ -1,102 +1,114 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../utility'
 import Icon from 'react-native-vector-icons/Ionicons';
 import ShoesBoxMyCart from '../components/ShoesBoxMyCart';
 import { useNavigation } from '@react-navigation/native';
-import auth from "@react-native-firebase/auth"
+import { get_Cart_price, get_Cart_uID } from '../api/controller/cart/getCart';
 import FieldButton from '../components/Auth/FieldButton';
-import { get_Favorite_userID } from '../api/controller/favorite/getFavorite';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Checkout from '../components/Checkout/Checkout';
+
+
+
 
 const MyCartScreen = () => {
-    // const {usid} = route.params
-    const [pro, setPro] = useState()
-    useEffect(() => {
-        get_Favorite_userID(setPro, auth().currentUser.uid);
-    }, [])
-    const navigation = useNavigation()
-    const subTotal = (list) =>{
-        let subtotal = 0;
-        for (let i = 0; i < list?.length; i++) {
-            subtotal += list[i]?.prices * list[i]?.quantity;
-        }
-        
-        return subtotal;
-    }
-    console.log(subTotal(pro));
-    return (
-        <View style={styles.containerHeader} onTouchStart = {console.log('em')}>
-            <Text style={styles.textSearch}>My Cart</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('BottomTab')} style={styles.buttonBack}>
-                <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack} />
-            </TouchableOpacity>
-            <FlatList
-                data = {pro}
-                renderItem={({item,index}) => <ShoesBoxMyCart item={item} />}
-                // numColumns={2}
-                showsHorizontalScrollIndicator={false}
-                showsVerticalScrollIndicator = {false}
-                keyExtractor={item =>item.id}
-                style={{ marginTop: heightScreen * 0.1 }}
-            />
-        <View style={styles.view_checkout}>
-            <View style={{flexDirection:'row', width: widthScreen*0.9, justifyContent: 'space-between', alignSelf: 'center', marginVertical: heightScreen*0.02}}>
-                <Text style={{color: '#707B81', fontSize: 16}}>Subtotal</Text>
-                <Text style={{color: 'black', fontSize: 18, fontWeight: 'bold',}}>$ {}</Text>
-            </View>
-            <View style={{flexDirection:'row', width: widthScreen*0.9, justifyContent: 'space-between', alignSelf: 'center', marginBottom: heightScreen*0.01}}>
-                <Text style={{color: '#707B81', fontSize: 16}}>Shipping</Text>
-                <Text style={{color: 'black', fontSize: 18, fontWeight: 'bold',}}>$ 10</Text>
-            </View>
-            <View style={{borderWidth: 0.5, width: widthScreen, borderColor: '#707B81'}} />
-            <View style={{flexDirection:'row', width: widthScreen*0.9, justifyContent: 'space-between', alignSelf: 'center', marginVertical: heightScreen*0.02}}>
-                <Text style={{color: 'black', fontSize: 16}}>Total</Text>
-                <Text style={{color: 'black', fontSize: 18, fontWeight: 'bold',}}>$ 20</Text>
-            </View>
-            <FieldButton
-                stylesContainer={{}}
-                title={'Checkout'}
-                onPress={() => console.log('tinh tien')}
-                />
-        </View>
-        </View>
-    )
+   const [pro, setPro] = useState();
+
+
+   useEffect(() => {
+       get_Cart_uID(setPro,'Xohk7XAjDEWAt8bxxPwGCqp8ebI2');
+   }, [])
+   console.log(pro);
+   const navigation = useNavigation()
+   return (
+       <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA',}}>       
+           <ScrollView>
+               <View style={{flex: 2}}>
+                   <Text style={styles.textSearch}>MyCart</Text>
+                   <TouchableOpacity onPress={() => navigation.navigate('BottomTab')} style={styles.buttonBack}>
+                       <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack} />
+                   </TouchableOpacity>
+                   <FlatList
+                       data = {pro}
+                       renderItem={({item,index}) => <ShoesBoxMyCart item={item} />}
+                       // numColumns={2}
+                       showsHorizontalScrollIndicator={false}
+                       showsVerticalScrollIndicator = {false}
+                       keyExtractor={item =>item.productid}
+                       style={{ marginTop: heightScreen * 0.1 }}
+                   />
+               </View>
+           </ScrollView>
+           <Checkout item={pro}/>
+       </SafeAreaView>
+   )
 }
+
+
+
 
 export default MyCartScreen
 
+
+
+
 const styles = StyleSheet.create({
-    containerHeader: {
-        width: widthScreen,
-        alignSelf: 'center',
-    },
-    buttonBack: {
-        position: 'absolute',
-        width: widthScreen * 0.14,
-        height: heightScreen * 0.067,
-        backgroundColor: 'white',
-        borderRadius: 40,
-        marginLeft: widthScreen * 0.05,
-        marginTop: heightScreen * 0.03,
-        justifyContent: 'center',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
-    },
-    iconBack: {
-        alignSelf: 'center'
-    },
-    textSearch: {
-        position: 'absolute',
-        right: widthScreen * 0.45,
-        marginTop: heightScreen * 0.045,
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#1A2530'
-    },
+   containerHeader: {
+       width: widthScreen,
+       alignSelf: 'center',
+       flex: 1,
+   },
+   buttonBack: {
+       position: 'absolute',
+       width: widthScreen * 0.14,
+       height: heightScreen * 0.067,
+       backgroundColor: 'white',
+       borderRadius: 40,
+       marginLeft: widthScreen * 0.05,
+       marginTop: heightScreen * 0.03,
+       justifyContent: 'center',
+       shadowOffset: {
+           width: 0,
+           height: 1,
+       },
+       shadowOpacity: 0.22,
+       shadowRadius: 2.22,
+
+
+
+
+       elevation: 3,
+   },
+   iconBack: {
+       alignSelf: 'center'
+   },
+   textSearch: {
+       position: 'absolute',
+       right: widthScreen * 0.45,
+       marginTop: heightScreen * 0.045,
+       fontSize: 16,
+       fontWeight: 'bold',
+       color: '#1A2530'
+   },
+   view_checkout:{
+       shadowColor: "#000",
+   shadowOffset: {
+       width: 0,
+       height: heightScreen * 0.004,
+   },
+   shadowOpacity: 0.25,
+   shadowRadius: 3.84,
+
+
+   elevation: 3,
+   width: widthScreen,
+   height: heightScreen*0.3,
+   backgroundColor: 'white',
+   borderTopLeftRadius: 20,
+   borderTopRightRadius: 20,
+   top: heightScreen*0.7,
+   position: 'absolute'
+   }
 })
 

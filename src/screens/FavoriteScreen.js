@@ -6,8 +6,8 @@ import ShoesBox from '../components/ShoesBox';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { heightScreen, widthScreen } from '../utility/index';
 import { useNavigation } from '@react-navigation/native';
-import { get_ProductID, get_ProductlistID } from '../api/controller/products/getProducts';
-import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth'
+
 
 const Favorite = () => {
   const [fvlist, setFvl] = useState([]);
@@ -15,8 +15,7 @@ const Favorite = () => {
 
 
   useEffect(() => {
-    get_Favorite_userID(setFvl, 'TDCr8OBS2zUVcc5ZEXN7')
-    // console.log(fvlist.length);
+    get_Favorite_userID(setFvl, auth().currentUser.uid)
   }, [])
 
  const navigation = useNavigation();
@@ -25,7 +24,7 @@ const Favorite = () => {
     <View style={{ flex: 1 }}>
       <View style={styles.containerHeader}>
         <Text style={styles.textSearch}>Favorite</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('MyCart', {usid: 'EYihLRbHq1eBm7gsCqhZcPHVesJ2'})} style={styles.buttonBack}>
+        <TouchableOpacity onPress={() => navigation.navigate('MyCart')} style={styles.buttonBack}>
           <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack} />
         </TouchableOpacity>
       </View>
@@ -39,16 +38,6 @@ const Favorite = () => {
           keyExtractor={item => item.id}
           style={{ marginTop: heightScreen * 0.05 }}
         />
-
-
-        {/* {test?.map((element, index)=>{
-          return(
-            <View style={{width: 50, height: 50, borderWidth: 1, flexDirection: 'row'}} key={index}>
-              <Text style = {{color:'red'}}>a</Text>
-            </View>
-          );
-        })
-        } */}
       </SafeAreaView>
     </View>
   )

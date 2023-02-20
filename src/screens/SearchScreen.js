@@ -9,36 +9,30 @@ import SearchItem from '../components/SearchItem'
 
 const SearchScreen = () => {
    const navigation = useNavigation();
-  
-   const Header = () => {
-     const [search, setSearch] = useState('')
-
-       return(
-           <View style = {styles.containerHeader}>
-             <Text style={styles.textSearch}>Search</Text>
-             <TouchableOpacity onPress={()=>navigation.navigate('BottomTab')} style={styles.buttonBack}>
-               <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack}/>
-             </TouchableOpacity>
-             <View
-                   style={styles.serachBar}>
-                   <Icon name="search" size={24} color="#707B81" style={{marginLeft:widthScreen*0.05}}/>
-                   <TextInput
-                      value={search}
-                      onChangeText={setSearch}
-                       style= {styles.input }
-                       placeholder='Search your shoes'
-                       onSubmitEditing={()=>navigation.navigate('Result',{searchwword: search})}
-                   ></TextInput>
-               </View>
-           </View>
-       )
-   }
-  
-   const Body = () => {
+    const [search, setSearch] = useState('')
     
+    const Header = () => {
+        return(
+            <View style = {styles.containerHeader}>
+              <Text style={styles.textSearch}>Search</Text>
+              <TouchableOpacity onPress={()=>navigation.navigate('BottomTab',{itemId: 86})} style={styles.buttonBack}>
+                <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack}/>
+              </TouchableOpacity> 
+              <View 
+                    style={styles.serachBar}>
+                    <Icon name="search" size={24} color="#707B81" style={{marginLeft:widthScreen*0.05}}/>
+                    <TextInput
+                        style= {styles.input }
+                        placeholder='Search your shoes'
+                    ></TextInput>
+                </View>
+            </View>
+        )
+    }
+    const Body = () => {
        return (      
            <View style={styles.containerBody}>
-               <Text style={{fontSize:18, color: '#1A2530', fontWeight: 'bold', marginBottom: heightScreen*0.02}}>Suggested</Text>
+               <Text style={styles.text}>Suggested</Text>
                <SearchItem
                    nameicon={'hearto'}
                    nameitem='Air Jordan'
@@ -51,7 +45,7 @@ const SearchScreen = () => {
                    nameicon={'hearto'}
                    nameitem='Sandal Adidas'
                />
-               <Text style={{fontSize:18, color: '#1A2530', fontWeight: 'bold', marginBottom: heightScreen*0.02}}>History</Text>
+               <Text style={styles.text}>History</Text>
                <SearchItem
                    nameicon={'clockcircleo'}
                    nameitem='Stan Smith'
@@ -70,23 +64,19 @@ const SearchScreen = () => {
                />
            </View>
        )
-   }
-
-
-   return (
-       <SafeAreaView style= {styles.container}>
-       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
-         <ScrollView>
-           <Header/>
-           <Body />
-         </ScrollView>
-       </KeyboardAvoidingView>
-       </SafeAreaView>
-   )
+}
+    return (
+        <SafeAreaView style= {styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
+          <ScrollView>
+            <Header/>
+            <Body />
+          </ScrollView>
+        </KeyboardAvoidingView>
+        </SafeAreaView>
+    )
 
 }
-
-
 export default SearchScreen
 
 
@@ -163,7 +153,11 @@ serachBar:{
 },
 input:{
    marginLeft: widthScreen * 0.05,
+},
+text:{
+    fontSize:18, 
+    color: '#1A2530', 
+    fontWeight: 'bold', 
+    marginBottom: heightScreen*0.02
 }
-
-
-})
+});
