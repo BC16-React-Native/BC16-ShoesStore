@@ -13,6 +13,8 @@ import RecommendShoes from '../components/RecommendShoes/RecommendShoes'
 import Description from '../components/DescriptionShoes'
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { addCart } from '../api/controller/cart/addToCart'
+import auth from "@react-native-firebase/auth"
+import { get_LenghtCart_uID } from '../api/controller/cart/getCart'
 
 const DetailScreen = ({route}) => {
   
@@ -34,8 +36,16 @@ const DetailScreen = ({route}) => {
     });
   } 
   // console.log("Detail Screen",item);
-  const image = item.images;
+    const image = item.images;
     const navigation = useNavigation();
+
+    // header card
+    const [lenghtCart, setLenghtCart] = useState();
+    useLayoutEffect(() => {
+      get_LenghtCart_uID(setLenghtCart, auth().currentUser.uid)
+    }, [])
+     // header card
+
     useLayoutEffect(() => { 
         navigation.setOptions({ 
           title: 'Detail',
@@ -78,11 +88,21 @@ const DetailScreen = ({route}) => {
                   }}
                 >
                     <AntDesign name="shoppingcart" size={24} color="black" />
+                    {lenghtCart ? <View 
+                      style={{
+                        backgroundColor: 'red', 
+                        padding: 6, 
+                        borderRadius: 6,
+                        position: 'absolute',
+                        top: 4,
+                        right: 0
+                      }}
+                    /> : null}
             </TouchableOpacity>
             </View>
           ),
         }) 
-      }, []);
+      }, [lenghtCart]);
 
       const [category, setCategory] = useState();
       const [recommend, setRecommend] = useState();
@@ -93,7 +113,7 @@ const DetailScreen = ({route}) => {
           setCategory(data.data());
         });
         get_Products_categoryID(setRecommend, item?.categoryid);
-        console.log('useeffect')
+        // console.log('useeffect')
       }, []) 
       // console.log(`Categories:`, category);
       function formatDate(d)
