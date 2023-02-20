@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, StatusBar, TouchableOpacity, Image, FlatList, } from 'react-native'
 import React, { useEffect, useLayoutEffect, useRef, useState} from 'react'
 import FontAwesome from "react-native-vector-icons/FontAwesome"
+import AntDesign from "react-native-vector-icons/AntDesign"
+
 import { useNavigation } from '@react-navigation/native'
 import { heightScreen, widthScreen } from '../utility'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -52,6 +54,7 @@ const DetailScreen = ({route}) => {
                 </TouchableOpacity>
           ), 
           headerRight: () => (
+            <View style= {{flexDirection: 'row'}}>
             <TouchableOpacity onPress={() =>{}} 
                   style={{
                     alignItems: 'center',
@@ -64,6 +67,19 @@ const DetailScreen = ({route}) => {
                 >
                     <FontAwesome name="heart-o" size={24} color="black" />
             </TouchableOpacity>
+            <TouchableOpacity onPress={() =>{}} 
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: '#fff',
+                    height: heightScreen * 0.0566,
+                    width: widthScreen * 0.112,
+                    borderRadius: widthScreen * 0.056
+                  }}
+                >
+                    <AntDesign name="shoppingcart" size={24} color="black" />
+            </TouchableOpacity>
+            </View>
           ),
         }) 
       }, []);
@@ -184,20 +200,32 @@ const DetailScreen = ({route}) => {
             $ {item.prices}
           </Text>
         </View>
+        <View style ={{flexDirection: 'row'}}>
             <TouchableOpacity style={styles.buttonAdd} onPress={Add_Cart}>
               <Text style={{
                 fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
                 fontWeight: '700',
                 fontSize: 18,
                 lineHeight: 22,
-                /* identical to box height, or 122% */
-                
-                
-                /* Light/BG Color */
-                
                 color: '#FFFFFF',
               }}>Add To Cart</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonBuy} 
+              onPress={
+                  () => navigation.navigate('Payment', {
+                    item : [{...item, quantity: 1}]
+                  })
+              }
+            >
+              <Text style={{
+                fontFamily: 'SF-Pro',
+                fontWeight: '700',
+                fontSize: 18,
+                lineHeight: 22,
+                color: '#FFFFFF',
+              }}>Buy Now</Text>
+            </TouchableOpacity>
+      </View>
       </View>
       <StatusBar
         animated={true}
@@ -319,8 +347,15 @@ const styles = StyleSheet.create({
     },
     buttonAdd:{
       backgroundColor: '#5B9EE1',
-      paddingHorizontal: widthScreen * 0.08,
+      paddingHorizontal: widthScreen * 0.04,
       paddingVertical: heightScreen * 0.02,
-      borderRadius: 50
+      borderRadius: 60
+    },
+    buttonBuy: {
+      backgroundColor: '#F87265',
+      paddingHorizontal: widthScreen * 0.04,
+      paddingVertical: heightScreen * 0.02,
+      borderRadius: 60,
+      marginLeft: 12
     }
 })
