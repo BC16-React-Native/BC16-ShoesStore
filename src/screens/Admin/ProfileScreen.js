@@ -63,11 +63,27 @@ const ProfileScreen = () => {
 
     if( imgUrl == null && data?.image ) {
       imgUrl = data?.userImg;
+      firestore()
+    .collection('users')
+    .doc(auth().currentUser.uid)
+    .update({
+      name: data.name,
+      email: auth().currentUser.email,
+      phone: data.phone,
+      address: data.address,
+    })
+    .then(() => {
+      console.log('User Updated!');
+      setLoading(false);
+      Alert.alert(
+        'Profile Updated!',
+        'Your profile has been updated successfully.'
+      );
+    })
+    .catch(err => {console.log(err)})
     }
     else {
-    }
-
-    firestore()
+      firestore()
     .collection('users')
     .doc(auth().currentUser.uid)
     .update({
@@ -86,13 +102,12 @@ const ProfileScreen = () => {
       );
     })
     .catch(err => {console.log(err)})
+    }
+
+    
   }
   const uploadImage = async () => {
     if( image == null ) {
-      Alert.alert(
-        'Opps!',
-        'Please choose your image.'
-      );
       setLoading(false)
       return null;
     }
@@ -193,7 +208,9 @@ const ProfileScreen = () => {
     });
       
     }
-      bs = React.createRef();
+    // bs = React.createRef();
+    // fall = new AnimatedLib.Value(1);
+      bs = React.useRef(null);
       fall = new AnimatedLib.Value(1);
     renderHeader = () => (
       <View style={styles.header}>
@@ -220,7 +237,7 @@ const ProfileScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.panelButton}
-          onPress={() => this.bs.current.snapTo(1)}>
+          onPress={() => this.bs?.current.snapTo(1)}>
           <Text style={styles.panelButtonTitle}>Cancel</Text>
         </TouchableOpacity>
       </View>
@@ -228,7 +245,7 @@ const ProfileScreen = () => {
     return (
         <SafeAreaView style= {styles.container}>
         <BottomSheet
-        ref={bs}
+        ref={bs || null}
         snapPoints={[heightScreen * 0.38, -heightScreen * 0.10]}
         showSubscription={{}}
         renderContent={renderInner}

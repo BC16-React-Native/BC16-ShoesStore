@@ -191,7 +191,7 @@ const ProfileScreen = () => {
     });
       
     }
-      bs = React.createRef();
+      bs = React.useRef(null);
       fall = new AnimatedLib.Value(1);
     renderHeader = () => (
       <View style={styles.header}>
