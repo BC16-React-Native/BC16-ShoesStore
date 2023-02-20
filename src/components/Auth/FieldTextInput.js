@@ -13,6 +13,7 @@ const FieldTextInput = ({
     onFocus = () => {},
     error,
     onSubmitEditing,
+    multiline,
     onChangeValue,
     onEndEditing,
     value,
@@ -51,6 +52,7 @@ const FieldTextInput = ({
             secureTextEntry= {state}
             {...props}
             value={value}
+            multiline = {multiline}
             editable={editable}
             onChangeValue={onChangeValue}
             onSubmitEditing = {onSubmitEditing}

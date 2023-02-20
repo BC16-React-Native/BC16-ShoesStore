@@ -1,4 +1,4 @@
-import { Keyboard,View,StyleSheet, Text, TouchableOpacity, Image, Animated, KeyboardAvoidingView, ScrollView, FlatList, Alert} from 'react-native'
+import { Keyboard,View,StyleSheet, Text, TouchableOpacity, Image, Animated, KeyboardAvoidingView, ScrollView, FlatList, Alert, Platform} from 'react-native'
 import React, { useEffect, useLayoutEffect, useRef, useState} from 'react'
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import { useNavigation } from '@react-navigation/native'
@@ -13,17 +13,18 @@ import FieldTextInput from '../../components/Auth/FieldTextInput';
 import FieldButton from '../../components/Auth/FieldButton';
 import Loader from '../../components/Auth/Loader';
 import firestore from '@react-native-firebase/firestore'
+import storage from '@react-native-firebase/storage'
 import DropDownPicker from 'react-native-dropdown-picker';
+import { get_ProductID } from '../../api/controller/products/getProducts';
 // import Carousel, {ParallaxImage, Pagination } from 'react-native-new-snap-carousel';
 
 const DetailScreen = ({route}) => {
-  
-  const [item,setItem] = useState(route.params.item);
+  const item = route.params.item;
+  const [items,setItem] = useState();
   const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(item?.categoryid);
-  console.log("value",value);
-  console.log('item', item);
     const navigation = useNavigation();
     useLayoutEffect(() => { 
         navigation.setOptions({ 
@@ -47,15 +48,18 @@ const DetailScreen = ({route}) => {
       const fetchCategories = async () => {
         const categoriesSnapshot = await firestore().collection('category').get();
         const categoriesList = categoriesSnapshot.docs.map(doc => ({ label: doc.data().name, value: doc.id }));
+        const selectedCategory = categories.find((category) => category.value === value);
+
         setCategories(categoriesList);
+        // setCategory(selectedCategory.label)
       }
+
       useEffect(() => {
+        get_ProductID(setItem, item?.id);
         fetchCategories();
+        setImages(item?.images)
       }, []);
-      const handleCategoryChange = (value) => {
-        setCategory(value);
-      }
-      console.log("categories",categories)
+      console.log("categories",category)
       const headerMotion = useRef(new Animated.Value(0)).current;
       const dispatch = useDispatch();
         // function handle animation 
@@ -87,78 +91,84 @@ const DetailScreen = ({route}) => {
             }
             
         },[]);
-        const [images, setImages] = useState(null);
+        const [images, setImages] = useState(items?.images);
+        const [imagesnew, setnewImages] = useState(null);
         const [uploading, setUploading] = useState(false);
         const [transferred, setTransferred] = useState(0);
         const [loading, setLoading] = useState(false);
+
         const handleUpdate = async () => {
           setLoading(true);
-          // setEdit(!edit);
           let imgUrls = await uploadImages();
-          if( imgUrls == null) {
+          if (imgUrls == null) {
             firestore()
-            .collection('products')
-            .doc(item.id)
-            .update({
-              name: item.name,
-              amount: item.amount,
-              prices: item.prices,
-              categoryid: value,
-              info: item.info,
-              datecreate: new Date().toISOString(),
-            })
-            .then(() => {
-              console.log('Product Updated!');
-              setLoading(false);
-              Alert.alert(
-                'Product Updated!',
-                'Your product has been updated successfully.',
-              );
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-        else {
-          const newImages = {};
-          if (imgUrls) {
-            for (let i = 0; i < imgUrls.length; i++) {
-              newImages[`image${i}`] = imgUrls[i];
+              .collection('products')
+              .doc(items.id)
+              .update({
+                name: items.name,
+                amount: items.amount,
+                prices: items.prices,
+                categoryid: value,
+                info: items.info,
+                images: items?.images,
+                datecreate: new Date().toISOString(),
+              })
+              .then(() => {
+                console.log('Product Updated!');
+                setLoading(false);
+                Alert.alert(
+                  'Product Updated!',
+                  'Your product has been updated successfully.',
+                );
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else {
+            const newImages = [];
+            const oldImages = items?.images;
+              for (let i = 0; i < imgUrls.length; i++) {
+                newImages.push(imgUrls[i]);
+              }
+              const allImages = [...oldImages, ...newImages];
+              firestore()
+              .collection('products')
+              .doc(items.id)
+              .update({
+                name: items.name,
+                amount: items.amount,
+                categoryid: value,
+                datecreate: new Date().toUTCString(),
+                images: allImages,
+                info: items.info,
+                prices: items.prices
+              })
+              .then(() => {
+                console.log('Product Updated!');
+                setLoading(false);
+                Alert.alert(
+                  'Product Updated!',
+                  'Your product has been updated successfully.',
+                );
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+
             }
-          }
-          firestore()
-            .collection('products')
-            .doc(item.id)
-            .update({
-              name: item.name,
-              amount: item.amount,
-              categoryid: value,
-              datecreate: new Date.now().toUTCString(),
-              images: newImages,
-            })
-            .then(() => {
-              console.log('Product Updated!');
-              setLoading(false);
-              Alert.alert(
-                'Product Updated!',
-                'Your product has been updated successfully.',
-              );
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-          
         };
+
+
+
       const uploadImages = async () => {
-        if (!images || images.length === 0) {
+        if (!imagesnew || imagesnew.length === 0) {
           return null;
         }
         else {
           const urls = [];
       
-        for (let i = 0; i < images.length; i++) {
-          const uploadUri = images[i];
+        for (let i = 0; i < imagesnew.length; i++) {
+          const uploadUri = imagesnew[i];
           let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
           const extension = filename.split('.').pop();
           const name = filename.split('.').slice(0, -1).join('.');
@@ -186,18 +196,17 @@ const DetailScreen = ({route}) => {
             urls.push(url);
           } catch (e) {
             console.log(e);
+            setLoading(false);
             return null;
           }
         }
       
         setUploading(false);
-        setImages(null);
-      
+        // setImages(null);
         return urls;
         }
         
       };
-    
       const takePhotoFromCamera = () => {
         ImagePicker.openCamera({
           compressImageMaxWidth: 300,
@@ -221,18 +230,20 @@ const DetailScreen = ({route}) => {
           compressImageQuality: 0.7,
           multiple: true,
         }).then(response => {
-            setImages(response);
-            console.log(response);
-            
-        //   const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
-        //   setImage(imageUri);
+            const imagePaths = response.map(photo => (
+              photo.sourceURL
+            ));
+            setImages(prevImages => prevImages ? [...prevImages, ...imagePaths] : imagePaths);
+            setnewImages(imagePaths)
           this.bs.current.snapTo(1);
-          
         });
+        console.log('pathnew',imagesnew);
       };
 
-          bs = React.createRef();
-          fall = new AnimatedLib.Value(1);
+
+      bs = React.useRef(null);
+      fall = new AnimatedLib.Value(1);
+
         renderHeader = () => (
           <View style={styles.header}>
             <View style={styles.panelHeader}>
@@ -288,8 +299,7 @@ const DetailScreen = ({route}) => {
               <Text style={styles.textProfile}>Update Product</Text>
               <View style = {styles.containerImg}>
                 <FlatList
-                  data={item?.images}
-                  // horizontal={false}
+                  data={images}
                   showsVerticalScrollIndicator={false}
                   showsHorizontalScrollIndicator={false}
                   horizontal
@@ -314,12 +324,18 @@ const DetailScreen = ({route}) => {
                       style={{ width: 100, height: 100, borderRadius: 60/ 2, marginHorizontal: widthScreen * 0.01}} />
                       <TouchableOpacity onPress={() => {
                             const newImages = images.filter((img) => img !== item);
+                            firestore().collection('products')
+                            .doc(items.id)
+                            .update({
+                                images: firestore.FieldValue.arrayRemove(item),
+                            });
                             setImages(newImages);
+                            // setItems();
                       }} style={styles.buttonDel}>
                         <Icon name='close-circle' color={'red'} size={20} style={styles.iconBack}/>
                   </TouchableOpacity></View>
                   }
-                  keyExtractor={item => item.id}
+                  keyExtractor={item => item}
                 />
                 <TouchableOpacity onPress={() => bs.current.snapTo(0)} style={styles.buttonCamera1}>
                 <Icon name='camera-outline' color={'white'} size={20} style={styles.iconBack}/>
@@ -328,13 +344,13 @@ const DetailScreen = ({route}) => {
             </Animated.View>
 
             <View style={styles.containerBody}>
-              <Text style={{fontSize:22, alignSelf: 'center', fontWeight: 'bold', marginTop: heightScreen * -0.01, textAlign:'center', lineHeight:32}}>{item?.name}</Text>
+              <Text style={{fontSize:22, alignSelf: 'center', fontWeight: 'bold', marginTop: heightScreen * -0.01, textAlign:'center', lineHeight:32}}>{items?.name}</Text>
                 {/* Text input Name*/}
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Name'}
-                onChangeText={(txt) => setItem({...item, name: txt})}
-                value={item?.name}
+                onChangeText={(txt) => setItem({...items, name: txt})}
+                value={items?.name}
                 onSubmitEditing={Keyboard.dismiss}
                 stylesTitle={{fontWeight: 'bold'}}
                 />
@@ -366,25 +382,27 @@ const DetailScreen = ({route}) => {
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Price'}
-                onChangeText={(txt) => setItem({...item, prices: Number(txt)})}
-                value={item?.prices.toString()}
+                onChangeText={(txt) => setItem({...items, prices: Number(txt)})}
+                value={items?.prices.toString()}
                 onSubmitEditing={Keyboard.dismiss}
                 stylesTitle={{fontWeight: 'bold'}}
                 />
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Amount'}
-                onChangeText={(txt) => setItem({...item, amount: Number(txt)})}
-                value={item?.amount.toString()}
+                onChangeText={(txt) => setItem({...items, amount: Number(txt)})}
+                value={items?.amount.toString()}
                 onSubmitEditing={Keyboard.dismiss}
                 stylesTitle={{fontWeight: 'bold'}}
                 />
                 
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
+                stylesInput = {{padding:heightScreen * 0.1,}}
                 title={'Description'}
-                onChangeText={(txt) => setData({...item, info: txt})}
-                value={item?.info}
+                multiline = {true}
+                onChangeText={(txt) => setItem({...items, info: txt})}
+                value={items?.info}
                 onSubmitEditing={Keyboard.dismiss}
                 stylesTitle={{fontWeight: 'bold'}}
                 />
@@ -392,7 +410,7 @@ const DetailScreen = ({route}) => {
                 title={'Update'}
                 // stylesTitle={{color:"#5B9EE1"}}
                 onPress={handleUpdate}
-                stylesContainer = {{ marginVertical:heightScreen * 0.02}}
+                stylesContainer = {{ marginVertical:heightScreen * 0.07}}
                 />
 
             </View>
