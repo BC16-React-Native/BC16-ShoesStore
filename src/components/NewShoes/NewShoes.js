@@ -2,10 +2,20 @@ import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 import React from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import { Image } from 'react-native-animatable'
+import { useNavigation } from '@react-navigation/native'
 
 const NewShoes = ({item}) => {
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={() =>{
+      navigation.push('Detail' , {
+        // screen: 'Detail',
+        // params : {
+        //   item: item
+        // }
+        item: item
+      })
+    }}>
       <View>
         <Text numberOfLines={1} style={styles.name}>{item?.name}</Text>
         <Text style={styles.price}>${item?.prices}</Text>

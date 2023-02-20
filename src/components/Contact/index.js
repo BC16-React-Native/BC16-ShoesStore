@@ -8,7 +8,7 @@ import AntDesign from "react-native-vector-icons/AntDesign"
 const Contact = ({type, email, phone, setPhone}) => {
     const  [edit, setEdit] = useState(false);
     // const [text, setText] = React.useState(phone);
-    console.log(phone)
+    // console.log(phone)
     return (
         <>
             {type == 'mail' ? 
@@ -25,7 +25,7 @@ const Contact = ({type, email, phone, setPhone}) => {
                 </View>
             </View>
             : 
-            <View style = {styles.container}>
+            <TouchableOpacity onPress={() => {setEdit(!edit)}} style = {styles.container}>
                 <View style={{backgroundColor: '#F8F9FA', padding: 8, borderRadius: 12}}>
                     <Feather name="phone" size={24} color="black" />
                 </View> 
@@ -45,10 +45,10 @@ const Contact = ({type, email, phone, setPhone}) => {
                         style={styles.textinput}
                     />
                 }
-                <TouchableOpacity onPress={() => {setEdit(!edit)}}>
+                {/* <TouchableOpacity onPress={() => {setEdit(!edit)}}> */}
                     <AntDesign name="edit" size={24} color="black" />
-                </TouchableOpacity>
-            </View>
+                {/* </TouchableOpacity> */}
+            </TouchableOpacity>
             }
         </>
     )

@@ -4,24 +4,27 @@ import AntDesign from "react-native-vector-icons/AntDesign"
 
 const Address = ({address, setAddress}) => {
   const  [edit, setEdit] = useState(false);
-
+  console.log(address)
   return (
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
         {/* <Text style={styles.infor_text}>214-216-218 Nguyen Phuoc Lan, Danang, </Text> */}
-        {!edit ? 
+        
+        <TouchableOpacity onPress={() => {setEdit(!edit)}} style={{flex: 1 , flexDirection: 'row', alignItems: 'center'}}>
+        {!edit && address ? 
             <Text style={styles.infor_text}>{address} </Text>
         :
             <TextInput
-                label="Phone"
+                label="address"
                 value={address}
                 mode={'outlined'}
-                onChangeText={text => setAddress(text)}
+                placeholder={'You must add an address'}
+                placeholderTextColor={'#ff5353'}
+                onChangeText={text => setAddress(text)}s
                 onEndEditing={() => {setEdit(!edit)}}
                 autoFocus={true}
                 style={styles.textinput}
             />
         }
-        <TouchableOpacity onPress={() => {setEdit(!edit)}}>
             <AntDesign name="edit" size={24} color="black" />
         </TouchableOpacity>
     </View>
