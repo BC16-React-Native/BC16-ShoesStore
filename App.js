@@ -102,7 +102,6 @@ const App = () => {
         :(<>
           {!roles ? (<>
           <Stack.Screen options = {{headerShown: false}} name="BottomTab" component={BottomTab}/>
-          <Stack.Screen options={{headerShown: false}} name="Favorite" component={Favorite}/>
           <Stack.Screen options={{headerShown: false}} name="MyCart" component={MyCartScreen}/>
           <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen}/>
           <Stack.Screen options={{headerShown: false}} name="Result" component={ResultScreen}/>
