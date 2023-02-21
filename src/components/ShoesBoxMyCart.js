@@ -17,7 +17,7 @@ const ShoesBoxMyCart = ({ item }) => {
       setNums(item?.quantity);
       get_ProductID(setData, item?.productid);
     }, [])
-    console.log(data);
+    // console.log(data);
     return (
         <TouchableOpacity style={styles.container} onPress={() => { console.log('go to detail') }}>
             <Image
@@ -48,7 +48,10 @@ const ShoesBoxMyCart = ({ item }) => {
                 </View>
             </View>
             <TouchableOpacity style={styles.icon_delete}
-                onPress={()=>deleteCart(data?.id)}
+                onPress={()=>
+                    // deleteCart(data?.id)
+                    {}
+                }
             >
                 <Feather name="trash-2" size={22} color="#707B81" />
             </TouchableOpacity>
@@ -78,7 +81,7 @@ const styles = StyleSheet.create({
 
         paddingHorizontal: widthScreen * 0.02,
         borderRadius: 20,
-        marginTop: heightScreen * 0.03,
+        marginTop: heightScreen * 0.01,
         width: widthScreen * 0.9,
         flexDirection: 'row',
         shadowColor: "#000",

@@ -5,13 +5,26 @@ const getProducts_id = (id) => {
 }
 
 export const get_Cart_Price = (list) => {
+    console.log("ac",list)
     let subtotal = 0;
     list?.forEach((item) => {
         subtotal += item.prices * item.quantity;
     })
     return subtotal
-  }
+}
 
+export const get_Cart_Price_1 = (list) => {
+    console.log("ac",list)
+    let subtotal = 0;
+    list?.forEach((item) => {
+        // subtotal += item.prices * item.quantity;
+        getProducts_id(item.productid).then((product) => {
+            // subtotal += product.prices * item.quantity;
+            console.log("ab", product);
+        })
+    })
+    return subtotal
+}
 
 
 
@@ -54,7 +67,7 @@ export const get_LenghtCart_uID = (setdata,id) => {
         let finalResult = [];
         QuerySnapshot.forEach(doc => allEntries = doc.data().incart);
 
-        setdata(allEntries.length);
+        // setdata(allEntries.length);
     }
       
     function onError(error) {

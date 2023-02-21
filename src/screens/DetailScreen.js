@@ -77,7 +77,7 @@ const DetailScreen = ({route}) => {
                 >
                     <FontAwesome name="heart-o" size={24} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() =>{}} 
+            <TouchableOpacity onPress={() =>{navigation.navigate("MyCart")}} 
                   style={{
                     alignItems: 'center',
                     justifyContent: 'center',

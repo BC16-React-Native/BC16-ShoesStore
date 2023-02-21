@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import FieldButton from '../Auth/FieldButton'
 import { get_Cart_Price } from '../../api/controller/cart/getCart'
 
-const Checkout = ({item}) => {
+const Checkout = ({item, type}) => {
     const [subprice, setSubprice] = useState(0)
-    console.log(item);
-    useEffect(() => {
+    // console.log(item);
+    useLayoutEffect(() => {
         setSubprice(get_Cart_Price(item));
     }, [])
     
@@ -15,20 +15,20 @@ const Checkout = ({item}) => {
     <View style={styles.view_checkout}>
         <View style={styles.view_total}>
             <Text style={styles.text_Left}>Subtotal</Text>
-            <Text style={styles.text_Right}>$ {subprice}</Text>
+            <Text style={styles.text_Right}>${subprice}</Text>
         </View>
         <View style={styles.view_shipping}>
             <Text style={styles.text_Left}>Shipping</Text>
-            <Text style={styles.text_Right}>$ 10</Text>
+            <Text style={styles.text_Right}>$10</Text>
         </View>
         <View style={styles.hr} />
         <View style={styles.view_total}>
             <Text style={styles.text_LeftTotal}>Total</Text>
-            <Text style={styles.text_Right}>$ {subprice + 10}</Text>
+            <Text style={styles.priceTotal}>${subprice + 10}</Text>
         </View>
         <FieldButton
             stylesContainer={{}}
-            title={'Checkout'}
+            title={type == 'payment' ? 'Payment' : 'Checkout'}
             onPress={() => console.log('tinh tien')}
             />
     </View>
@@ -53,22 +53,42 @@ const styles = StyleSheet.create({
         backgroundColor: 'white', 
         borderTopLeftRadius: 20, 
         borderTopRightRadius: 20, 
-        marginTop: heightScreen * 0.02, 
         alignSelf:'flex-end',
-        // position: 'absolute',
     },
     text_Right: {
-        color: 'black', 
-        fontSize: 18, 
-        fontWeight: 'bold',
+        fontFamily: 'SF-Pro',
+        fontWeight: '600',
+        fontSize: 18,
+        lineHeight: 24,
+        /* identical to box height, or 133% */
+
+        textAlign: 'right',
+
+        /* Light/Text Color */
+
+        color: '#1A2530',
+    },
+    priceTotal: {
+        fontFamily: 'SF-Pro',
+        fontWeight: '700',
+        fontSize: 18,
+        lineHeight: 24,
+        textAlign: 'right',
+        color: '#1A2530',
     },
     text_LeftTotal: {
-        color: 'black', 
-        fontSize: 16
+        fontFamily: 'SF-Pro',
+        fontWeight: '510',
+        fontSize: 16,
+        lineHeight: 20,
+        color: '#1A2530',
     },
     text_Left: {
-        color: '#707B81', 
-        fontSize: 16
+        fontFamily: 'SF-Pro',
+        fontWeight: '500',
+        fontSize: 16,
+        lineHeight: 20,
+        color: '#707B81',
     },
     view_total:{
         flexDirection:'row', 
