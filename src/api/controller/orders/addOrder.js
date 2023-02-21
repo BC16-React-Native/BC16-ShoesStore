@@ -5,6 +5,7 @@ export const addOrder = (order) =>{
     const orderObject = {
       id: db.id,
       address: order.address,
+      phone: order.phone,
       productsid : order.productsid,
       status : order.status,
       userid : order.userid,

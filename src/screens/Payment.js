@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Contact from '../components/Contact';
 import Address from '../components/Address';
 import { get_User_byID } from '../api/controller/users/getRoles';
+import Checkout from '../components/Checkout/Checkout';
 
 const Payment = ({route}) => {
     const item = route.params.item;
@@ -52,9 +53,9 @@ const Payment = ({route}) => {
     
 
   return (
-    <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA', paddingHorizontal: 20}}>
+    <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA', justifyContent: 'space-between'}}>
 
-        <View style={{ backgroundColor: '#fff', paddingHorizontal: 20, paddingVertical: 16, borderRadius: 16}}>
+        <View style={{ backgroundColor: '#fff', paddingHorizontal: 20, paddingVertical: 16, borderRadius: 16, marginHorizontal: 20,}}>
             <View>
                 {item?.map((item, index) => (
                     <View key={item.id} style={{
@@ -118,6 +119,10 @@ const Payment = ({route}) => {
                 }}>Payment on delivery</Text>
             </View>
         </View>
+        <View style={{alignSelf: 'flex-end', width: '100%'}}>
+            <Checkout item={item} type={'payment'}/>
+        </View>
+       
     </SafeAreaView>
   )
 }

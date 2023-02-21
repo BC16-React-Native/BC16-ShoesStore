@@ -3,10 +3,27 @@ import auth from "@react-native-firebase/auth"
 import { getFirestore, Timestamp, FieldValue } from 'firebase-admin/firestore';
 
 export const addCart = (item) =>{
+    const adddb = firestore().collection('cart').doc();
+
     const db = firestore().collection('cart')
         .where('userid', '==', auth().currentUser.uid)
         .get().then((querySnapshot) => {
-            querySnapshot.forEach(documentSnapshot => {
+            if (querySnapshot.docs.length == 0) {
+                const cartObject = {
+                    id: adddb.id,
+                    incart: [{
+                        productid: item.id,
+                        quantity: 1,
+                        price: item.prices
+                    }],
+                    userid: auth().currentUser.uid,
+                };
+                adddb.set(cartObject)
+                .then(() => {
+                    console.log('cart added!');
+                });
+            } else {    
+                querySnapshot.forEach(documentSnapshot => {
                 // console.log('data: ', documentSnapshot.data());
                 const data_exits = documentSnapshot.data().incart.find( (element) => {
                     return element.productid == item.id
@@ -26,7 +43,8 @@ export const addCart = (item) =>{
                     .update({
                         incart: firestore.FieldValue.arrayUnion({
                             productid : data_exits.productid,
-                            quantity : data_exits.quantity + 1
+                            quantity : data_exits.quantity + 1,
+                            price: item.prices
                         }),
                     });
                 } else {
@@ -35,36 +53,12 @@ export const addCart = (item) =>{
                     .update({
                         incart: firestore.FieldValue.arrayUnion({
                             productid : item.id,
-                            quantity : 1
+                            quantity : 1,
+                            price: item.prices
                         }),
                     });
                 }
               });
+            }
         });
-    // const categoryObject = {
-    //   id: db.id,
-    //     name: data.name,
-    // };
-    // db.set(categoryObject)
-    // .then(() => {
-    //     console.log('category added!');
-    // });
-    console.log(item);
-    // console.log(db.data);
-    // function onResult(QuerySnapshot) {
-    //     // let result = [];
-    //     QuerySnapshot.forEach(doc => {
-    //         // console.log(doc.data());
-    //         doc.data().incart.find( (element) => {
-    //             return element.productid == item.id
-    //         });
-    //     });
-
-    //     // console.log('Got Cart', QuerySnapshot);
-    //     // setData(result);
-    // }
-    
-    // function onError(error) {
-    //     console.error(error);
-    // }
 }
