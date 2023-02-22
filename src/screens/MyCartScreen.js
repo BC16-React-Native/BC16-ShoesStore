@@ -17,7 +17,7 @@ const MyCartScreen = () => {
 
 
    useEffect(() => {
-       get_Cart_uID(setPro,'Xohk7XAjDEWAt8bxxPwGCqp8ebI2');
+       get_Cart_uID(setPro,'S5m9rnZbPPYS1jKsWamouMfFPpx1');
    }, [])
    console.log(pro);
    const navigation = useNavigation()

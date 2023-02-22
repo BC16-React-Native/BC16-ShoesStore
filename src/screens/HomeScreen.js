@@ -50,6 +50,9 @@ const HomeScreen = () => {
       ),
     }) 
   }, [lenghtCart]);
+
+  const [category, setCategory] = useState();
+  // console.log(category);
   return (
     <SafeAreaView style ={{paddingBottom: heightScreen * 0.09, flex:1, backgroundColor: '#F8F9FA'}}>
     <ScrollView style={styles.container}
@@ -61,15 +64,13 @@ const HomeScreen = () => {
         barStyle= 'dark-content'
       />
 
-      {/* <HeaderHome /> */}
-
       <SearchBar placeholder={'Looking for shoes'} />
 
-      <ListCategory />
+      <ListCategory setCategory={setCategory} />
       
-      <ListShoes />
+      <ListShoes  category={category}/>
       
-      <ListNewShoes />
+      <ListNewShoes  category={category}/>
     </ScrollView>
     </SafeAreaView>
   )

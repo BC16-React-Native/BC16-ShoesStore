@@ -12,7 +12,7 @@ export const addCart = (item) =>{
                 const cartObject = {
                     id: adddb.id,
                     incart: [{
-                        productid: item.id,
+                        productid: item.productid,
                         quantity: 1,
                         price: item.prices
                     }],
@@ -26,7 +26,7 @@ export const addCart = (item) =>{
                 querySnapshot.forEach(documentSnapshot => {
                 // console.log('data: ', documentSnapshot.data());
                 const data_exits = documentSnapshot.data().incart.find( (element) => {
-                    return element.productid == item.id
+                    return element.productid == item.productid
                 });
                 console.log('data: ', data_exits);
                 
@@ -52,7 +52,7 @@ export const addCart = (item) =>{
                     .doc(documentSnapshot.id)
                     .update({
                         incart: firestore.FieldValue.arrayUnion({
-                            productid : item.id,
+                            productid : item.productid,
                             quantity : 1,
                             price: item.prices
                         }),

@@ -5,7 +5,7 @@ import { heightScreen, widthScreen } from '../../utility'
 import { get_Categories, get_Categories_handle_all } from '../../api/controller/category/getCategories'
 import { get_RolesAdmin } from '../../api/controller/users/getRoles'
 
-const ListCategory = () => {
+const ListCategory = ({setCategory}) => {
   const [data, setData] = useState();
   useEffect(() => {
     get_Categories_handle_all(setData);
@@ -25,6 +25,7 @@ const ListCategory = () => {
               index={index} 
               focus_index={focus_index}
               setFocus_index={setFocus_index}
+              setCategory={setCategory}
             />
           }
           keyExtractor={item => item.id}

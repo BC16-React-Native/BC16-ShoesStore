@@ -4,7 +4,7 @@ import AntDesign from "react-native-vector-icons/AntDesign"
 
 const Address = ({address, setAddress}) => {
   const  [edit, setEdit] = useState(false);
-  console.log(address)
+//   console.log(address)
   return (
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
         {/* <Text style={styles.infor_text}>214-216-218 Nguyen Phuoc Lan, Danang, </Text> */}

@@ -3,14 +3,32 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import FieldButton from '../Auth/FieldButton'
 import { get_Cart_Price } from '../../api/controller/cart/getCart'
+import { addOrder } from '../../api/controller/orders/addOrder'
+import auth from "@react-native-firebase/auth"
 
-const Checkout = ({item, type}) => {
+const Checkout = ({item, type, address, phone}) => {
     const [subprice, setSubprice] = useState(0)
-    // console.log(item);
+    console.log(item);
     useLayoutEffect(() => {
         setSubprice(get_Cart_Price(item));
-    }, [])
-    
+    }, [item])
+    const createOrder = () => {
+        const data  = {
+            address: address,
+            phone: phone,
+            productsid: [{
+                productid: item.productid,
+                price: item.prices,
+                quantity: item.quantity
+            }],
+            status: 'pending',
+            total: subprice + 10,
+            userid: auth().currentUser.uid,
+            datecreate : new Date().toISOString(),
+        }
+        addOrder(data);
+        // console.log(data);
+    }
   return (
     <View style={styles.view_checkout}>
         <View style={styles.view_total}>
@@ -29,13 +47,17 @@ const Checkout = ({item, type}) => {
         <FieldButton
             stylesContainer={{}}
             title={type == 'payment' ? 'Payment' : 'Checkout'}
-            onPress={() => console.log('tinh tien')}
-            />
+            onPress={() => {
+                if(type == 'payment'){
+                    createOrder();
+                }
+            }}
+        />
     </View>
   )
 }
 
-export default Checkout
+export default React.memo(Checkout)
 
 const styles = StyleSheet.create({
     view_checkout:{
@@ -78,7 +100,7 @@ const styles = StyleSheet.create({
     },
     text_LeftTotal: {
         fontFamily: 'SF-Pro',
-        fontWeight: '510',
+        fontWeight: '500',
         fontSize: 16,
         lineHeight: 20,
         color: '#1A2530',
