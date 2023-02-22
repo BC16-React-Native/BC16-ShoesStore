@@ -56,7 +56,7 @@ import { get_AllProducts_limit } from '../../api/controller/products/getProducts
 //         price: 329
 //     },
 // ]
-const ListShoes = () => {
+const ListShoes = ({category}) => {
     const [data, setData] = useState();
         // async function fetchData() {
         //     const result = await get_AllProducts_limit();
@@ -65,8 +65,9 @@ const ListShoes = () => {
         //   fetchData();
         // return result;
         // get_AllProducts_limit(setData)
+        // console.log(category)
         useEffect(() => {
-            get_AllProducts_limit()
+            get_AllProducts_limit(category)
                 .onSnapshot(
                     querySnapshot => {
                         const newEntities = []
@@ -79,7 +80,7 @@ const ListShoes = () => {
                         console.log(error)
                     }
                 )
-        }, [])
+        }, [category])
   return (
     <View style={styles.container}>
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 

@@ -17,24 +17,16 @@ export const get_AllProducts = (setData) => {
     }
 }
 
-export const get_AllProducts_limit = (setData) => {
-    let allEntries = [];
-      
-    const querySnapshot = firestore().collection('products').orderBy('prices', 'desc').limit(5)
-    // .onSnapshot(onResult, onError);
+export const get_AllProducts_limit = (category) => {
+    console.log(category);
+    const querySnapshot_full = firestore().collection('products').orderBy('prices', 'desc').limit(5)
 
-    // function onResult(QuerySnapshot) {
-    //     allEntries = [];
-    //     QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
-    //     // console.log('Got products collection result.');
-    //     // return allEntries;
-    //     setData(allEntries)
-    // }
-      
-    // function onError(error) {
-    //     console.error(error);
-    // }
-    return querySnapshot
+    // const querySnapshot = firestore().collection('products').where('categoryid', '==', category.id).orderBy('prices', 'desc').limit(5)
+    if(category?.id == 'all' || !category) {
+        return querySnapshot_full
+    } else {
+        return firestore().collection('products').where('categoryid', '==', category.id).orderBy('prices', 'desc').limit(5)
+    }
 };
 
 export const get_ProductID = (setData, id) => {
@@ -43,7 +35,7 @@ export const get_ProductID = (setData, id) => {
     function onResult(QuerySnapshot) {
         // console.log('Got products collection result.');
 
-        setData({...QuerySnapshot.data() , id: QuerySnapshot.id});
+        setData({...QuerySnapshot.data() , productid: QuerySnapshot.id});
     }
       
     function onError(error) {

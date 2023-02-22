@@ -3,8 +3,8 @@ import React from 'react'
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 import { heightScreen, widthScreen } from '../../utility'
 
-const Category = ({item, index, focus_index, setFocus_index}) => {
-    // console.log(index);
+const Category = ({item, index, focus_index, setFocus_index, setCategory}) => {
+    index == focus_index ? setCategory(item) : null;
   return (
     <TouchableOpacity 
         onPress={() => {setFocus_index(index)}}

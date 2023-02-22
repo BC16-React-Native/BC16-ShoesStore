@@ -9,6 +9,8 @@ import Contact from '../components/Contact';
 import Address from '../components/Address';
 import { get_User_byID } from '../api/controller/users/getRoles';
 import Checkout from '../components/Checkout/Checkout';
+import ShoesBoxMyCart from '../components/ShoesBoxMyCart';
+import ShoesPayment from '../components/ShoesPayment.js';
 
 const Payment = ({route}) => {
     const item = route.params.item;
@@ -18,7 +20,6 @@ const Payment = ({route}) => {
     const getUser = async () => {
         const result = await get_User_byID();
         setUser(result);
-        // setPhone(user?.phone)
     }
     useEffect(() => {
         getUser();
@@ -27,7 +28,7 @@ const Payment = ({route}) => {
         setPhone(user?.phone);
         setAddress(user?.address);
     }, [user])
-    // console.log(item);
+    // console.log(isBuyNow);
     const navigation = useNavigation();
     useLayoutEffect(() => { 
         navigation.setOptions({ 
@@ -50,33 +51,34 @@ const Payment = ({route}) => {
       }, []);
     //   console.log('user', user)
     //   console.log(phone)
-    
-
+    const isBuyNow = route.params.isBuyNow;
+    const [quantity, setQuantity] = useState(1);
+    // console.log(quantity)
   return (
     <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA', justifyContent: 'space-between'}}>
-
-        <View style={{ backgroundColor: '#fff', paddingHorizontal: 20, paddingVertical: 16, borderRadius: 16, marginHorizontal: 20,}}>
-            <View>
-                {item?.map((item, index) => (
-                    <View key={item.id} style={{
-                        flexDirection: 'row', 
-                        alignItems: 'center', 
-                        backgroundColor: '#F8F9FA',
-                        borderRadius: 12,
-                        marginVertical: 4
-                    }}>
-                        <Image
-                            source={{uri: item?.images[0]}} 
-                            style={styles.image}
-                        />
-                        <View style={{marginLeft: 12, justifyContent: 'space-between', flex: 1}}>
-                            <Text numberOfLines={1} style={styles.nameProduct}>{item?.name}</Text>
-                            <Text style={styles.priceProduct}>$ {item?.prices}</Text>
-                        </View>
-                        <Text style={{alignSelf: 'flex-end', padding: 8}}>x{item?.quantity}</Text>   
-                    </View>
-                ))}
+            <View style={{ 
+            }}>
+                {/* {item?.map((item, index) => (
+                    <ShoesBoxMyCart 
+                        item={item} 
+                        key={item.productid} 
+                        type={'payment'}
+                        quantity={quantity}
+                        setQuantity={setQuantity}
+                    />
+                ))} */}
+                    {isBuyNow ? 
+                        <ShoesPayment 
+                            item={item} 
+                            key={item.productid} 
+                            type={'payment'}
+                            quantity={quantity}
+                            setQuantity={setQuantity}
+                        /> 
+                    : null 
+                    }
             </View>
+        <View style={{ backgroundColor: '#fff', paddingHorizontal: 20, paddingVertical: 16, borderRadius: 16, marginHorizontal: 20,}}>
             <View style={{marginBottom : 12}}>
                 <Text style={{
                     fontFamily: 'SF-Pro',
@@ -120,7 +122,16 @@ const Payment = ({route}) => {
             </View>
         </View>
         <View style={{alignSelf: 'flex-end', width: '100%'}}>
-            <Checkout item={item} type={'payment'}/>
+            {/* <Checkout item={{...item, quantity: quantity}} type={'payment'}/> */}
+            {isBuyNow ? 
+                <Checkout 
+                    item={{...item, quantity: quantity}} 
+                    type={'payment'} 
+                    address={address}
+                    phone={phone}
+                />
+            :   <Checkout item={item} type={'payment'}/> 
+            }
         </View>
        
     </SafeAreaView>
