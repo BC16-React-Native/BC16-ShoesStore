@@ -17,15 +17,16 @@ import storage from '@react-native-firebase/storage'
 import DropDownPicker from 'react-native-dropdown-picker';
 import { get_ProductID } from '../../api/controller/products/getProducts';
 import Feather from 'react-native-vector-icons/Feather';
+import Modal from 'react-native-modal'
 // import Carousel, {ParallaxImage, Pagination } from 'react-native-new-snap-carousel';
 
-const DetailScreen = ({route}) => {
-  const item = route.params.item;
+const ProductCreate = ({}) => {
   const [items,setItem] = useState();
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState();
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(item?.categoryid);
+  const [value, setValue] = useState(items?.categoryid);
+  const [modalVisible, setModalVisible] = useState(false);
     const navigation = useNavigation();
     useLayoutEffect(() => { 
         navigation.setOptions({ 
@@ -49,18 +50,15 @@ const DetailScreen = ({route}) => {
       const fetchCategories = async () => {
         const categoriesSnapshot = await firestore().collection('category').get();
         const categoriesList = categoriesSnapshot.docs.map(doc => ({ label: doc.data().name, value: doc.id }));
-        const selectedCategory = categories.find((category) => category.value === value);
+        categoriesList.unshift({ label: "+ Add category", value: "add_category" });
 
         setCategories(categoriesList);
         // setCategory(selectedCategory.label)
       }
 
       useEffect(() => {
-        get_ProductID(setItem, item?.id);
         fetchCategories();
-        setImages(item?.images)
       }, []);
-      console.log("categories",category)
       const headerMotion = useRef(new Animated.Value(0)).current;
       const dispatch = useDispatch();
         // function handle animation 
@@ -92,78 +90,52 @@ const DetailScreen = ({route}) => {
             }
             
         },[]);
-        const [images, setImages] = useState(items?.images);
+        const [images, setImages] = useState();
         const [imagesnew, setnewImages] = useState(null);
         const [uploading, setUploading] = useState(false);
         const [transferred, setTransferred] = useState(0);
         const [loading, setLoading] = useState(false);
 
         const handleUpdate = async () => {
-          setEdit(!edit)
           setLoading(true);
           let imgUrls = await uploadImages();
-          if (imgUrls == null) {
-            firestore()
-              .collection('products')
-              .doc(items.id)
-              .update({
-                name: items.name,
-                amount: items.amount,
-                prices: items.prices,
-                categoryid: value,
-                info: items.info,
-                images: items?.images,
-                datecreate: new Date().toISOString(),
-              })
-              .then(() => {
-                console.log('Product Updated!');
-                setLoading(false);
-                Alert.alert(
-                  'Product Updated!',
-                  'Your product has been updated successfully.',
-                );
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          } else {
             const newImages = [];
-            const oldImages = items?.images;
               for (let i = 0; i < imgUrls.length; i++) {
                 newImages.push(imgUrls[i]);
               }
-              const allImages = [...oldImages, ...newImages];
               firestore()
               .collection('products')
-              .doc(items.id)
-              .update({
+              .add({
                 name: items.name,
                 amount: items.amount,
                 categoryid: value,
                 datecreate: new Date().toUTCString(),
-                images: allImages,
+                images: newImages,
                 info: items.info,
                 prices: items.prices
               })
               .then(() => {
-                console.log('Product Updated!');
+                console.log('Product Created!');
                 setLoading(false);
                 Alert.alert(
-                  'Product Updated!',
-                  'Your product has been updated successfully.',
+                  'Product Created!',
+                  'Your product has been created successfully.',
                 );
+                navigation.navigate('BottomTabAdmin')
               })
               .catch((err) => {
                 console.log(err);
               });
-
-            }
         };
-
 
 
       const uploadImages = async () => {
         if (!imagesnew || imagesnew.length === 0) {
+            setLoading(false);
+            Alert.alert(
+                'Product Created!',
+                'Your product has been created successfully.',
+              );
           return null;
         }
         else {
@@ -210,11 +182,6 @@ const DetailScreen = ({route}) => {
         
       };
 
-      const [edit, setEdit] = useState(false);
-      const handleEdit = () => {
-        setEdit(!edit);
-        console.log(edit)
-      }
 
       
       const takePhotoFromCamera = () => {
@@ -310,9 +277,7 @@ const DetailScreen = ({route}) => {
               <TouchableOpacity onPress={()=>navigation.navigate('BottomTabAdmin')} style={styles.buttonBack}>
                 <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack}/>
               </TouchableOpacity> 
-              <TouchableOpacity onPress={handleEdit} style={styles.buttonEdit}>
-                <Feather name='edit-3' color={'black'} size={30} style={styles.iconBack}/>
-              </TouchableOpacity>
+              {images?
               <View style = {styles.containerImg}>
                 <FlatList
                   data={images}
@@ -338,28 +303,26 @@ const DetailScreen = ({route}) => {
                   ><Image 
                       source={{ uri: item }} 
                       style={{ width: 100, height: 100, borderRadius: 60/ 2, marginHorizontal: widthScreen * 0.01}} />
-                      {edit?
                       <TouchableOpacity onPress={() => {
                             const newImages = images.filter((img) => img !== item);
-                            firestore().collection('products')
-                            .doc(items.id)
-                            .update({
-                                images: firestore.FieldValue.arrayRemove(item),
-                            });
+                            // firestore().collection('products')
+                            // .doc(items.id)
+                            // .update({
+                            //     images: firestore.FieldValue.arrayRemove(item),
+                            // });
                             setImages(newImages);
                             // setItems();
                       }} style={styles.buttonDel}>
                         <Icon name='close-circle' color={'red'} size={20} style={styles.iconBack}/>
-                  </TouchableOpacity>:<></>}
+                  </TouchableOpacity>
                   </View>
                   }
                   keyExtractor={item => item}
                 />
-                {edit?
+                </View>:<Text style = {styles.textAdd}>Add Images for Product up to 3 images</Text>}
                 <TouchableOpacity onPress={() => bs.current.snapTo(0)} style={styles.buttonCamera1}>
                 <Icon name='camera-outline' color={'white'} size={20} style={styles.iconBack}/>
-                </TouchableOpacity> :<></>}
-                </View>
+                </TouchableOpacity>
             </Animated.View>
 
             <View style={styles.containerBody}>
@@ -370,7 +333,6 @@ const DetailScreen = ({route}) => {
                 title={'Name'}
                 onChangeText={(txt) => setItem({...items, name: txt})}
                 value={items?.name}
-                editable={edit}
                 onSubmitEditing={Keyboard.dismiss}
                 stylesTitle={{fontWeight: 'bold'}}
                 />
@@ -389,23 +351,76 @@ const DetailScreen = ({route}) => {
                     dropDownContainerStyle={{borderWidth:0.2,
                       backgroundColor: '#fafafa'
                     }}
-                    itemStyle={{
-                    justifyContent: 'flex-start'
-                    }}
-                    listItemContainerStyle = {{
-                      borderRadius:20,
-                    }}
-                    labelStyle= {{paddingLeft: widthScreen * 0.02}}
-                    disabled={!edit}
+                    listItemContainerStyle={{
+                    borderRadius: 20,
+                    borderBottomWidth: 1, borderBottomColor: "gray"
+                  }}
+
+
                 />
+
+                  {value === 'add_category' && (
+                    <Modal
+                      isVisible={!modalVisible}
+                      animationType="slide"
+                      onRequestClose={() => setModalVisible(false)}
+                    >
+                      <View style={styles.modalcontainer}>
+                      <Text
+                      style = {{ position:'absolute', fontSize:20, paddingBottom: heightScreen * 0.2, fontWeight:'bold' }}
+                      >Create Category</Text>
+                      <FieldTextInput  
+                        stylesContainer={{width: widthScreen * 0.75, position:'absolute', marginBottom: heightScreen * 0.1}}
+                        title={'Category'}
+                        onChangeText={(txt) => setCategory(txt)}
+                        value={category}
+                        // onSubmitEditing={Keyboard.dismiss}
+                        stylesTitle={{fontWeight: 'bold'}}
+                        />
+                      <FieldButton
+                        title={'Yes'}
+                        // stylesTitle={{color:"#5B9EE1"}}
+                        onPress={async ()=>
+                        {
+
+                            const categoryRef = await firestore()
+                            .collection('category')
+                            .add({
+                              name: category
+                            })
+                            .then(async () => {
+                              // const newCategory = {
+                              //   label: category,
+                              //   value: newCategoryId,
+                              // };
+                              console.log('Category Created!');
+                              setLoading(false);
+                              Alert.alert(
+                                'Category Created!',
+                                'Your Category has been created successfully.',
+                              );
+                              setModalVisible(!modalVisible);
+                              fetchCategories();
+                            })
+                            .catch((err) => {
+                              console.log(err);
+                            });
+                        
+                        }}
+                        stylesContainer = {{width: widthScreen * 0.25, marginHorizontal: widthScreen * 0.02 , marginTop:heightScreen * 0.53, }}
+                        stylesTitle = {{fontSize:18}}
+                        />
+                      </View>
+                    </Modal>
+                  )}
+
 
                 {/* Text input Phone*/}
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Price'}
                 onChangeText={(txt) => setItem({...items, prices: Number(txt)})}
-                value={String(items?.prices)}
-                editable={edit}
+                value={items?.prices}
                 onSubmitEditing={Keyboard.dismiss}
                 stylesTitle={{fontWeight: 'bold'}}
                 />
@@ -413,30 +428,27 @@ const DetailScreen = ({route}) => {
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Amount'}
                 onChangeText={(txt) => setItem({...items, amount: Number(txt)})}
-                value={String(items?.amount)}
-                editable={edit}
+                value={items?.amount}
                 onSubmitEditing={Keyboard.dismiss}
                 stylesTitle={{fontWeight: 'bold'}}
                 />
                 
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
-                stylesInput = {{padding:heightScreen * 0.1,}}
+                stylesInput = {{padding:heightScreen * 0.1, paddingTop: 10}}
                 title={'Description'}
                 multiline = {true}
                 onChangeText={(txt) => setItem({...items, info: txt})}
                 value={items?.info}
-                editable={edit}
                 onSubmitEditing={Keyboard.dismiss}
                 stylesTitle={{fontWeight: 'bold'}}
                 />
-                {edit?
                 <FieldButton
-                title={'Update'}
+                title={'Create'}
                 // stylesTitle={{color:"#5B9EE1"}}
                 onPress={handleUpdate}
                 stylesContainer = {{ marginVertical:heightScreen * 0.07}}
-                /> :<></>}
+                />
 
             </View>
           </ScrollView>
@@ -449,7 +461,7 @@ const DetailScreen = ({route}) => {
   )
 }
 
-export default DetailScreen
+export default ProductCreate
 
 const styles = StyleSheet.create({
     container:{
@@ -563,35 +575,19 @@ const styles = StyleSheet.create({
       width: widthScreen * 0.08,
       height: heightScreen * 0.036,
       backgroundColor: '#5B9EE1',
+      alignSelf:'center',
       borderRadius: 20,
-      top: heightScreen * 0.11,
+      top: heightScreen * 0.22,
       justifyContent: 'center',
-    },
-    buttonEdit:{
-      position: 'absolute',
-      width: widthScreen * 0.14,
-      height: heightScreen * 0.067,
-      backgroundColor: 'white',
-      borderRadius: 40,
-      right: widthScreen * 0.05,
-      justifyContent: 'center',
-      shadowColor: "#000",
-      shadowOffset: {
-          width: 0,
-          height: heightScreen * 0.001,
-      },
-      shadowOpacity: 0.23,
-      shadowRadius: 2.62,
-    
-      elevation: 4,
     },
     textAdd:{
       position: 'absolute',
       fontSize:20,
       fontWeight: 'bold',
-      marginTop: heightScreen * 0.04,
+      marginTop: heightScreen * 0.12,
       textAlign: 'center',
-      marginLeft: widthScreen * 0.35
+      alignSelf: 'center',
+      lineHeight:30
     },
     buttonDel:{
       borderRadius: 40,
@@ -651,4 +647,23 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       color: 'white',
     },
+    modalcontainer:{
+      alignSelf: 'center',
+      width: widthScreen * 0.9,
+      height: heightScreen * 0.35,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor:'#F8F9FA',
+      borderRadius: 30,
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: heightScreen * 0.001,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      elevation: 4,
+  }
 })

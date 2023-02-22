@@ -35,6 +35,7 @@ import ResultScreen from './src/screens/ResultScreen';
 import Favorite from './src/screens/FavoriteScreen';
 import MyCartScreen from './src/screens/MyCartScreen';
 import Payment from './src/screens/Payment';
+import ProductCreate from './src/screens/Admin/ProductCreate';
 
 const Stack = createNativeStackNavigator();
 
@@ -137,6 +138,7 @@ const App = () => {
           <Stack.Screen options={{headerShown: false}} name="Settings" component={SettingsScreen}/>
           <Stack.Screen options={{headerShown: false}} name="OrderDetail" component={OrderDetail}/>
           <Stack.Screen options={{headerShown: false}} name="ProductDetail" component={ProductDetail}/>
+          <Stack.Screen options={{headerShown: false}} name="ProductCreate" component={ProductCreate}/>
           </>)
         }
       
