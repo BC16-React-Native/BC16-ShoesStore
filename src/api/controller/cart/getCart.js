@@ -8,24 +8,10 @@ export const get_Cart_Price = (list) => {
     console.log("ac",list)
     let subtotal = 0;
     list?.forEach((item) => {
-        subtotal += item.prices * item.quantity;
+        subtotal += item.price * item.quantity;
     })
     return subtotal
 }
-
-export const get_Cart_Price_1 = (list) => {
-    console.log("ac",list)
-    let subtotal = 0;
-    list?.forEach((item) => {
-        // subtotal += item.prices * item.quantity;
-        getProducts_id(item.productid).then((product) => {
-            // subtotal += product.prices * item.quantity;
-            console.log("ab", product);
-        })
-    })
-    return subtotal
-}
-
 
 
 export const get_Cart_uID = (setdata,id) => {

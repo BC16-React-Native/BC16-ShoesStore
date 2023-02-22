@@ -8,9 +8,22 @@ const Checkout = ({item, type}) => {
     const [subprice, setSubprice] = useState(0)
     // console.log(item);
     useLayoutEffect(() => {
-        setSubprice(get_Cart_Price(item));
-    }, [])
+        setSubprice(get_Cart_Price(item))
+    });
     
+    useEffect(() => {
+        get_subTotal(item);
+    }, [])
+    const get_subTotal = (list) =>{
+        let subtotal = 0;
+        list?.forEach((item) => {
+            subtotal += item.price * item.quantity;
+        })
+        return subtotal
+    }
+    useEffect(() => {
+        setSubprice(get_subTotal(item));
+    }, [item])
   return (
     <View style={styles.view_checkout}>
         <View style={styles.view_total}>
@@ -19,12 +32,12 @@ const Checkout = ({item, type}) => {
         </View>
         <View style={styles.view_shipping}>
             <Text style={styles.text_Left}>Shipping</Text>
-            <Text style={styles.text_Right}>$10</Text>
+            <Text style={styles.text_Right}>$ 9</Text>
         </View>
         <View style={styles.hr} />
         <View style={styles.view_total}>
             <Text style={styles.text_LeftTotal}>Total</Text>
-            <Text style={styles.priceTotal}>${subprice + 10}</Text>
+            <Text style={styles.text_Right}>$ {subprice + 9}</Text>
         </View>
         <FieldButton
             stylesContainer={{}}

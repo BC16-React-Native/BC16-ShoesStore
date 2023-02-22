@@ -17,15 +17,18 @@ const ShoesBoxMyCart = ({ item }) => {
       setNums(item?.quantity);
       get_ProductID(setData, item?.productid);
     }, [])
-    // console.log(data);
     return (
         <TouchableOpacity style={styles.container} onPress={() => { console.log('go to detail') }}>
-            <Image
-                style={styles.image}
-                source={{
-                    uri: data?.images[0]
-                }}
-            />
+            {/* check data before render */}
+            {data ? 
+                <Image
+                    style={styles.image}
+                    source={{
+                        uri: data?.images[0]
+                    }}
+                />
+            : null
+            }
             <View style={{ marginVertical: heightScreen * 0.02, justifyContent: 'space-evenly', marginHorizontal: widthScreen * 0.02 }}>
                 <Text numberOfLines={1} style={styles.name}>{data?.name}</Text>
                 <Text style={styles.price}>${data?.prices}</Text>

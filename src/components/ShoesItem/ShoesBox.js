@@ -3,11 +3,23 @@ import React, { useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import Feather  from "react-native-vector-icons/Feather"
 import { useNavigation } from '@react-navigation/native'
+import { addFavorite } from '../../api/controller/favorite/addFavorite'
+import auth from '@react-native-firebase/auth'
+
 
 const ShoesBox = ({item}) => {
   // console.log("View box home",item);
   const [like, setLike] = useState(false);
   const navigation = useNavigation();
+  const handleLike = (product, id) =>{
+    setLike(!like);
+    let data = {
+      productid: product?.id,
+      userid: id
+    }
+    console.log(data);
+    addFavorite(data);
+  }
   return (
     <TouchableOpacity style={styles.container} onPress={() =>{
       navigation.push('Detail' , {
@@ -32,7 +44,7 @@ const ShoesBox = ({item}) => {
       <TouchableOpacity style={[styles.icon_like, 
           {backgroundColor: !like ? '#5B9EE1' : '#E15B5B'}
         ]} 
-        onPress={() => {setLike(!like)}}
+        onPress={() => {handleLike(item, auth().currentUser.uid)}}
       >
         <Feather name="heart" size={22} color="#fff" />
       </TouchableOpacity>
