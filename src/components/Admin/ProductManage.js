@@ -2,20 +2,92 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import Icon from 'react-native-vector-icons/Feather';
+import { Swipeable } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native'
+import Modal from "react-native-modal";
+import FieldButton from '../Auth/FieldButton';
+import firestore from '@react-native-firebase/firestore';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 const ProductManage = ({
     stylesContainer,
     item,
     index,
     image,
     icon,
-    stylesIcon
+    stylesIcon,
 }) => {
     const date = new Date(item.datecreate)
     const options = { day: "2-digit", month: "2-digit", year: "numeric" };
     const localDateString = date.toLocaleDateString("en-US", options);
     const navigation = useNavigation();
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const handleDelete = (id) => {
+        // Delete the item from Firestore
+        firestore()
+          .collection('products')
+          .doc(id)
+          .delete()
+          .then(() => {
+            console.log('Item deleted successfully');
+            // Remove the item from the state
+          })
+          .catch((error) => {
+            console.log('Error deleting item', error);
+          });
+      };
+
+
+    const rightSwipe = () => {
+        return(
+            <View>
+                <Modal
+                animationIn={'fadeInLeftBig'}
+                animationOut={'fadeOutRightBig'}
+                transparent={true}
+                isVisible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert('Modal has been closed.');
+                    setModalVisible(!modalVisible);
+                    }}
+                >
+                    <View style={styles.modalcontainer}>
+                        <FieldButton
+                        title={'Yes'}
+                        // stylesTitle={{color:"#5B9EE1"}}
+                        onPress={()=>
+                        {
+                            setModalVisible(!modalVisible)
+                            handleDelete(item?.id);
+                        
+                        }}
+                        stylesContainer = {{width: widthScreen * 0.25, marginHorizontal: widthScreen * 0.02 , marginTop:heightScreen * 0.63, }}
+                        stylesTitle = {{fontSize:18}}
+                        />
+                        <FieldButton
+                        title={'Cancel'}
+                        // stylesTitle={{color:"#5B9EE1"}}
+                        onPress={()=>setModalVisible(!modalVisible)}
+                        stylesContainer = {{width: widthScreen * 0.25, marginHorizontal: widthScreen * 0.02,marginTop:heightScreen * 0.63, borderColor:'#5B9EE1', borderWidth:1,backgroundColor:'#FFFFFF' }}
+                        stylesTitle = {{fontSize:18, color:'#5B9EE1'}}
+                        />
+                        <FontAwesome5Icon
+                        name = "question-circle" style={styles.iconquestion} size = {100} color = {'#D24250'}
+                        />
+                        <Text style = {styles.textquestion}>Are you sure?</Text>
+                </View>
+            </Modal>
+
+                    <TouchableOpacity onPress={()=>setModalVisible(!modalVisible)}>
+                    <Icon name='trash-2' color={'red'} size={40} style={styles.icondelete}/>
+                    </TouchableOpacity>
+                    </View>
+        )
+    }
 return (
+    <Swipeable 
+        renderRightActions={rightSwipe}
+    >
     <TouchableOpacity style = {[styles.container, stylesContainer]}
     onPress = {() =>navigation.push('ProductDetail' , {
         // screen: 'Detail',
@@ -54,6 +126,7 @@ return (
     </View>
     </View>
     </TouchableOpacity>
+    </Swipeable>
     )
 }
 
@@ -127,6 +200,37 @@ const styles = StyleSheet.create({
     buttonEdit:{
         padding:7,
     },
-    titleamount:{
-    }
+    icondelete:{
+        marginTop: heightScreen * 0.065,
+        paddingRight: widthScreen * 0.03
+    },
+    iconquestion:{
+        position:'absolute',
+        paddingBottom:heightScreen * 0.15
+      },
+      textquestion:{
+        fontSize: 30,
+        position:'absolute',
+        paddingTop:heightScreen * 0.09,
+        fontWeight:'bold',
+      },
+      modalcontainer:{
+          alignSelf: 'center',
+          width: widthScreen * 0.7,
+          height: heightScreen * 0.4,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor:'#F8F9FA',
+          borderRadius: 30,
+          shadowColor: "#000",
+          shadowOffset: {
+              width: 0,
+              height: heightScreen * 0.001,
+          },
+          shadowOpacity: 0.23,
+          shadowRadius: 2.62,
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          elevation: 4,
+      }
 })
