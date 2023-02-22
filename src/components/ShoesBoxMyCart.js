@@ -10,7 +10,7 @@ import { get_ProductID } from '../api/controller/products/getProducts'
 
 
 
-const ShoesBoxMyCart = ({ item }) => {
+const ShoesBoxMyCart = ({ item, type }) => {
     const [nums, setNums] = useState(1);
     const [data, setData] = useState();
     useEffect(() => {
@@ -18,46 +18,60 @@ const ShoesBoxMyCart = ({ item }) => {
       get_ProductID(setData, item?.productid);
     }, [])
     return (
-        <TouchableOpacity style={styles.container} onPress={() => { console.log('go to detail') }}>
+        <TouchableOpacity 
+            style={[styles.container, {paddingBottom: type == 'payment' ? 8 : 0}]} 
+            onPress={() => { console.log('go to detail') }}
+        >
             {/* check data before render */}
             {data ? 
                 <Image
-                    style={styles.image}
+                    style={[styles.image]}
                     source={{
                         uri: data?.images[0]
                     }}
                 />
             : null
             }
-            <View style={{ marginVertical: heightScreen * 0.02, justifyContent: 'space-evenly', marginHorizontal: widthScreen * 0.02 }}>
-                <Text numberOfLines={1} style={styles.name}>{data?.name}</Text>
+            <View style={{ 
+                marginVertical: heightScreen * 0.02, 
+                justifyContent: 'space-evenly', 
+                marginHorizontal: widthScreen * 0.02,
+
+            }}>
+                <Text 
+                    numberOfLines={1} 
+                    style={[styles.name, {width: type == 'payment' ?  widthScreen * 0.5 :  widthScreen * 0.3768,}]}
+                >{data?.name}</Text>
                 <Text style={styles.price}>${data?.prices}</Text>
 
+                {type !== 'payment' ? 
+                    <View style={{
+                        flexDirection: 'row',
+                        width: widthScreen * 0.2,
+                        justifyContent: 'space-between',
 
-                <View style={{
-                    flexDirection: 'row',
-                    width: widthScreen * 0.2,
-                    justifyContent: 'space-between',
-
-                }}>
-                    <TouchableOpacity
-                        onPress={() => setNums(nums - 1)}
-                        style={{ height: 25, width: 25, borderRadius: 25 / 2, backgroundColor: '#F8F9FA', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 15, }}>-</Text>
-                    </TouchableOpacity>
-                    <Text>{nums}</Text>
-                    <TouchableOpacity onPress={() => setNums(nums + 1)} style={{ height: 25, width: 25, borderRadius: 25 / 2, backgroundColor: '#5B9EE1', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 15, color: 'white' }}>+</Text></TouchableOpacity>
-                </View>
+                    }}>
+                        <TouchableOpacity
+                            onPress={() => setNums(nums - 1)}
+                            style={{ height: 25, width: 25, borderRadius: 25 / 2, backgroundColor: '#F8F9FA', justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 15, }}>-</Text>
+                        </TouchableOpacity>
+                        <Text>{nums}</Text>
+                        <TouchableOpacity onPress={() => setNums(nums + 1)} style={{ height: 25, width: 25, borderRadius: 25 / 2, backgroundColor: '#5B9EE1', justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 15, color: 'white' }}>+</Text></TouchableOpacity>
+                    </View>
+                : null}
             </View>
-            <TouchableOpacity style={styles.icon_delete}
-                onPress={()=>
-                    // deleteCart(data?.id)
-                    {}
-                }
-            >
-                <Feather name="trash-2" size={22} color="#707B81" />
-            </TouchableOpacity>
+            {type !== 'payment' ? 
+                <TouchableOpacity style={styles.icon_delete}
+                    onPress={()=>
+                        // deleteCart(data?.id)
+                        {}
+                    }
+                >
+                    <Feather name="trash-2" size={22} color="#707B81" />
+                </TouchableOpacity>
+            : null}
         </TouchableOpacity>
     )
 }
@@ -106,12 +120,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         lineHeight: 20,
         color: '#1A2530',
-        width: widthScreen * 0.3768,
-        // maxHeight: 38,
-
-
-
-
+        // width: widthScreen * 0.3768,
     },
     price: {
         fontFamily: 'SF-Pro',

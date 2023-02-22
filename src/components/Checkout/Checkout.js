@@ -5,26 +5,28 @@ import FieldButton from '../Auth/FieldButton'
 import { get_Cart_Price } from '../../api/controller/cart/getCart'
 import { addOrder } from '../../api/controller/orders/addOrder'
 import auth from "@react-native-firebase/auth"
+import { useNavigation } from '@react-navigation/native'
+import { removeCart } from '../../api/controller/cart/deleteCart'
 
-const Checkout = ({item, type, address, phone}) => {
+const Checkout = ({item, type, address, phone, isBuyNow}) => {
     const [subprice, setSubprice] = useState(0)
-    console.log(item);
+    // console.log(item);
     useLayoutEffect(() => {
         setSubprice(get_Cart_Price(item))
     });
     
-    useEffect(() => {
-        get_subTotal(item);
-    }, [])
-    const get_subTotal = (list) =>{
-        let subtotal = 0;
-        list?.forEach((item) => {
-            subtotal += item.price * item.quantity;
-        })
-        return subtotal
-    }
+    // useEffect(() => {
+    //     get_subTotal(item);
+    // }, [])
+    // const get_subTotal = (list) =>{
+    //     let subtotal = 0;
+    //     list?.forEach((item) => {
+    //         subtotal += item.price * item.quantity;
+    //     })
+    //     return subtotal
+    // }
 
-    const createOrder = () => {
+    const createOrder_isBuyNow = () => {
         const data  = {
             address: address,
             phone: phone,
@@ -34,13 +36,28 @@ const Checkout = ({item, type, address, phone}) => {
                 quantity: item.quantity
             }],
             status: 'pending',
-            total: subprice + 10,
+            total: subprice + 9,
             userid: auth().currentUser.uid,
             datecreate : new Date().toISOString(),
         }
         addOrder(data);
         // console.log(data);
     }
+    const createOrder_notBuyNow = () => {
+        const data  = {
+            address: address,
+            phone: phone,
+            productsid: item,
+            status: 'pending',
+            total: subprice + 9,
+            userid: auth().currentUser.uid,
+            datecreate : new Date().toISOString(),
+        }
+        addOrder(data);
+        removeCart();
+        // console.log(data);
+    }
+    const navigation = useNavigation();
   return (
     <View style={styles.view_checkout}>
         <View style={styles.view_total}>
@@ -49,19 +66,25 @@ const Checkout = ({item, type, address, phone}) => {
         </View>
         <View style={styles.view_shipping}>
             <Text style={styles.text_Left}>Shipping</Text>
-            <Text style={styles.text_Right}>$ 9</Text>
+            <Text style={styles.text_Right}>$9</Text>
         </View>
         <View style={styles.hr} />
         <View style={styles.view_total}>
             <Text style={styles.text_LeftTotal}>Total</Text>
-            <Text style={styles.text_Right}>$ {subprice + 9}</Text>
+            <Text style={styles.text_Right}>${subprice + 9}</Text>
         </View>
         <FieldButton
             stylesContainer={{}}
             title={type == 'payment' ? 'Payment' : 'Checkout'}
             onPress={() => {
                 if(type == 'payment'){
-                    createOrder();
+                    isBuyNow ? createOrder_isBuyNow() : createOrder_notBuyNow();
+                    
+                } else if (type == 'order'){
+                    navigation.navigate('Payment', {
+                        item : item,
+                        isBuyNow : false
+                    })
                 }
             }}
         />
@@ -91,7 +114,7 @@ const styles = StyleSheet.create({
     },
     text_Right: {
         fontFamily: 'SF-Pro',
-        fontWeight: '600',
+        fontWeight: '700',
         fontSize: 18,
         lineHeight: 24,
         /* identical to box height, or 133% */

@@ -42,7 +42,7 @@ const MyCartScreen = () => {
                     </View>
                 )} 
             />
-           <Checkout item={pro}/>
+           <Checkout item={pro} type={'order'}/>
        </SafeAreaView>
    )
 }
