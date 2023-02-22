@@ -7,33 +7,29 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { heightScreen, widthScreen } from '../utility/index';
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth'
+import ShoesBoxFavorite from '../components/ShoesBoxFavorite/ShoesBoxFavorite';
 
 
 const Favorite = () => {
   const [fvlist, setFvl] = useState([]);
-
-
-
   useEffect(() => {
     get_Favorite_userID(setFvl, auth().currentUser.uid)
   }, [])
-
+  
  const navigation = useNavigation();
 
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.containerHeader}>
         <Text style={styles.textSearch}>Favorite</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('MyCart')} style={styles.buttonBack}>
+        <TouchableOpacity onPress={() => {}} style={styles.buttonBack}>
           <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack} />
         </TouchableOpacity>
       </View>
       <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-
-        
         <FlatList
           data={fvlist}
-          renderItem={({ item, index }) => <ShoesBox item={item} />}
+          renderItem={({ item, index }) => <ShoesBoxFavorite item={item} />}
           numColumns={2}
           keyExtractor={item => item.id}
           style={{ marginTop: heightScreen * 0.05 }}

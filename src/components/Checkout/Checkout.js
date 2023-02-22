@@ -6,11 +6,19 @@ import { get_Cart_Price } from '../../api/controller/cart/getCart'
 
 const Checkout = ({item}) => {
     const [subprice, setSubprice] = useState(0)
-    console.log(item);
     useEffect(() => {
-        setSubprice(get_Cart_Price(item));
+        get_subTotal(item);
     }, [])
-    
+    const get_subTotal = (list) =>{
+        let subtotal = 0;
+        list?.forEach((item) => {
+            subtotal += item.price * item.quantity;
+        })
+        return subtotal
+    }
+    useEffect(() => {
+        setSubprice(get_subTotal(item));
+    }, [item])
   return (
     <View style={styles.view_checkout}>
         <View style={styles.view_total}>
@@ -19,12 +27,12 @@ const Checkout = ({item}) => {
         </View>
         <View style={styles.view_shipping}>
             <Text style={styles.text_Left}>Shipping</Text>
-            <Text style={styles.text_Right}>$ 10</Text>
+            <Text style={styles.text_Right}>$ 9</Text>
         </View>
         <View style={styles.hr} />
         <View style={styles.view_total}>
             <Text style={styles.text_LeftTotal}>Total</Text>
-            <Text style={styles.text_Right}>$ {subprice + 10}</Text>
+            <Text style={styles.text_Right}>$ {subprice + 9}</Text>
         </View>
         <FieldButton
             stylesContainer={{}}
@@ -53,7 +61,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white', 
         borderTopLeftRadius: 20, 
         borderTopRightRadius: 20, 
-        marginTop: heightScreen * 0.02, 
+        // marginTop: heightScreen * 0.02, 
         alignSelf:'flex-end',
         // position: 'absolute',
     },

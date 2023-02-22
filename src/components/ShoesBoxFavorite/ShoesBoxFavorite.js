@@ -1,14 +1,12 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
-import { heightScreen, widthScreen } from '../utility/index'
+import { heightScreen, widthScreen } from '../../utility/index'
 import Feather  from "react-native-vector-icons/Feather"
-import { addFavorite } from '../api/controller/favorite/addFavorite'
+import { deleteFavorite } from '../../api/controller/favorite/deleteFavorite'
 
-const ShoesBox = ({item}) => {
-  const [like, setLike] = useState(false);
-  const handleLike = (data) =>{
-    setLike(!like);
-    addFavorite(data);
+const ShoesBoxFavorite = ({item}) => {
+  const deleteFavo = (id) =>{
+    deleteFavorite(id);
   }
   return (
     <TouchableOpacity style={styles.container} onPress={() =>{console.log('go to detail')}}>
@@ -24,9 +22,9 @@ const ShoesBox = ({item}) => {
       </View>
         <Text style={styles.price}>${item?.prices}</Text>
       <TouchableOpacity style={[styles.icon_like, 
-          {backgroundColor: !like ? '#5B9EE1' : '#E15B5B'}
+          {backgroundColor: '#E15B5B'}
         ]} 
-        onPress={() => {handleLike(item)}}
+        onPress={() => {deleteFavo(item?.id)}}
       >
         <Feather name="heart" size={22} color="#fff" />
       </TouchableOpacity>
@@ -34,7 +32,7 @@ const ShoesBox = ({item}) => {
   )
 }
 
-export default ShoesBox
+export default ShoesBoxFavorite
 
 const styles = StyleSheet.create({
   image: {
