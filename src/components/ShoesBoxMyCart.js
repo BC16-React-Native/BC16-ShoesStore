@@ -6,16 +6,18 @@ import { heightScreen, widthScreen } from '../utility/index'
 import Feather from "react-native-vector-icons/Feather"
 import { deleteCart } from '../api/controller/cart/deleteCart'
 import { get_ProductID } from '../api/controller/products/getProducts'
-
+import { updateCart_minus, updateCart_plus } from '../api/controller/cart/updateCart'
+import auth from "@react-native-firebase/auth"
+import Quantity from './Quantity'
 
 
 
 const ShoesBoxMyCart = ({ item, type }) => {
-    const [nums, setNums] = useState(1);
     const [data, setData] = useState();
+    // console.log(item);
     useEffect(() => {
-      setNums(item?.quantity);
-      get_ProductID(setData, item?.productid);
+        console.log(item);
+        get_ProductID(setData, item?.productid);
     }, [])
     return (
         <TouchableOpacity 
@@ -45,28 +47,16 @@ const ShoesBoxMyCart = ({ item, type }) => {
                 <Text style={styles.price}>${data?.prices}</Text>
 
                 {type !== 'payment' ? 
-                    <View style={{
-                        flexDirection: 'row',
-                        width: widthScreen * 0.2,
-                        justifyContent: 'space-between',
-
-                    }}>
-                        <TouchableOpacity
-                            onPress={() => setNums(nums - 1)}
-                            style={{ height: 25, width: 25, borderRadius: 25 / 2, backgroundColor: '#F8F9FA', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ fontSize: 15, }}>-</Text>
-                        </TouchableOpacity>
-                        <Text>{nums}</Text>
-                        <TouchableOpacity onPress={() => setNums(nums + 1)} style={{ height: 25, width: 25, borderRadius: 25 / 2, backgroundColor: '#5B9EE1', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ fontSize: 15, color: 'white' }}>+</Text></TouchableOpacity>
-                    </View>
+                    
+                        <Quantity data={data} quantity={item?.quantity} />
                 : null}
             </View>
             {type !== 'payment' ? 
                 <TouchableOpacity style={styles.icon_delete}
                     onPress={()=>
-                        // deleteCart(data?.id)
-                        {}
+                        {
+                            deleteCart(data);
+                        }
                     }
                 >
                     <Feather name="trash-2" size={22} color="#707B81" />
@@ -76,14 +66,7 @@ const ShoesBoxMyCart = ({ item, type }) => {
     )
 }
 
-export default ShoesBoxMyCart
-
-
-
-
-
-
-
+export default React.memo(ShoesBoxMyCart)
 
 const styles = StyleSheet.create({
     image: {

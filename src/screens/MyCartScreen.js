@@ -15,32 +15,21 @@ const MyCartScreen = () => {
    useEffect(() => {
        get_Cart_uID(setPro, auth().currentUser.uid);
    }, [])
-   const navigation = useNavigation()
+   const navigation = useNavigation();
    return (
        <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA',}}>   
+            <Text style={styles.textSearch}>MyCart</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('BottomTab')} style={styles.buttonBack}>
+                <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack} />
+            </TouchableOpacity>
             <FlatList
-                data={[]}
-                keyExtractor={(e, i) => 'dom' + i.toString()}
-                ListEmptyComponent={null}
-                renderItem={null}
-                showsVerticalScrollIndicator={false}
-                ListHeaderComponent={() => (
-                    <View style={{flex: 2}}>
-                        <Text style={styles.textSearch}>MyCart</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('BottomTab')} style={styles.buttonBack}>
-                            <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack} />
-                        </TouchableOpacity>
-                        <FlatList
-                            data = {pro}
-                            renderItem={({item,index}) => <ShoesBoxMyCart item={item} />}
-                            // numColumns={2}
-                            showsHorizontalScrollIndicator={false}
-                            showsVerticalScrollIndicator = {false}
-                            keyExtractor={item =>item.productid}
-                            style={{ marginTop: heightScreen * 0.1 }}
-                        />
-                    </View>
-                )} 
+                data = {pro}
+                renderItem={({item,index}) => <ShoesBoxMyCart item={item} />}
+                // numColumns={2}
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator = {false}
+                keyExtractor={item =>item.productid}
+                style={{ marginTop: heightScreen * 0.1 }}
             />
            <Checkout item={pro} type={'order'}/>
        </SafeAreaView>
