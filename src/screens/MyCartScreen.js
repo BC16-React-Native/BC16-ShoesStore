@@ -4,8 +4,7 @@ import { heightScreen, widthScreen } from '../utility'
 import Icon from 'react-native-vector-icons/Ionicons';
 import ShoesBoxMyCart from '../components/ShoesBoxMyCart';
 import { useNavigation } from '@react-navigation/native';
-import { get_Cart_price, get_Cart_uID } from '../api/controller/cart/getCart';
-import FieldButton from '../components/Auth/FieldButton';
+import { get_Cart_uID } from '../api/controller/cart/getCart';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Checkout from '../components/Checkout/Checkout';
 import auth from '@react-native-firebase/auth'

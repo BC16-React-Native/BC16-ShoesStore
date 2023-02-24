@@ -7,11 +7,8 @@ const getProducts_id = (id) => {
 }
 
 export const get_Cart_Price = (list) => {
-    // console.log("ac",list)
     let subtotal = 0;
-
     Array.isArray(list) ? list?.forEach((item) => {
-        // console.log(item);
         subtotal += item?.price * item?.quantity;
     })
     : subtotal += list?.prices * list?.quantity;

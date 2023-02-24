@@ -1,20 +1,13 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-
 import React, { useEffect, useState } from 'react'
-
 import { heightScreen, widthScreen } from '../utility/index'
 import Feather from "react-native-vector-icons/Feather"
 import { deleteCart } from '../api/controller/cart/deleteCart'
 import { get_ProductID } from '../api/controller/products/getProducts'
-import { updateCart_minus, updateCart_plus } from '../api/controller/cart/updateCart'
-import auth from "@react-native-firebase/auth"
 import Quantity from './Quantity'
-
-
 
 const ShoesBoxMyCart = ({ item, type }) => {
     const [data, setData] = useState();
-    // console.log(item);
     useEffect(() => {
         console.log(item);
         get_ProductID(setData, item?.productid);
@@ -42,13 +35,17 @@ const ShoesBoxMyCart = ({ item, type }) => {
             }}>
                 <Text 
                     numberOfLines={1} 
-                    style={[styles.name, {width: type == 'payment' ?  widthScreen * 0.5 :  widthScreen * 0.3768,}]}
+                    style={[styles.name, 
+                        {width: type == 'payment' ? 
+                        widthScreen * 0.5 :  
+                        widthScreen * 0.3768,
+                    }]}
                 >{data?.name}</Text>
-                <Text style={styles.price}>${data?.prices}</Text>
-
-                {type !== 'payment' ? 
-                    
-                        <Quantity data={data} quantity={item?.quantity} />
+                <Text style={styles.price}>
+                    ${data?.prices}
+                </Text>
+                {type !== 'payment' ?   
+                    <Quantity data={data} quantity={item?.quantity} />
                 : null}
             </View>
             {type !== 'payment' ? 

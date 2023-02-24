@@ -4,7 +4,6 @@ const getProducts_id = (id) => {
     return query;
  }
  export const get_Favorite_userID = (setData, id) => {
-        // console.log(req.params.id)
    
     const queryRef = firestore().collection('favorite');
     const query =  queryRef.where('userid', '==', id).onSnapshot(onResult, onError);

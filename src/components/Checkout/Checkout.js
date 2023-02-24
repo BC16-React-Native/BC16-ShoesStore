@@ -117,12 +117,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 18,
         lineHeight: 24,
-        /* identical to box height, or 133% */
-
         textAlign: 'right',
-
-        /* Light/Text Color */
-
         color: '#1A2530',
     },
     priceTotal: {
