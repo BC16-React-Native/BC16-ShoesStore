@@ -6,7 +6,7 @@ import MaterialCommunityIcons from'react-native-vector-icons/MaterialCommunityIc
 import  { heightScreen, widthScreen } from '../../utility'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import { getFirstProductInOrders, getOrder_status_deliveried, getOrder_status_deliveried_img, getProduct_id } from '../../api/controller/orders/getOrders';
+import { getFirstProductInOrders, getFirstProductInOrdersrealtime, getOrder_status_deliveried, getOrder_status_deliveried_img, getProduct_id } from '../../api/controller/orders/getOrders';
 import ProductCart from '../../components/Admin/ProductCart';
 
 const OrderHistory = () => {
@@ -16,7 +16,7 @@ const OrderHistory = () => {
 
   useEffect(() => {
       // getOrder_status_deliveried(setData)
-      getFirstProductInOrders(setData);
+      getFirstProductInOrdersrealtime(setData);
   },[])
   const Header = () => {
     return(

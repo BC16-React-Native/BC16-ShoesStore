@@ -18,6 +18,7 @@ const OrderDetail = ({route}) => {
   const items = route.params.item;
   const navigation = useNavigation();
   const [data, setData] = useState();
+  const [item, setItems] = useState(route.params.item);
   const [total, setTotal] = useState();
   const [swipe, setSwipe] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,6 +34,12 @@ const OrderDetail = ({route}) => {
       }
     })
   }
+
+
+  const handleSwipeOrder = () => {
+      item?.status
+  }
+
   useEffect(() => {
     getUser();
     setTotal(items?.total + 9)
@@ -63,8 +70,8 @@ const OrderDetail = ({route}) => {
       <Text style ={styles.titleid}>ORDER ID: {(items.id).slice(-6)}</Text>
       <Text style ={styles.titleadd}>Address: {items.address}</Text>
     </View>
-    <View style = {styles.titlestatus}>
-      <Text style = {styles.titlestatuss}>Pending</Text>
+    <View style = {[styles.titlestatus, { backgroundColor: items?.status == 'pending' ? '#ffca3b': '#5B9EE1'}]}>
+      <Text style = {[styles.titlestatuss, { backgroundColor: items?.status == 'pending' ? '#0000': '#FFFFFF'}]}>Pending</Text>
     </View>
     <View style = {styles.containerlist}>
       <FlatList
@@ -217,7 +224,6 @@ const styles = StyleSheet.create({
     marginTop: heightScreen * 0.13,
     alighItems:'center',
     justifyContent: 'center',
-    backgroundColor: '#ffca3b',
     borderRadius: 20
   },
   titlestatuss:{

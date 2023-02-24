@@ -141,6 +141,31 @@ export const getFirstProductInOrders = async (setData) => {
   };
 
 
-  
+  export const getFirstProductInOrdersrealtime = async (setData) => {
+    try {
+      const ordersRef = firestore().collection('orders').where('status', '==', 'delivered');
+      ordersRef.onSnapshot(async (querySnapshot) => {
+        const results = [];
+        for (const orderDoc of querySnapshot.docs) {
+          const productIdsMap = orderDoc.get('productsid');
+          if (productIdsMap) {
+              const firstProductId = productIdsMap?.[0].productid;
+    
+              // Fetch the details of the first product from the "products" collection
+              const productsRef = firestore().collection('products');
+              const productDoc = await productsRef.doc(firstProductId).get();
+              const productData = productDoc.data();
+              const result = {...orderDoc?.data(), ...productDoc?.data(), id: orderDoc.id}
+              results.push(result);
+          } else {
+            // console.log('No products found for order:', orderDoc.id);
+          }
+        }
+        setData(results);
+      });
+    } catch (error) {
+      // console.log('Error getting first product in orders: ', error);
+    }
+  };
 
   
