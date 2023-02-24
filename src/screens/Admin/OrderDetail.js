@@ -20,7 +20,7 @@ const OrderDetail = ({route}) => {
   const [data, setData] = useState();
   const [item, setItems] = useState(route.params.item);
   const [total, setTotal] = useState();
-  const [swipe, setSwipe] = useState(null);
+  const [swipe, setSwipe] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   let forceResetLastButton = null;
   const getUser = async () => {
@@ -35,11 +35,52 @@ const OrderDetail = ({route}) => {
     })
   }
 
-
   const handleSwipeOrder = () => {
-      item?.status
-  }
+    if (item?.status == 'pending'){
 
+      firestore().collection('orders')
+      .doc(item?.id)
+      .update({
+          status: 'delivering',
+      })
+      .then(() => {
+        // Update the item's status in real-time
+        setItems(prevItem => ({
+          ...prevItem,
+          status: 'delivering',
+        }));
+        setSwipe(true);
+      })
+      .catch(error => {
+        console.log('Error updating order status:', error);
+      });
+    }
+
+
+    if (item?.status == 'delivering'){
+      firestore().collection('orders')
+      .doc(item?.id)
+      .update({
+          status: 'delivered',
+          datedone: new Date().toUTCString(),
+      })
+      .then(() => {
+        // Update the item's status in real-time
+        setItems(prevItem => ({
+          ...prevItem,
+          status: 'delivered',
+        }));
+        setSwipe(false);
+        setModalVisible(!modalVisible)
+
+      })
+      .catch(error => {
+        console.log('Error updating order status:', error);
+      });
+    }
+
+  }
+  console.log(swipe)
   useEffect(() => {
     getUser();
     setTotal(items?.total + 9)
@@ -70,9 +111,12 @@ const OrderDetail = ({route}) => {
       <Text style ={styles.titleid}>ORDER ID: {(items.id).slice(-6)}</Text>
       <Text style ={styles.titleadd}>Address: {items.address}</Text>
     </View>
-    <View style = {[styles.titlestatus, { backgroundColor: items?.status == 'pending' ? '#ffca3b': '#5B9EE1'}]}>
-      <Text style = {[styles.titlestatuss, { backgroundColor: items?.status == 'pending' ? '#0000': '#FFFFFF'}]}>Pending</Text>
-    </View>
+    {item?.status !== 'delivered'? 
+    <View style = {[styles.titlestatus, { backgroundColor: item?.status == 'pending' ? '#ffca3b': '#5B9EE1'}]}>
+      <Text style = {[styles.titlestatuss, { color: items?.status == 'pending' ? '#000': '#FFFFFF'}]}>{item?.status == 'pending' ? 'Pending': "Delivering"}</Text>
+    </View>:
+    <></>
+    }
     <View style = {styles.containerlist}>
       <FlatList
       data={items?.productsid}
@@ -145,7 +189,11 @@ const OrderDetail = ({route}) => {
     <View style = {styles.swipe}>
         <SwipeButton
             containerStyles = {{height: heightScreen * 0.07,width: widthScreen * 0.9, borderRadius: 15, borderWidth:0}}
-            onSwipeSuccess={() => {setModalVisible(!modalVisible)}}
+            onSwipeSuccess={() => {
+              
+              handleSwipeOrder()
+              // setModalVisible(!modalVisible)
+              }}
             enableRightToLeftSwipe
             railBackgroundColor="#5B9EE1"
             // forceReset={ reset => {
@@ -154,9 +202,9 @@ const OrderDetail = ({route}) => {
             thumbIconWidth={heightScreen * 0.074}
             disabledRailBackgroundColor
             thumbIconBackgroundColor="#FFFFFF"
-            shouldResetAfterSuccess={true}
-            resetAfterSuccessAnimDelay= {1000}
-            title={!swipe? "Swipe to delivering": 'Swipe to complete'}
+            shouldResetAfterSuccess={item?.status !== 'delivered'? true: false}
+            // resetAfterSuccessAnimDelay= {1000}
+            title={item?.status == 'pending'? "Swipe to delivering": 'Swipe to complete'}
             thumbIconComponent = {ButtonSwipe}
             thumbIconStyles={{borderRadius: 15, borderWidth:0}}
             railStyles={{borderRadius: 15, height: heightScreen * 0.065, borderWidth:0, backgroundColor: '#F0BF4C',}}
@@ -222,14 +270,14 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.25,
     marginLeft: widthScreen * 0.7,
     marginTop: heightScreen * 0.13,
-    alighItems:'center',
-    justifyContent: 'center',
+    // alighItems:'center',
+    // justifyContent: 'center',
     borderRadius: 20
   },
   titlestatuss:{
     fontWeight: 'bold',
-    // alighSelf: 'center',
-    paddingLeft: widthScreen * 0.055
+    textAlign: 'center',
+    lineHeight:40
   },
   textProfile:{
     position: 'absolute',
