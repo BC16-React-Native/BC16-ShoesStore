@@ -10,7 +10,6 @@ import { get_ProductID } from '../../api/controller/products/getProducts'
 
 
 const ShoesPayment = ({ item, type = 'order', quantity, setQuantity }) => {
-    // const [nums, setNums] = useState(1);
     const [data, setData] = useState();
     useEffect(() => {
         setQuantity(item?.quantity);

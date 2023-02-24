@@ -1,7 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import auth from "@react-native-firebase/auth"
 
-export const updateCart_plus = (item) =>{
+export const updateCart_plus_api = (item) =>{
   const adddb = firestore().collection('cart').doc();
 
   const db = firestore().collection('cart')
@@ -35,7 +35,7 @@ export const updateCart_plus = (item) =>{
       )
 }
 
-export const updateCart_minus = (item) =>{
+export const updateCart_minus_api = (item) =>{
   const adddb = firestore().collection('cart').doc();
 
   const db = firestore().collection('cart')

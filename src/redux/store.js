@@ -1,6 +1,6 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import stateReducer from './features/state/stateSlice'
-import orderReducer from './features/order/orderSlice'
+import cartReducer from './features/cart/cartSlice'
 import authReducer from './features/auth/authSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -23,7 +23,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   state: stateReducer,
-  orders: orderReducer,
+  cart: cartReducer,
   auth: authReducer,
 })
 

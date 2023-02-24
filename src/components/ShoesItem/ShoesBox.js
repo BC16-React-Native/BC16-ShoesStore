@@ -8,7 +8,6 @@ import auth from '@react-native-firebase/auth'
 
 
 const ShoesBox = ({item}) => {
-  // console.log("View box home",item);
   const [like, setLike] = useState(false);
   const navigation = useNavigation();
   const handleLike = (product, id) =>{
@@ -17,16 +16,11 @@ const ShoesBox = ({item}) => {
       productid: product?.id,
       userid: id
     }
-    console.log(data);
     addFavorite(data);
   }
   return (
     <TouchableOpacity style={styles.container} onPress={() =>{
       navigation.push('Detail' , {
-        // screen: 'Detail',
-        // params : {
-        //   item: item
-        // }
         item: item
       })
     }}>

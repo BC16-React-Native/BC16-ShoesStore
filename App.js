@@ -43,7 +43,7 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   const dispatch = useDispatch();
   const lauch = useSelector((state) => state.state.lauch);
-  console.log('launch_redux', lauch);
+  // console.log('launch_redux', lauch);
   const [loading, setLoading] = useState(true);
   // const [lauch, setLauch] = useState(false);
   const roles = useSelector((state) => state.auth.role);
@@ -87,8 +87,8 @@ const App = () => {
 
 
   if (loading) return null;
-  console.log('lauch 2',lauch)
-  console.log("authenticated",authenticated)
+  // console.log('lauch 2',lauch)
+  // console.log("authenticated",authenticated)
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
     <NavigationContainer>
@@ -104,12 +104,20 @@ const App = () => {
         :(<>
           {!roles ? (<>
           <Stack.Screen options = {{headerShown: false}} name="BottomTab" component={BottomTab}/>
-          <Stack.Screen options={{headerShown: false}} name="MyCart" component={MyCartScreen}/>
+          <Stack.Screen options={{
+                  headerStyle: {
+                      backgroundColor: '#F8F9FA',
+                  },
+                  headerShadowVisible: false,
+                  headerTitleAlign: 'center',
+              }}  
+              name="MyCart" 
+              component={MyCartScreen}
+          />
           <Stack.Screen options={{headerShown: false}} name="Search" component={SearchScreen}/>
           <Stack.Screen options={{headerShown: false}} name="Result" component={ResultScreen}/>
           <Stack.Screen 
               options={{
-                  // headerShown: false,
                   headerStyle: {
                       backgroundColor: '#F8F9FA',
                   },

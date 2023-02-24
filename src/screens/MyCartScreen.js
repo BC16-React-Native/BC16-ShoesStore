@@ -1,94 +1,96 @@
 import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../utility'
 import Icon from 'react-native-vector-icons/Ionicons';
 import ShoesBoxMyCart from '../components/ShoesBoxMyCart';
-import { useNavigation } from '@react-navigation/native';
-import { get_Cart_price, get_Cart_uID } from '../api/controller/cart/getCart';
+import { useFocusEffect, useIsFocused, useNavigation } from '@react-navigation/native';
+import { get_Cart_price, get_Cart_uID, get_Cart_uID_1 } from '../api/controller/cart/getCart';
 import FieldButton from '../components/Auth/FieldButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Checkout from '../components/Checkout/Checkout';
 import auth from '@react-native-firebase/auth'
+import Lottie from 'lottie-react-native'
+import FontAwesome from "react-native-vector-icons/FontAwesome"
+import { getCart } from '../redux/action/cart/cartRequest';
+import { useDispatch, useSelector } from 'react-redux';
 
 const MyCartScreen = () => {
-   const [pro, setPro] = useState();
-   useEffect(() => {
-       get_Cart_uID(setPro, auth().currentUser.uid);
-   }, [])
+    const dispatch = useDispatch();
+    const cart = useSelector((state) => state.cart.cart);
+    const calldata = async () => {
+        await getCart(dispatch);
+    }
+    useEffect(() => {
+        calldata();
+    }, [])
+    useLayoutEffect(() => { 
+    navigation.setOptions({ 
+        title: 'My Cart',
+        headerLeft : () => (    
+              <TouchableOpacity onPress={() => navigation.goBack()} 
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#fff',
+                  height: heightScreen * 0.0566,
+                  width: widthScreen * 0.112,
+                  borderRadius: widthScreen * 0.056
+                }}
+              >
+                  <FontAwesome name="angle-left" size={24} color="black" />
+              </TouchableOpacity>
+        ), 
+    }) 
+  }, []);
    const navigation = useNavigation();
    return (
-       <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA',}}>   
-            <Text style={styles.textSearch}>MyCart</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('BottomTab')} style={styles.buttonBack}>
-                <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack} />
-            </TouchableOpacity>
-            <FlatList
-                data = {pro}
-                renderItem={({item,index}) => <ShoesBoxMyCart item={item} />}
-                // numColumns={2}
-                showsHorizontalScrollIndicator={false}
-                showsVerticalScrollIndicator = {false}
-                keyExtractor={item =>item.productid}
-                style={{ marginTop: heightScreen * 0.1 }}
-            />
-           <Checkout item={pro} type={'order'}/>
+       <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA'}}>   
+            {cart?.incart?.length > 0 ?
+                <>
+                    <FlatList
+                        data = {cart?.incart}
+                        renderItem={({item,index}) => <ShoesBoxMyCart item={item} />}
+                        showsHorizontalScrollIndicator={false}
+                        showsVerticalScrollIndicator = {false}
+                        keyExtractor={item =>item.productid}
+                        style={{  flex: 1 }}
+                    />
+                    <Checkout item={cart?.incart} type={'order'}/>
+                </>
+            : 
+            <View style={{flex: 1, alignItems:'center', marginTop: heightScreen * 0.1}}>
+                <Lottie 
+                    source={require('../utility/cart/nothingCart.json')} 
+                    autoPlay 
+                    style={{height: heightScreen * 0.40, width: widthScreen * 0.40,}}
+                />
+                <Text style={styles.title}>Empty Cart</Text>
+                <Text numberOfLines={2} style={styles.message}>Looks like you haven't made your choice yet.....</Text>
+            </View>
+            }
        </SafeAreaView>
    )
 }
 export default MyCartScreen
 
 const styles = StyleSheet.create({
-    containerHeader: {
-        width: widthScreen,
-        alignSelf: 'center',
-        flex: 1,
+    title:{
+        fontFamily: 'SF-Pro',
+        fontWeight: '700',
+        fontSize: 18,
+        lineHeight: 22,
+        color: '#000',
+        marginTop: heightScreen * 0.06,
+        marginBottom: heightScreen * 0.01,
     },
-    buttonBack: {
-        position: 'absolute',
-        width: widthScreen * 0.14,
-        height: heightScreen * 0.067,
-        backgroundColor: 'white',
-        borderRadius: 40,
-        marginLeft: widthScreen * 0.05,
-        marginTop: heightScreen * 0.03,
-        justifyContent: 'center',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
-    },
-    iconBack: {
-        alignSelf: 'center'
-    },
-    textSearch: {
-        position: 'absolute',
-        right: widthScreen * 0.45,
-        marginTop: heightScreen * 0.045,
+    message:{
+        fontFamily: 'SF-Pro',
+        fontWeight: '700',
         fontSize: 16,
-        fontWeight: 'bold',
-        color: '#1A2530'
-    },
-    view_checkout:{
-        shadowColor: "#000",
-    shadowOffset: {
-        width: 0,
-        height: heightScreen * 0.004,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-
-    elevation: 3,
-    width: widthScreen,
-    height: heightScreen*0.3,
-    backgroundColor: 'white',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    top: heightScreen*0.7,
-    position: 'absolute'
+        lineHeight: 22,
+        color: '#757575',
+        width: widthScreen * 0.6,
+        textAlign: 'center'
     }
 })
 

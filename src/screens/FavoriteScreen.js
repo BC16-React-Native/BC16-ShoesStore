@@ -13,7 +13,8 @@ import ShoesBoxFavorite from '../components/ShoesBoxFavorite/ShoesBoxFavorite';
 const Favorite = () => {
   const [fvlist, setFvl] = useState([]);
   useEffect(() => {
-    get_Favorite_userID(setFvl, auth().currentUser.uid)
+    get_Favorite_userID(setFvl, auth().currentUser.uid);
+    console.log('hi');
   }, [])
   
  const navigation = useNavigation();

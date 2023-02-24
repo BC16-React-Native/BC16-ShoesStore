@@ -44,7 +44,9 @@ const HomeScreen = () => {
                     top: 4,
                     right: 0
                   }}
-                ></View> : null}
+                >
+                  {/* <Text style={{}}>{lenghtCart}</Text> */}
+                </View> : null}
         </TouchableOpacity>
         </View>
       ),

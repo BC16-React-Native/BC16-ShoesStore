@@ -20,7 +20,7 @@ const getProducts_id = (id) => {
             )
            
         });
-        console.log('Got Favorites collection result.', result);
+        // console.log('Got Favorites collection result.', result);
         setData(result);
     }
      

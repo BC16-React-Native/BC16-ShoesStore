@@ -28,7 +28,7 @@ export const addCart = (item) =>{
                 const data_exits = documentSnapshot.data().incart.find( (element) => {
                     return element.productid == item.productid
                 });
-                console.log('data: ', data_exits);
+                // console.log('data: ', data_exits);
                 
                 if(data_exits)  {
                     // remove 

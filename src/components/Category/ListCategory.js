@@ -9,7 +9,6 @@ const ListCategory = ({setCategory}) => {
   const [data, setData] = useState();
   useEffect(() => {
     get_Categories_handle_all(setData);
-    
   }, []);
   const [focus_index, setFocus_index] = useState(0);
   return (

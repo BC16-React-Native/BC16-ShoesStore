@@ -12,6 +12,7 @@ import Checkout from '../components/Checkout/Checkout';
 import ShoesBoxMyCart from '../components/ShoesBoxMyCart';
 import ShoesPayment from '../components/ShoesPayment.js';
 import { ScrollView } from 'react-native';
+import { StatusBar } from 'react-native';
 
 const Payment = ({route}) => {
     const item = route.params.item;
@@ -50,25 +51,14 @@ const Payment = ({route}) => {
           ), 
         }) 
       }, []);
-    //   console.log('user', user)
-    //   console.log(phone)
+
     const isBuyNow = route.params.isBuyNow;
     const [quantity, setQuantity] = useState(1);
-    // console.log(quantity)
   return (
     <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA', justifyContent: 'space-between'}}>
         <ScrollView>
             <View style={{ 
             }}>
-                {/* {item?.map((item, index) => (
-                    <ShoesBoxMyCart 
-                        item={item} 
-                        key={item.productid} 
-                        type={'payment'}
-                        quantity={quantity}
-                        setQuantity={setQuantity}
-                    />
-                ))} */}
                     {isBuyNow ? 
                         <ShoesPayment 
                             item={item} 
@@ -137,7 +127,6 @@ const Payment = ({route}) => {
         </View>
         </ScrollView>    
         <View style={{alignSelf: 'flex-end', width: '100%'}}>
-            {/* <Checkout item={{...item, quantity: quantity}} type={'payment'}/> */}
             {isBuyNow ? 
                 <Checkout 
                     item={{...item, quantity: quantity}} 
@@ -155,7 +144,6 @@ const Payment = ({route}) => {
                 /> 
             }
         </View>
-       
     </SafeAreaView>
   )
 }

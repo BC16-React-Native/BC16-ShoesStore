@@ -6,7 +6,7 @@ import { heightScreen, widthScreen } from '../../utility'
 const Category = ({item, index, focus_index, setFocus_index, setCategory}) => {
     React.useEffect(() => {
         index == focus_index ? setCategory(item) : null;
-    }, [])
+    }, [focus_index])
 
   return (
     <TouchableOpacity 

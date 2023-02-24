@@ -9,7 +9,7 @@ export const get_Categories = (setData) => {
     function onResult(QuerySnapshot) {
         result = [];
         QuerySnapshot.forEach(doc => result.push({ ...doc.data(), id: doc.id }));
-        console.log('Got Categories collection result.', result);
+        // console.log('Got Categories collection result.', result);
         setData(result);
     }
       

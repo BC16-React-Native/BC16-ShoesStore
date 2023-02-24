@@ -8,7 +8,7 @@ export const get_AllOrder = (setData) => {
     function onResult(QuerySnapshot) {
         allOrder = [];
         QuerySnapshot.forEach(doc => allOrder.push({ ...doc.data(), id: doc.id }));
-        console.log('Got order collection result.');
+        // console.log('Got order collection result.');
         setData(allOrder);
     }
 
@@ -21,7 +21,7 @@ export const get_OrderID = (setData, id) => {
     const querySnapshot = firestore().collection('orders').doc(id).onSnapshot(onResult, onError);
 
     function onResult(QuerySnapshot) {
-        console.log('Got order collection result.');
+        // console.log('Got order collection result.');
         setData({...QuerySnapshot.data() , id: QuerySnapshot.id});
     }
       
@@ -39,7 +39,7 @@ export const get_Order_userID = (setData, id) => {
     function onResult(QuerySnapshot) {
         result = [];
         QuerySnapshot.forEach(doc => result.push({ ...doc.data(), id: doc.id }));
-        console.log('Got order collection result.');
+        // console.log('Got order collection result.');
         setData(result);
     }
       
@@ -56,7 +56,7 @@ export const getOrder_status_delivery_pending = (setData) => {
     function onResult(QuerySnapshot) {
         orders = [];
         QuerySnapshot.forEach(doc => orders.push({ ...doc.data(), id: doc.id }));
-        console.log('Got order collection result.');
+        // console.log('Got order collection result.');
         setData(orders);
     }
       
@@ -73,7 +73,7 @@ export const getOrder_status_delivery_pending = (setData) => {
     function onResult(QuerySnapshot) {
         orders = [];
         QuerySnapshot.forEach(doc => orders.push({ ...doc.data(), id: doc.id }));
-        console.log('Got order collection result.');
+        // console.log('Got order collection result.');
         setData(orders);
     }
       
@@ -99,18 +99,18 @@ ordersRef.where('status', '==', 'delivered').get().then((orderDoc) => {
       if (productDoc.exists) {
         // Get the first image URL from the product document
         const productImg = productDoc.data().imgs[0];
-        console.log('First image URL:', productImg);
+        // console.log('First image URL:', productImg);
       } else {
-        console.log('Product document does not exist');
+        // console.log('Product document does not exist');
       }
     }).catch((error) => {
-      console.log('Error getting product document:', error);
+      // console.log('Error getting product document:', error);
     });
   } else {
-    console.log('Order document does not exist');
+    // console.log('Order document does not exist');
   }
 }).catch((error) => {
-  console.log('Error getting order document:', error);
+  // console.log('Error getting order document:', error);
 });
 }
 
@@ -131,12 +131,12 @@ export const getFirstProductInOrders = async (setData) => {
             const result = {...orderDoc?.data(), ...productDoc?.data(), id: orderDoc.id}
             results.push(result);
         } else {
-          console.log('No products found for order:', orderDoc.id);
+          // console.log('No products found for order:', orderDoc.id);
         }
         setData(results);
       }
     } catch (error) {
-      console.log('Error getting first product in orders: ', error);
+      // console.log('Error getting first product in orders: ', error);
     }
   };
 

@@ -8,24 +8,12 @@ const Home = () => {
       //
         <Stack.Navigator screenOptions={{}}>
             <Stack.Screen name="HomeScreen" component={HomeScreen} options={{
-                    // headerShown: false,
                     headerStyle: {
                         backgroundColor: '#F8F9FA',
                     },
                     headerShadowVisible: false,
                     headerTitleAlign: 'center',
                 }}/>
-            {/* <Stack.Screen name="Detail" 
-                component={DetailScreen} 
-                options={{
-                    // headerShown: false,
-                    headerStyle: {
-                        backgroundColor: '#F8F9FA',
-                    },
-                    headerShadowVisible: false,
-                    headerTitleAlign: 'center',
-                }}
-            /> */}
         </Stack.Navigator>
     );
 }

@@ -9,14 +9,18 @@ import { get_ProductID } from '../api/controller/products/getProducts'
 import { updateCart_minus, updateCart_plus } from '../api/controller/cart/updateCart'
 import auth from "@react-native-firebase/auth"
 import Quantity from './Quantity'
+import { deleteItemCart } from '../redux/action/cart/cartRequest'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 
 const ShoesBoxMyCart = ({ item, type }) => {
+    const dispatch = useDispatch();
+    const cart = useSelector((state) => state.cart.cart);
     const [data, setData] = useState();
     // console.log(item);
     useEffect(() => {
-        console.log(item);
+        // console.log(item);
         get_ProductID(setData, item?.productid);
     }, [])
     return (
@@ -38,7 +42,7 @@ const ShoesBoxMyCart = ({ item, type }) => {
                 marginVertical: heightScreen * 0.02, 
                 justifyContent: 'space-evenly', 
                 marginHorizontal: widthScreen * 0.02,
-
+                flex: 1
             }}>
                 <Text 
                     numberOfLines={1} 
@@ -47,15 +51,17 @@ const ShoesBoxMyCart = ({ item, type }) => {
                 <Text style={styles.price}>${data?.prices}</Text>
 
                 {type !== 'payment' ? 
-                    
-                        <Quantity data={data} quantity={item?.quantity} />
-                : null}
+                    <Quantity data={data} quantity={item?.quantity}/>
+                : 
+                <Text style={styles.quantity}>Quantity: {item?.quantity}</Text>
+                }
             </View>
             {type !== 'payment' ? 
                 <TouchableOpacity style={styles.icon_delete}
                     onPress={()=>
                         {
                             deleteCart(data);
+                            deleteItemCart(dispatch, cart, data )
                         }
                     }
                 >
@@ -78,10 +84,11 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         alignSelf: 'center',
-
+        alignItems: 'center',
         paddingHorizontal: widthScreen * 0.02,
         borderRadius: 20,
         marginTop: heightScreen * 0.01,
+        marginBottom: heightScreen * 0.005,
         width: widthScreen * 0.9,
         flexDirection: 'row',
         shadowColor: "#000",
@@ -114,9 +121,14 @@ const styles = StyleSheet.create({
         marginVertical: heightScreen * 0.01
     },
     icon_delete: {
-        position: 'absolute',
-        right: widthScreen * 0.05,
-        top: heightScreen * 0.068
+        marginRight: 10
+    },
+    quantity:{
+        fontFamily: 'SF-Pro',
+        fontWeight: '500',
+        fontSize: 14,
+        lineHeight: 14,
+        color: '#1A2530',
     }
 })
 

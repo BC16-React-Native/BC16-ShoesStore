@@ -6,7 +6,6 @@ import auth from "@react-native-firebase/auth"
 export const removeCart = () =>{
     const id = getIDCart().then((query) =>{
         query.forEach((data) => {
-            // console.log('id', data.id);
             firestore()
             .collection('cart')
             .doc(data.id)

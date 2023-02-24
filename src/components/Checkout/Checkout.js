@@ -7,24 +7,15 @@ import { addOrder } from '../../api/controller/orders/addOrder'
 import auth from "@react-native-firebase/auth"
 import { useNavigation } from '@react-navigation/native'
 import { removeCart } from '../../api/controller/cart/deleteCart'
+import Modal from "react-native-modal";
+import { StatusBar } from 'react-native'
+import ConfirmBuy from '../Modal/ConfirmBuy'
 
 const Checkout = ({item, type, address, phone, isBuyNow}) => {
     const [subprice, setSubprice] = useState(0)
-    // console.log(item);
     useLayoutEffect(() => {
         setSubprice(get_Cart_Price(item))
     });
-    
-    // useEffect(() => {
-    //     get_subTotal(item);
-    // }, [])
-    // const get_subTotal = (list) =>{
-    //     let subtotal = 0;
-    //     list?.forEach((item) => {
-    //         subtotal += item.price * item.quantity;
-    //     })
-    //     return subtotal
-    // }
 
     const createOrder_isBuyNow = () => {
         const data  = {
@@ -58,6 +49,8 @@ const Checkout = ({item, type, address, phone, isBuyNow}) => {
         // console.log(data);
     }
     const navigation = useNavigation();
+    const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.view_checkout}>
         <View style={styles.view_total}>
@@ -79,7 +72,7 @@ const Checkout = ({item, type, address, phone, isBuyNow}) => {
             onPress={() => {
                 if(type == 'payment'){
                     isBuyNow ? createOrder_isBuyNow() : createOrder_notBuyNow();
-                    
+                    setModalVisible(true);
                 } else if (type == 'order'){
                     navigation.navigate('Payment', {
                         item : item,
@@ -88,6 +81,31 @@ const Checkout = ({item, type, address, phone, isBuyNow}) => {
                 }
             }}
         />
+        <Modal
+            testID={'modal'}
+            isVisible={modalVisible}
+            onSwipeComplete={() => {
+                setModalVisible(false); 
+                navigation.navigate('BottomTab', {
+                    screen: 'Home'
+                })
+            }}
+            swipeDirection={['up', 'left', 'right', 'down']}
+            style={styles.view}
+        >
+            <StatusBar
+                animated={true}
+                barStyle = {modalVisible ? 'dark-content' : 'dark-content'}
+                backgroundColor  = '#4b4b4b'
+            />
+            <ConfirmBuy funout={() => {
+                    setModalVisible(false);
+                }}
+                fun={() => {
+                    
+                }}
+            />
+        </Modal>
     </View>
   )
 }

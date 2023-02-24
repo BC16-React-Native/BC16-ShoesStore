@@ -18,7 +18,7 @@ export const get_AllProducts = (setData) => {
 }
 
 export const get_AllProducts_limit = (category) => {
-    console.log(category);
+    // console.log(category);
     const querySnapshot_full = firestore().collection('products').orderBy('prices', 'desc').limit(5)
 
     // const querySnapshot = firestore().collection('products').where('categoryid', '==', category.id).orderBy('prices', 'desc').limit(5)
@@ -73,7 +73,7 @@ export const get_Products_name =  (setData, name) => {
     function onResult(QuerySnapshot) {
         allEntries = [];
         QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
-        console.log('Got products collection result.');
+        // console.log('Got products collection result.');
         setData(allEntries);
     }
       
@@ -82,31 +82,13 @@ export const get_Products_name =  (setData, name) => {
     }
 }
 
-export const get_Products_new = (setData) => {
+export const get_Products_new = (category) => {
     let allEntries = [];
 
-    const queryRef =  firestore().collection('products').onSnapshot(onResult, onError);
-    // queryRef.forEach((doc) => {
-    //     const now = new Date();
-    //     const datecreate = new Date(doc.data().datecreate);
-    //     const day_dist = get_day_between_2day(datecreate, now);
-
-    //     day_dist < 7 ?  shoes.push({...doc.data(), id: doc.id}) : null;
-    // })
-    function onResult(QuerySnapshot) {
-        allEntries = [];
-        QuerySnapshot.forEach(doc => {
-            const now = new Date();
-            const datecreate = new Date(doc.data().datecreate);
-            const day_dist = get_day_between_2day(datecreate, now);
-
-            day_dist < 7 ?  allEntries.push({...doc.data(), id: doc.id}) : null;
-        });
-        // console.log('Got new  products collection result.', allEntries);
-        setData(allEntries);
-    }
-
-    function onError(error) {
-        console.error(error);
+    const queryRef =  firestore().collection('products');
+    if(category?.id == 'all' || !category) {
+        return queryRef
+    } else {
+        return firestore().collection('products').where('categoryid', '==', category.id)
     }
 }

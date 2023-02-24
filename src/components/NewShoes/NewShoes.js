@@ -9,10 +9,6 @@ const NewShoes = ({item}) => {
   return (
     <TouchableOpacity style={styles.container} onPress={() =>{
       navigation.push('Detail' , {
-        // screen: 'Detail',
-        // params : {
-        //   item: item
-        // }
         item: item
       })
     }}>
