@@ -1,12 +1,24 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { heightScreen, widthScreen } from '../../utility'
+import { useNavigation } from '@react-navigation/native'
     const OrderCart = ({
     stylesContainer,
     item,
     index,
+    handleOrder
     }) => {
+
+    const navigation = useNavigation();
+    
     return (
+    <TouchableOpacity onPress = {() => navigation.push('OrderDetail' , {
+        // screen: 'Detail',
+        // params : {
+        //   item: item
+        // }
+        item: item
+      })}>
     <View style = {[styles.container, stylesContainer]}>
         <Text style = {[styles.titleid]}>ORDER ID: {(item.id).slice(-6)}</Text>
         <Text style = {[styles.titleadd]}>{item.address}</Text>
@@ -15,6 +27,7 @@ import { heightScreen, widthScreen } from '../../utility'
             <Text style = {[styles.btntext]}>{item.status == 'delivering' ? 'View Detail' : 'Pending'}</Text>
         </TouchableOpacity>
     </View>
+    </TouchableOpacity>
     )
 }
 

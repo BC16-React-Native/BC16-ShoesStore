@@ -407,8 +407,15 @@ const ProductCreate = ({}) => {
                             });
                         
                         }}
-                        stylesContainer = {{width: widthScreen * 0.25, marginHorizontal: widthScreen * 0.02 , marginTop:heightScreen * 0.53, }}
+                        stylesContainer = {{width: widthScreen * 0.3, marginHorizontal: widthScreen * 0.02 , marginTop:heightScreen * 0.53, }}
                         stylesTitle = {{fontSize:18}}
+                        />
+                        <FieldButton
+                        title={'Cancel'}
+                        // stylesTitle={{color:"#5B9EE1"}}
+                        onPress={()=>setModalVisible(!modalVisible)}
+                        stylesContainer = {{width: widthScreen * 0.3, marginHorizontal: widthScreen * 0.02,marginTop:heightScreen * 0.6, borderColor:'#5B9EE1', borderWidth:1,backgroundColor:'#FFFFFF' }}
+                        stylesTitle = {{fontSize:18, color:'#5B9EE1'}}
                         />
                       </View>
                     </Modal>
@@ -650,7 +657,7 @@ const styles = StyleSheet.create({
     modalcontainer:{
       alignSelf: 'center',
       width: widthScreen * 0.9,
-      height: heightScreen * 0.35,
+      height: heightScreen * 0.4,
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor:'#F8F9FA',

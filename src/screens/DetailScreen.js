@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, StatusBar, TouchableOpacity, Image, FlatList, } from 'react-native'
+import { StyleSheet, Text, View, StatusBar, TouchableOpacity, Image, FlatList, Platform, } from 'react-native'
 import React, { useEffect, useLayoutEffect, useRef, useState} from 'react'
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import AntDesign from "react-native-vector-icons/AntDesign"
@@ -239,7 +239,7 @@ const DetailScreen = ({route}) => {
               }
             >
               <Text style={{
-                fontFamily: 'SF-Pro',
+                fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
                 fontWeight: '700',
                 fontSize: 18,
                 lineHeight: 22,

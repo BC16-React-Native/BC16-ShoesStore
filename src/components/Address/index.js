@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import AntDesign from "react-native-vector-icons/AntDesign"
 
@@ -35,7 +35,7 @@ export default React.memo(Address)
 
 const styles = StyleSheet.create({
     infor_text:{
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '500',
         fontSize: 14,
         lineHeight: 20,

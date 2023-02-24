@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScreenView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, ScreenView, Platform } from 'react-native'
 import React,{useEffect, useLayoutEffect, useState} from 'react'
 import { useNavigation } from '@react-navigation/native';
 import FontAwesome from "react-native-vector-icons/FontAwesome"
@@ -85,7 +85,7 @@ const Payment = ({route}) => {
         <View style={{ backgroundColor: '#fff', paddingHorizontal: 20, paddingVertical: 16, borderRadius: 16, marginHorizontal: 20,}}>
             <View style={{marginBottom : 12}}>
                 <Text style={{
-                    fontFamily: 'SF-Pro',
+                    fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
                     fontWeight: '700', 
                     fontSize: 14,
                     lineHeight: 20,
@@ -98,7 +98,7 @@ const Payment = ({route}) => {
             </View>
             <View style={{marginBottom : 12}}>
                 <Text style={{
-                    fontFamily: 'SF-Pro',
+                    fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
                     fontWeight: '700',
                     fontSize: 14,
                     lineHeight: 20,
@@ -109,7 +109,7 @@ const Payment = ({route}) => {
             </View>
             <View style={{marginBottom : 12}}>
                 <Text style={{
-                    fontFamily: 'SF-Pro',
+                    fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
                     fontWeight: '700',
                     fontSize: 14,
                     lineHeight: 20,
@@ -117,7 +117,7 @@ const Payment = ({route}) => {
                     marginBottom: 16
                 }}>Payment Method</Text>
                 <Text style={{
-                    fontFamily: 'SF-Pro',
+                    fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
                     fontWeight: '500',
                     fontSize: 14,
                     lineHeight: 20,
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
         borderRadius: 12
     },
     nameProduct: {
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '600',
         fontSize: 16,
         lineHeight: 20,
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     priceProduct: {
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '500',
         fontSize: 14,
         lineHeight: 20,

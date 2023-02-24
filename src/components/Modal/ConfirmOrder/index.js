@@ -3,20 +3,12 @@ import React from 'react'
 import Lottie from 'lottie-react-native'
 import { useNavigation } from '@react-navigation/native'
 import Ionicons from "react-native-vector-icons/Ionicons"
+import { heightScreen } from '../../../utility'
 
-const ConfirmBuy = ({funout}) => {
+const ConfirmOrder = ({}) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={{alignSelf: 'flex-end', marginBottom: 20}} 
-        onPress={() => {funout(); navigation.navigate('BottomTab', {
-          screen: 'Home'
-        })}} 
-      >
-        <Ionicons name="close-circle-outline" size={28} color="red" 
-          style={{paddingRight: 10, paddingTop: 10}}
-        />
-      </TouchableOpacity>
       <Lottie 
         source={require('../../../utility/success/success.json')} 
         autoPlay 
@@ -25,7 +17,7 @@ const ConfirmBuy = ({funout}) => {
       />
       <Text style={styles.message}>Your order Is Successful</Text>
       <TouchableOpacity style={styles.button} onPress={() => {
-        navigation.navigate('BottomTab', {
+        navigation.navigate('BottomTabAdmin', {
           screen: 'Home'
         }
       )}}>
@@ -35,7 +27,7 @@ const ConfirmBuy = ({funout}) => {
   )
 }
 
-export default ConfirmBuy
+export default ConfirmOrder
 
 const styles = StyleSheet.create({
     container: {
@@ -44,6 +36,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingBottom: 40,
         borderRadius: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: heightScreen * 0.001,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+      
+        elevation: 4,
     },
     message: {
       fontFamily: Platform.OS !== 'ios' ?'SF-Pro': null,

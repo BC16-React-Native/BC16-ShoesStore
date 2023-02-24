@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import Ionicons from "react-native-vector-icons/Ionicons"
 import Feather from "react-native-vector-icons/Feather"
@@ -64,14 +64,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     infor_text:{
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '500',
         fontSize: 14,
         lineHeight: 20,
         color: '#1A2530',
     },
     infor_type:{
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '400',
         fontSize: 12,
         lineHeight: 16,

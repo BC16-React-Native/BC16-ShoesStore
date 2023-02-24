@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 import React, { useEffect, useState } from 'react'
 
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         marginVertical: heightScreen * 0.006
     },
     name: {
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '700',
         fontSize: 16,
         lineHeight: 20,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
 
     },
     price: {
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '700',
         fontSize: 14,
         lineHeight: 16,

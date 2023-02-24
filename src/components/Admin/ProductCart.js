@@ -10,28 +10,21 @@ const ProductCart = ({
     icon,
     stylesIcon
 }) => {
-    const date = new Date(item.datedone)
+    const date = new Date(item?.datedone)
     const options = { day: "2-digit", month: "2-digit", year: "numeric" };
     const localDateString = date.toLocaleDateString("en-US", options);
 return (
     <TouchableOpacity style = {[styles.container, stylesContainer]}>
-    <View>
-    <View style = {[styles.containerv1]}>
-        <Text style = {[styles.titleid]}>ORDER ID: {(item.id).slice(-6)}</Text>
-        <Text style = {[styles.titleitem]}>{item.productsid.length} items</Text>
-        <Text style = {[styles.titletotal]}>${item.total}</Text>
-        <Text style = {[styles.titledate]}>Done: {localDateString}</Text>
-    </View>
-    <Image
-        style= {[styles.icon, stylesIcon]}
-        source = {icon}>
-    </Image>
     <View style = {[styles.containerv2]}>
         <Image 
         source = {{uri: item.images?.[0]}}
         style = {styles.img} />
     </View>
-
+    <View style = {[styles.containerv1]}>
+        <Text style = {[styles.titleid]}>ORDER ID: {(item?.id).slice(-6)}</Text>
+        <Text style = {[styles.titleitem]}>{item?.productsid.length} items</Text>
+        <Text style = {[styles.titletotal]}>${item?.total}</Text>
+        <Text style = {[styles.titledate]}>Done: {localDateString}</Text>
     </View>
     </TouchableOpacity>
     )
@@ -41,15 +34,13 @@ export default ProductCart
 
 const styles = StyleSheet.create({
     container:{
-        height: heightScreen * 0.16,
+        height: heightScreen * 0.14,
         width: widthScreen * 0.9,
         backgroundColor:"#FFFFFF",
-        justifyContent:'space-between',
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems:'center',
         alignSelf:'center',
-        paddingTop: heightScreen * 0.01,
         borderRadius:16,
         shadowColor: "#000",
         shadowOffset: {
@@ -62,14 +53,12 @@ const styles = StyleSheet.create({
         elevation: 4,
     },
     containerv1:{
-        position:'absolute',
-        marginLeft: widthScreen * 0.38,
-        marginTop: heightScreen * 0.002,
+        paddingLeft: widthScreen * 0.1
     },
     containerv2:{
-        position:'absolute',
         marginLeft: widthScreen * 0.03,
-        marginTop: heightScreen * 0.004
+        alighItems: 'center',
+        justifyContent: 'center',
     },
     titleid:{
         fontSize:15,
@@ -78,24 +67,19 @@ const styles = StyleSheet.create({
     },
     titleitem:{
         fontSize:16,
-        marginVertical: heightScreen * 0.01,
     },
     titletotal:{
         fontSize:18,
-        marginVertical: heightScreen * 0.01,
         fontWeight:'bold',
     },
     titledate:{
         fontSize:15,
-        marginVertical: heightScreen * 0.009,
         color:'green',
         fontWeight:'bold',
     },
     img:{
-        position: 'absolute',
-        // height: heightScreen * 0.15,
-        // width: widthScreen * 0.2,
-        padding: heightScreen * 0.065,
+        height: heightScreen * 0.15,
+        width: widthScreen * 0.3,
         borderRadius: 10,
         alignItems: 'flex-start',
         transform: [{rotate: '-10deg'}],

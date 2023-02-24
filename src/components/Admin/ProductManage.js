@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 import Modal from "react-native-modal";
 import FieldButton from '../Auth/FieldButton';
 import firestore from '@react-native-firebase/firestore';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import Lottie from 'lottie-react-native';
 const ProductManage = ({
     stylesContainer,
     item,
@@ -61,19 +61,22 @@ const ProductManage = ({
                             handleDelete(item?.id);
                         
                         }}
-                        stylesContainer = {{width: widthScreen * 0.25, marginHorizontal: widthScreen * 0.02 , marginTop:heightScreen * 0.63, }}
+                        stylesContainer = {{width: widthScreen * 0.3, marginHorizontal: widthScreen * 0.02 , marginTop:heightScreen * 0.63, }}
                         stylesTitle = {{fontSize:18}}
                         />
                         <FieldButton
                         title={'Cancel'}
                         // stylesTitle={{color:"#5B9EE1"}}
                         onPress={()=>setModalVisible(!modalVisible)}
-                        stylesContainer = {{width: widthScreen * 0.25, marginHorizontal: widthScreen * 0.02,marginTop:heightScreen * 0.63, borderColor:'#5B9EE1', borderWidth:1,backgroundColor:'#FFFFFF' }}
+                        stylesContainer = {{width: widthScreen * 0.3, marginHorizontal: widthScreen * 0.02,marginTop:heightScreen * 0.63, borderColor:'#5B9EE1', borderWidth:1,backgroundColor:'#FFFFFF' }}
                         stylesTitle = {{fontSize:18, color:'#5B9EE1'}}
                         />
-                        <FontAwesome5Icon
-                        name = "question-circle" style={styles.iconquestion} size = {100} color = {'#D24250'}
-                        />
+                        <Lottie 
+                        style = {styles.animated}
+                        source={require('../../utility/question/question.json')} 
+                        autoPlay
+                        loop = {false}
+                         />
                         <Text style = {styles.textquestion}>Are you sure?</Text>
                 </View>
             </Modal>
@@ -99,7 +102,7 @@ return (
     >
     <View>
     <View style = {[styles.containerv1]}>
-        <Text style = {[styles.titleid]}>{item.name.length > 25 ? `${item.name.slice(0,25)}...` : item.name}</Text>
+        <Text numberOfLines={1} style = {[styles.titleid]}>{item.name}</Text>
         <Text style = {[styles.titletotal]}>${item.prices}</Text>
         <Text style = {[styles.titledate]}>Create: {localDateString}</Text>
     </View>
@@ -157,6 +160,7 @@ const styles = StyleSheet.create({
         position:'absolute',
         marginLeft: widthScreen * 0.31,
         marginTop: heightScreen * 0.002,
+        paddingRight: widthScreen * 0.02,
     },
     containerv2:{
         position:'absolute',
@@ -216,7 +220,7 @@ const styles = StyleSheet.create({
       },
       modalcontainer:{
           alignSelf: 'center',
-          width: widthScreen * 0.7,
+          width: widthScreen * 0.9,
           height: heightScreen * 0.4,
           justifyContent: 'center',
           alignItems: 'center',
@@ -232,5 +236,11 @@ const styles = StyleSheet.create({
           flexDirection: 'row',
           flexWrap: 'wrap',
           elevation: 4,
+      },
+      animated:{
+        position: 'absolute',
+        height: heightScreen * 0.3,
+        width: widthScreen * 0.3,
+        bottom:heightScreen * 0.04
       }
 })

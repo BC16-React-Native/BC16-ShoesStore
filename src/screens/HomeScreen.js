@@ -10,14 +10,18 @@ import AntDesign from "react-native-vector-icons/AntDesign"
 import { useNavigation } from '@react-navigation/native'
 import auth from "@react-native-firebase/auth"
 import { get_LenghtCart_uID } from '../api/controller/cart/getCart'
+import { useSelector } from 'react-redux'
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [lenghtCart, setLenghtCart] = useState();
-
+  const roles = useSelector((state) => state.auth.role);
   // console.log(lenghtCart);
   useLayoutEffect(() => {
-    get_LenghtCart_uID(setLenghtCart, auth().currentUser.uid)
+    if (roles == false){
+          get_LenghtCart_uID(setLenghtCart, auth().currentUser.uid)
+    }
+
   }, [])
   useLayoutEffect(() => { 
     navigation.setOptions({ 

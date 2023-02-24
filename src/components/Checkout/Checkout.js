@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import FieldButton from '../Auth/FieldButton'
@@ -55,7 +55,7 @@ const Checkout = ({item, type, address, phone, isBuyNow}) => {
     <View style={styles.view_checkout}>
         <View style={styles.view_total}>
             <Text style={styles.text_Left}>Subtotal</Text>
-            <Text style={styles.text_Right}>${subprice}</Text>
+            <Text style={styles.text_Right}>${Number(subprice)}</Text>
         </View>
         <View style={styles.view_shipping}>
             <Text style={styles.text_Left}>Shipping</Text>
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
         alignSelf:'flex-end',
     },
     text_Right: {
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '700',
         fontSize: 18,
         lineHeight: 24,
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
         color: '#1A2530',
     },
     priceTotal: {
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '700',
         fontSize: 18,
         lineHeight: 24,
@@ -152,14 +152,14 @@ const styles = StyleSheet.create({
         color: '#1A2530',
     },
     text_LeftTotal: {
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '500',
         fontSize: 16,
         lineHeight: 20,
         color: '#1A2530',
     },
     text_Left: {
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '500',
         fontSize: 16,
         lineHeight: 20,
