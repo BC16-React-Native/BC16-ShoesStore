@@ -5,24 +5,26 @@ import Feather  from "react-native-vector-icons/Feather"
 import { useNavigation } from '@react-navigation/native'
 import { addFavorite } from '../../api/controller/favorite/addFavorite'
 import auth from '@react-native-firebase/auth'
+import { deleteFavorite, deleteFavorite_idProduct } from '../../api/controller/favorite/deleteFavorite'
 
-
-const ShoesBox = ({item}) => {
+const ShoesBox = ({item, isnoFav}) => {
   const [like, setLike] = useState(false);
   const navigation = useNavigation();
-  const handleLike = (product, id) =>{
-    setLike(!like);
+  const handleLike = (product, id, noFav) =>{
+    console.log(product);
     let data = {
       productid: product?.id,
       userid: id
     }
-    addFavorite(data);
+    !noFav ? deleteFavorite_idProduct(id,item.id) : addFavorite(data);
+
   }
   return (
     <TouchableOpacity style={styles.container} onPress={() =>{
       navigation.push('Detail' , {
         item: item
-      })
+      });
+      console.log(item.id);
     }}>
         <Image
           style={styles.image}
@@ -36,9 +38,9 @@ const ShoesBox = ({item}) => {
       </View>
         <Text style={styles.price}>${item.prices}</Text>
       <TouchableOpacity style={[styles.icon_like, 
-          {backgroundColor: !like ? '#5B9EE1' : '#E15B5B'}
+          {backgroundColor:  isnoFav ? '#5B9EE1' : '#E15B5B'}
         ]} 
-        onPress={() => {handleLike(item, auth().currentUser.uid)}}
+        onPress={() => {handleLike(item, auth().currentUser.uid,isnoFav)}}
       >
         <Feather name="heart" size={22} color="#fff" />
       </TouchableOpacity>

@@ -1,7 +1,7 @@
 
 import { FlatList, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
-import { getFavorite_Test, get_Favorite_userID } from '../api/controller/favorite/getFavorite';
+import React, { memo, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import { getallFavorite_productid, getallProducts_id, get_Favorite_userID, get_unFavorite_userID } from '../api/controller/favorite/getFavorite';
 import ShoesBox from '../components/ShoesBox';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { heightScreen, widthScreen } from '../utility/index';
@@ -14,29 +14,41 @@ const Favorite = () => {
   const [fvlist, setFvl] = useState([]);
   useEffect(() => {
     get_Favorite_userID(setFvl, auth().currentUser.uid);
-    console.log('hi');
+    
   }, [])
+  useLayoutEffect(() => { 
+    navigation.setOptions({ 
+        title: 'Favorite',
+        headerLeft : () => (    
+              <TouchableOpacity onPress={() => navigation.goBack()} 
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#fff',
+                  height: heightScreen * 0.0566,
+                  width: widthScreen * 0.112,
+                  borderRadius: widthScreen * 0.056
+                }}
+              >
+                  <FontAwesome name="angle-left" size={24} color="black" />
+              </TouchableOpacity>
+        ), 
+    }) 
+  }, []);
   
+
  const navigation = useNavigation();
 
   return (
-    <View style={{ flex: 1 }}>
-      <View style={styles.containerHeader}>
-        <Text style={styles.textSearch}>Favorite</Text>
-        <TouchableOpacity onPress={() => {}} style={styles.buttonBack}>
-          <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack} />
-        </TouchableOpacity>
-      </View>
       <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <FlatList
           data={fvlist}
           renderItem={({ item, index }) => <ShoesBoxFavorite item={item} />}
           numColumns={2}
           keyExtractor={item => item.id}
-          style={{ marginTop: heightScreen * 0.05 }}
+          style={{ flex: 1, marginTop: heightScreen*0.2 }}
         />
       </SafeAreaView>
-    </View>
   )
 }
 
@@ -45,10 +57,15 @@ export default Favorite
 
 
 const styles = StyleSheet.create({
-  containerHeader: {
-    width: widthScreen,
-    alignSelf: 'center',
-  },
+  title:{
+    fontFamily: 'SF-Pro',
+    fontWeight: '700',
+    fontSize: 18,
+    lineHeight: 22,
+    color: '#000',
+    marginTop: heightScreen * 0.06,
+    marginBottom: heightScreen * 0.01,
+},
   buttonBack: {
     // position: 'absolute',
     width: widthScreen * 0.14,
