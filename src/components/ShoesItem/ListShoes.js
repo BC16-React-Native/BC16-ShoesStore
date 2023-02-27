@@ -6,23 +6,31 @@ import ShoesBox from './ShoesBox'
 import { heightScreen, widthScreen } from '../../utility'
 import { get_Categories_handle_all } from '../../api/controller/category/getCategories'
 import { get_AllProducts_limit } from '../../api/controller/products/getProducts'
+import { getallProducts_id, get_unFavorite_userID } from '../../api/controller/favorite/getFavorite'
+import auth from '@react-native-firebase/auth'
+
 const ListShoes = ({category}) => {
     const [data, setData] = useState();
-        useEffect(() => {
-            get_AllProducts_limit(category)
-                .onSnapshot(
-                    querySnapshot => {
-                        const newEntities = []
-                        querySnapshot.forEach(doc => {
-                            newEntities.push({ ...doc.data(), id: doc.id })
-                        });
-                        setData(newEntities)
-                    },
-                    error => {
-                        console.log(error)
-                    }
-                )
-        }, [category])
+    const [unFav, setUnFav] = useState([]);
+    useEffect(() => {
+        get_AllProducts_limit(category)
+            .onSnapshot(
+                querySnapshot => {
+                    const newEntities = []
+                    querySnapshot.forEach(doc => {
+                        newEntities.push({ ...doc.data(), id: doc.id })
+                    });
+                    setData(newEntities)
+                },
+                error => {
+                    console.log(error)
+                }
+            )
+        get_unFavorite_userID(setUnFav, auth().currentUser.uid);
+    }, [category])
+    const handleFavo = (proid) => {
+        return !unFav.includes(proid);
+    }
   return (
     <View style={styles.container}>
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
@@ -41,7 +49,7 @@ const ListShoes = ({category}) => {
             showsHorizontalScrollIndicator={false}
             renderItem={
                 ({item, index}) => 
-                    <ShoesBox item={item}/>
+                    <ShoesBox item={item} isnoFav={handleFavo(item?.id)}/>
             }
             keyExtractor={item => item.id}
             style={styles.list}

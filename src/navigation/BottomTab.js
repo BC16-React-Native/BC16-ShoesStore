@@ -156,7 +156,6 @@ const TabButton = (props) => {
 }
 
 export default function AnimTab1() {
-  console.log(heightScreen, widthScreen)
   return (
     <Tab.Navigator
       screenOptions={{
