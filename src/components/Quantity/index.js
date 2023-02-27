@@ -17,7 +17,7 @@ const Quantity = ({data, quantity}) => {
         justifyContent: 'space-between',
 
     }}>
-        {number == 1 ? <View style={{height: 25, width: 25, }}/> :
+        {number == 1 ? <View style={{height: 25, width: 25,}}/> :
             <TouchableOpacity
                 onPress={() => {
                     setNumber(number - 1)
@@ -36,7 +36,7 @@ const Quantity = ({data, quantity}) => {
                 </Text>
             </TouchableOpacity>
         }
-        <Text>{number}</Text>
+        <Text style={{fontSize: 16}}>{number}</Text>
         <TouchableOpacity 
             onPress={() => {
                 setNumber(number + 1)

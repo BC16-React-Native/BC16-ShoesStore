@@ -10,7 +10,7 @@ const ProductCart = ({
     icon,
     stylesIcon
 }) => {
-    const date = new Date(item?.datedone)
+    const date = new Date(item?.datedone || item?.datecreate)
     const options = { day: "2-digit", month: "2-digit", year: "numeric" };
     const localDateString = date.toLocaleDateString("en-US", options);
 return (

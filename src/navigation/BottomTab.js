@@ -1,105 +1,21 @@
-// import { StyleSheet, Text, View } from 'react-native'
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import AntDesign from "react-native-vector-icons/AntDesign"
-// import Ionicons from "react-native-vector-icons/Ionicons"
-// import Feather from "react-native-vector-icons/Feather"
-// import React from 'react'
-// import HomeScreen from '../screens/HomeScreen';
-// import ProfileScreen from '../screens/ProfileScreen';
-// import FavoriteScreen from '../screens/FavoriteScreen';
-// import OrderScreen from '../screens/OrderScreen';
-// import { heightScreen, widthScreen } from '../utility';
 
-
-// const Tab = createBottomTabNavigator();
-// const BottomTab = () => {
-//   return (
-//     <Tab.Navigator 
-//             screenOptions={{
-//                 tabBarActiveTintColor: '#5B9EE1',
-//                 borderTopLeftRadius:21,
-//                 headerShown: false,
-//                 tabBarStyle: {
-//                     borderTopLeftRadius: 24,
-//                     borderTopRightRadius: 24,
-//                     height: heightScreen * 0.1,
-//                     backgroundColor:'#F8F9FA',
-//                     paddingTop: heightScreen * 0.009,
-//                 }
-//             }}
-//         >
-//         <Tab.Screen name="Home" component={HomeScreen} 
-//             options={{
-//                 tabBarIcon:({color,size}) => (
-//                     <View style={{flex:1, borderColor: color == '#5B9EE1' ? color : 'white', borderBottomWidth: 2, alignItems: 'center', justifyContent:'center'}}>
-//                         <Feather name="home" size={size} color={color}/>
-//                         {/* <View style={{backgroundColor: color}}/> */}
-//                     </View>
-//                 ),
-//                 tabBarLabel: '',
-//             }}
-//         />
-
-//         <Tab.Screen name="Favorite" component={FavoriteScreen} 
-//             options={{
-//                 tabBarIcon:({color,size}) => (
-//                     <View style={{flex:1, borderColor: color == '#5B9EE1' ? color : 'white', borderBottomWidth: 2, alignItems: 'center', justifyContent:'center'}}>
-//                         <Feather name="heart" size={size} color={color}/>
-//                     </View>
-//                 ),
-//                 tabBarLabel: '',
-//             }}
-//         />
-
-//         <Tab.Screen name="Order" component={OrderScreen} 
-//             options={{
-//                 tabBarIcon:({color,size}) => (
-//                     <View style={{flex:1, borderColor: color == '#5B9EE1' ? color : 'white', borderBottomWidth: 2, alignItems: 'center', justifyContent:'center'}}>
-//                         <Feather name="shopping-bag" size={size} color={color}/>
-//                     </View>
-//                 ),
-//                 tabBarLabel: '',
-//             }}
-//         />
-
-//         <Tab.Screen name="Profile" component={ProfileScreen} 
-//             options={{
-//                 tabBarIcon:({color,size}) => (
-//                     <View style={{flex:1, borderColor: color == '#5B9EE1' ? color : 'white', borderBottomWidth: 2, alignItems: 'center', justifyContent:'center'}}>
-//                         <Feather name="user" size={size} color={color} />
-//                     </View>
-//                 ),
-//                 tabBarLabel: '',
-//             }}
-//         />
-//     </Tab.Navigator>
-//   )
-// }
-
-// export default BottomTab
-
-// const styles = StyleSheet.create({})
-
-import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import FavoriteScreen from '../screens/FavoriteScreen';
-import OrderScreen from '../screens/OrderScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect, useRef } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon, { Icons } from '../utility/icons/index';
-// import ColorScreen from '../screens/ColorScreen';
 import * as Animatable from 'react-native-animatable';
 import { heightScreen, widthScreen } from '../utility';
 import Home from './HomeNavigator/Home';
-import MyCartScreen from '../screens/MyCartScreen';
+import Order from './OrderNavigator/Order';
 
 
 
 const TabArr = [
   { route: 'Home', label: 'Home', type: Icons.Feather, icon: 'home', component: Home },
   { route: 'Favorite', label: 'Favorite', type: Icons.Feather, icon: 'heart', component: FavoriteScreen },
-  { route: 'Order', label: 'Order', type: Icons.Feather, icon: 'shopping-bag', component: MyCartScreen },
+  { route: 'Order', label: 'Order', type: Icons.Feather, icon: 'shopping-bag', component: Order },
   { route: 'Profile', label: 'Profile', type: Icons.FontAwesome, icon: 'user-o', component: ProfileScreen },
 ];
 
@@ -156,7 +72,6 @@ const TabButton = (props) => {
 }
 
 export default function AnimTab1() {
-  console.log(heightScreen, widthScreen)
   return (
     <Tab.Navigator
       screenOptions={{

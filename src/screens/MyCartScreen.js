@@ -21,24 +21,25 @@ const MyCartScreen = () => {
         await getCart(dispatch);
     }
     useEffect(() => {
+        console.log('hi');
         calldata();
     }, [])
     useLayoutEffect(() => { 
     navigation.setOptions({ 
         title: 'My Cart',
         headerLeft : () => (    
-              <TouchableOpacity onPress={() => navigation.goBack()} 
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: '#fff',
-                  height: heightScreen * 0.0566,
-                  width: widthScreen * 0.112,
-                  borderRadius: widthScreen * 0.056
-                }}
-              >
-                  <FontAwesome name="angle-left" size={24} color="black" />
-              </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()} 
+            style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#fff',
+                height: heightScreen * 0.0566,
+                width: widthScreen * 0.112,
+                borderRadius: widthScreen * 0.056
+            }}
+            >
+                <FontAwesome name="angle-left" size={24} color="black" />
+            </TouchableOpacity>
         ), 
     }) 
   }, []);

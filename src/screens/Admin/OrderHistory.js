@@ -95,5 +95,4 @@ textProfile:{
   containerfl:{
     height: heightScreen * 1
   }
-
 })
