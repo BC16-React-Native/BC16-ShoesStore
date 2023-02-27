@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -11,6 +11,7 @@ import SwipeButton from 'rn-swipe-button';
 import Modal from 'react-native-modal'
 import FieldButton from '../../components/Auth/FieldButton';
 import AnimatedLottieView from 'lottie-react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
 const OrderDetail = ({route}) => {
@@ -19,7 +20,6 @@ const OrderDetail = ({route}) => {
   const navigation = useNavigation();
   const [data, setData] = useState();
   const [item, setItems] = useState(route.params.item);
-  const [total, setTotal] = useState();
   const [swipe, setSwipe] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   let forceResetLastButton = null;
@@ -83,7 +83,6 @@ const OrderDetail = ({route}) => {
   console.log(swipe)
   useEffect(() => {
     getUser();
-    setTotal(items?.total + 9)
   },[])
 
   const ButtonSwipe = () => {
@@ -93,30 +92,47 @@ const OrderDetail = ({route}) => {
         </View>
     );
   } 
-  const Header = () => {
-    return(
-        <View style={styles.containerHeader}>
-          <TouchableOpacity onPress={()=>navigation.navigate('BottomTabAdmin')} style={styles.buttonBack}>
-            <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack}/>
-          </TouchableOpacity> 
-          <Text style={styles.textProfile}>Order Detail</Text>
-        </View>
-    )
-    }
+  useLayoutEffect(() => { 
+    navigation.setOptions({ 
+        title: 'Order Detail',
+        headerLeft : () => (    
+            <TouchableOpacity onPress={() => navigation.goBack()} 
+            style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#fff',
+                height: heightScreen * 0.0566,
+                width: widthScreen * 0.112,
+                borderRadius: widthScreen * 0.056
+            }}
+            >
+                <FontAwesome name="angle-left" size={24} color="black" />
+            </TouchableOpacity>
+        ), 
+    }) 
+  }, []);
 
   return (
     <SafeAreaView style = {styles.container}>
-    <Header/>
-    <View style = {styles.containerinfo}>
-      <Text style ={styles.titleid}>ORDER ID: {(items.id).slice(-6)}</Text>
-      <Text style ={styles.titleadd}>Address: {items.address}</Text>
+    {/* <Header/> */}
+    <View style={{
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        paddingHorizontal: heightScreen * 0.02,
+        marginVertical: heightScreen * 0.01,
+    }}>
+      <View style = {styles.containerinfo}>
+        <Text style ={styles.titleid}>ORDER ID: {(items.id).slice(-6)}</Text>
+        <Text style ={styles.titleadd}>Address: {items.address}</Text>
+      </View>
+      {item?.status !== 'delivered'? 
+      <View style = {[styles.titlestatus, { backgroundColor: item?.status == 'pending' ? '#ffca3b': '#5B9EE1'}]}>
+        <Text style = {[styles.titlestatuss, { color: items?.status == 'pending' ? '#000': '#FFFFFF'}]}>{item?.status == 'pending' ? 'Pending': "Delivering"}</Text>
+      </View>:
+      <></>
+      }
     </View>
-    {item?.status !== 'delivered'? 
-    <View style = {[styles.titlestatus, { backgroundColor: item?.status == 'pending' ? '#ffca3b': '#5B9EE1'}]}>
-      <Text style = {[styles.titlestatuss, { color: items?.status == 'pending' ? '#000': '#FFFFFF'}]}>{item?.status == 'pending' ? 'Pending': "Delivering"}</Text>
-    </View>:
-    <></>
-    }
     <View style = {styles.containerlist}>
       <FlatList
       data={items?.productsid}
@@ -183,56 +199,30 @@ const OrderDetail = ({route}) => {
       <View style = {styles.containername1}/>
       <View style = {styles.containername}>
         <Text style = {styles.textinfo}>Total: </Text>
-        <Text style = {styles.texttotal}>${total} </Text>
+        <Text style = {styles.texttotal}>${items?.total} </Text>
       </View>
-    </View>
-    <View style = {styles.swipe}>
+      <View style = {styles.swipe}>
         <SwipeButton
             containerStyles = {{height: heightScreen * 0.07,width: widthScreen * 0.9, borderRadius: 15, borderWidth:0}}
             onSwipeSuccess={() => {
               
               handleSwipeOrder()
-              // setModalVisible(!modalVisible)
               }}
             enableRightToLeftSwipe
             railBackgroundColor="#5B9EE1"
-            // forceReset={ reset => {
-            //   forceResetLastButton = reset
-            // }}
             thumbIconWidth={heightScreen * 0.074}
             disabledRailBackgroundColor
             thumbIconBackgroundColor="#FFFFFF"
             shouldResetAfterSuccess={item?.status !== 'delivered'? true: false}
-            // resetAfterSuccessAnimDelay= {1000}
             title={item?.status == 'pending'? "Swipe to delivering": 'Swipe to complete'}
             thumbIconComponent = {ButtonSwipe}
             thumbIconStyles={{borderRadius: 15, borderWidth:0}}
             railStyles={{borderRadius: 15, height: heightScreen * 0.065, borderWidth:0, backgroundColor: '#F0BF4C',}}
             height= {heightScreen * 0.07}
             titleStyles = {{fontWeight:'bold', paddingLeft:widthScreen * 0.1}}
-            
           />
-            {/* <SwipeButton
-            containerStyles = {{height: heightScreen * 0.07,width: widthScreen * 0.9, borderRadius: 15, borderWidth:0}}
-            b
-            onSwipeSuccess={() => {}}
-            enableRightToLeftSwipe
-            forceReset={ reset => {
-              forceResetLastButton = reset
-            }}
-            railBackgroundColor="#5B9EE1"
-            thumbIconWidth={heightScreen * 0.074}
-            disabledRailBackgroundColor
-            thumbIconBackgroundColor="#FFFFFF"
-            title="Swipe to complete"
-            thumbIconComponent = {ButtonSwipe}
-            thumbIconStyles={{borderRadius: 15, borderWidth:0}}
-            railStyles={{borderRadius: 15, height: heightScreen * 0.065, borderWidth:0, backgroundColor: '#F0BF4C',}}
-            height= {heightScreen * 0.07}
-            titleStyles = {{fontWeight:'bold', paddingLeft:widthScreen * 0.1}}
-            
-          /> */}
 
+    </View>
     </View>
     </SafeAreaView>
   )
@@ -245,15 +235,14 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     backgroundColor: '#F8F9FA',
+    justifyContent: 'space-between'
   },
   containerHeader: {
     height : heightScreen * 0.07,
     width: widthScreen,
   },
   containerinfo:{
-    height : heightScreen * 0.1,
-    width: widthScreen,
-    paddingLeft: heightScreen * 0.02
+
   },
   titleid:{
     fontSize:10,
@@ -265,11 +254,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   titlestatus:{
-    position: 'absolute',
     height: heightScreen * 0.05,
     width: widthScreen * 0.25,
-    marginLeft: widthScreen * 0.7,
-    marginTop: heightScreen * 0.13,
+
     // alighItems:'center',
     // justifyContent: 'center',
     borderRadius: 20
@@ -280,33 +267,11 @@ const styles = StyleSheet.create({
     lineHeight:40
   },
   textProfile:{
-    position: 'absolute',
     fontSize: 16,
     marginTop: heightScreen * 0.02,
     fontWeight: 'bold',
     alignSelf: 'center',
     color: '#1A2530'
-  },
-  buttonBack: {
-    position: 'absolute',
-    width: widthScreen * 0.14,
-    height: heightScreen * 0.067,
-    backgroundColor: 'white',
-    borderRadius: 40,
-    marginLeft: widthScreen * 0.05,
-    justifyContent: 'center',
-    shadowColor: "#000",
-    shadowOffset: {
-        width: 0,
-        height: heightScreen * 0.001,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-
-    elevation: 4,
-  },
-  iconBack:{
-    alignSelf: 'center'
   },
   containerlist:{
     height: heightScreen * 0.47,
@@ -314,8 +279,8 @@ const styles = StyleSheet.create({
     alignSelf : 'center'
   },
   containeraction:{
-    height: heightScreen * 0.2,
-    width: widthScreen,
+    // height: heightScreen * 0.2,
+    // width: widthScreen,
     backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
@@ -368,6 +333,7 @@ const styles = StyleSheet.create({
     height: heightScreen * 0.12,
     backgroundColor:'#FFFFFF',
     alignItems: 'center',
+    // borderWidth: 1
   },
   iconquestion:{
     paddingBottom:heightScreen * 0.15

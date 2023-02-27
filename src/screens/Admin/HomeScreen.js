@@ -29,22 +29,29 @@ const HomeScreen = () => {
   },[])
   return (
     <SafeAreaView style={styles.container}>
-      <Image 
-          source={{
-            uri: datauser?.image
-          }} 
-          style={styles.avt} 
-      />
-      <Text style = {styles.titletxt}>Hey, 
-      <MaterialCommunityIcons  
-        name = 'hand-wave'
-        size = {20}
-        color = '#ffca3b'
-        />
-      </Text>
-      <Text style = {styles.titletxt1}>
-        {datauser?.name}
-      </Text>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        {datauser ? 
+                <Image
+                    style={[styles.avt]}
+                    source={{
+                        uri: datauser?.image
+                    }}
+                />
+            : null
+            }
+        <View style={{marginLeft: widthScreen * 0.03}}>
+          <Text style = {styles.titletxt}>Hey,  
+          <MaterialCommunityIcons  
+            name = 'hand-wave'
+            size = {20}
+            color = '#ffca3b'
+            />
+          </Text>
+          <Text style = {styles.titletxt1}>
+            {datauser?.name}
+          </Text>
+        </View>
+      </View>
       {/* <OrderCart stylesContainer = {{marginVertical:heightScreen *0.02}}
       />
       <OrderCart stylesContainer = {{marginVertical:heightScreen *0.02}}
@@ -89,15 +96,15 @@ const styles = StyleSheet.create({
     marginLeft: widthScreen * 0.08
   },
   titletxt:{
-    position:'absolute',
-    marginTop: heightScreen * 0.08,
-    marginLeft: widthScreen * 0.32,
+    
+    // marginTop: heightScreen * 0.08,
+    // marginLeft: widthScreen * 0.32,
     fontSize: 16,
   },
   titletxt1:{
-    position:'absolute',
-    marginTop: heightScreen * 0.11,
-    marginLeft: widthScreen * 0.32,
+    
+    // marginTop: heightScreen * 0.11,
+    // marginLeft: widthScreen * 0.32,
     fontSize: 16,
     fontWeight: 'bold',
     color: '#5B9EE1',

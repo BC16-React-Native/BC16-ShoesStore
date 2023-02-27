@@ -1,19 +1,14 @@
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { heightScreen, widthScreen } from '../../utility'
+import { heightScreen, widthScreen } from '../utility'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import Icon from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
-import ShoesBoxOrder from '../../components/ShoesBoxOrder';
+import ShoesBoxOrder from '../components/ShoesBoxOrder';
 import firestore from '@react-native-firebase/firestore'
-import SwipeButton from 'rn-swipe-button';
-import Modal from 'react-native-modal'
-import FieldButton from '../../components/Auth/FieldButton';
-import AnimatedLottieView from 'lottie-react-native';
+import FontAwesome from "react-native-vector-icons/FontAwesome"
 
 
-const OrderHistoryDetails = ({
+const OrderDetail = ({
   route,
 }) => {
   const getUser = async () => {
@@ -29,17 +24,14 @@ const OrderHistoryDetails = ({
   }
   const items = route.params.item;
   const type = route.params.type;
-  console.log(items)
+  console.log(items.status);
   const navigation = useNavigation();
   const [data, setData] = useState();
-  const [item, settype] = useState(route.params.item);
-  const [total, setTotal] = useState();
-  const date = new Date(item?.datedone)
+  const date = new Date(items?.datedone)
   const options = { day: "2-digit", month: "2-digit", year: "numeric" };
   const localDateString = date.toLocaleDateString("en-US", options);
   useEffect(() => {
     getUser();
-    setTotal(items?.total + 9)
   },[])
 
   useLayoutEffect(() => { 
@@ -64,7 +56,6 @@ const OrderHistoryDetails = ({
 
   return (
     <SafeAreaView style = {styles.container}>
-    {/* <Header/> */}
     <View style={{
         flexDirection: 'row', 
         justifyContent: 'space-between', 
@@ -72,16 +63,25 @@ const OrderHistoryDetails = ({
         paddingHorizontal: heightScreen * 0.02,
         marginVertical: heightScreen * 0.01,
     }}>
-    <View style = {styles.containerinfo}>
-      <Text style ={styles.titleid}>ORDER ID: {(items.id).slice(-6)}</Text>
-      <Text style ={styles.titleadd}>Address: {items.address}</Text>
-    </View>
-    { type == 'admin'?
-      <View style = {[styles.titlestatus, { backgroundColor: '#34A202'}]}>
-        <Text style = {[styles.titlestatuss, { color: '#FFFFFF'}]}>Delivered</Text>
-      </View>
-      :<></>
-    }
+        <View style = {styles.containerinfo}>
+            <Text style ={styles.titleid}>ORDER ID: {(items.id).slice(-6)}</Text>
+            <Text style ={styles.titleadd}>Address: {items.address}</Text>
+        </View>
+        { type == 'user'?
+                <View style = {[styles.titlestatus, 
+                    { backgroundColor: 
+                        items?.status == 'pending' ?'#ffca3b' 
+                        : items?.status == 'delivered' ? '#34A202' 
+                        : '#5B9EE1'
+                    }]}>
+                    <Text style = {[styles.titlestatuss, 
+                        { color: items?.status == 'pending' ? '#000'
+                        : '#FFFFFF' }]}>{items?.status == 'pending' ? 'Pending': items?.status == 'delivered' ? "Delivered" : "Delivering"}</Text>
+                </View>
+            : 
+            <>
+            </>
+        }
     </View>
     <View style = {styles.containerlist}>
       <FlatList
@@ -93,7 +93,7 @@ const OrderHistoryDetails = ({
         item = {item}
         index = {index}
       />}
-      keyExtractor={item => item.id}
+      keyExtractor={items => items.id}
       />
 
 
@@ -115,7 +115,7 @@ const OrderHistoryDetails = ({
       <View style = {styles.containername1}/>
       <View style = {styles.containername}>
         <Text style = {styles.textinfo}>Total: </Text>
-        <Text style = {styles.texttotal}>${total} </Text>
+        <Text style = {styles.texttotal}>${items?.total} </Text>
       </View>
       <View style = {styles.containerdot}/>
       <View style = {styles.containername}>
@@ -127,7 +127,7 @@ const OrderHistoryDetails = ({
   )
 }
 
-export default OrderHistoryDetails
+export default OrderDetail
 
 const styles = StyleSheet.create({
 
@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
   containerHeader: {
     height : heightScreen * 0.07,
     width: widthScreen,
-    flexDirection: 'row'
   },
   containerinfo:{
     // height : heightScreen * 0.1,
@@ -155,27 +154,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   titlestatus:{
-    height: heightScreen * 0.05,
-    width: widthScreen * 0.25,
-    // marginLeft: widthScreen * 0.7,
-    // marginTop: heightScreen * 0.13,
-    // alighItems:'center',
-    // justifyContent: 'center',
+    // height: heightScreen * 0.05,
+    // width: widthScreen * 0.25,
+    paddingHorizontal: widthScreen * 0.05,
+    paddingVertical: heightScreen * 0.01,
     borderRadius: 20
   },
   titlestatuss:{
     fontWeight: 'bold',
     textAlign: 'center',
-    lineHeight:40
   },
   textProfile:{
+    // position: 'absolute',
     fontSize: 16,
-    // marginTop: heightScreen * 0.02,
+    marginTop: heightScreen * 0.02,
     fontWeight: 'bold',
     alignSelf: 'center',
     color: '#1A2530'
   },
   buttonBack: {
+    // position: 'absolute',
     width: widthScreen * 0.14,
     height: heightScreen * 0.067,
     backgroundColor: 'white',

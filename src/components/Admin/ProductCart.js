@@ -10,20 +10,31 @@ const ProductCart = ({
     image,
     icon,
     stylesIcon,
+    nextNavigator = 'OrderHistoryDetails',
 }) => {
     const date = new Date(item?.datedone || item?.datecreate)
     const navigation = useNavigation();
     const options = { day: "2-digit", month: "2-digit", year: "numeric" };
     const localDateString = date.toLocaleDateString("en-US", options);
 return (
-    <TouchableOpacity onPress ={() => navigation.push('OrderHistoryDetails' , {
+    <TouchableOpacity onPress ={() => navigation.push(nextNavigator , {
         item: item,
-        type: 'admin',
+        type: nextNavigator == 'OrderHistoryDetails' ?  'admin' : 'user',
       })} style = {[styles.container, stylesContainer]}>
     <View style = {[styles.containerv2]}>
-        <Image 
+        {/* <Image 
         source = {{uri: item.images?.[0]}}
-        style = {styles.img} />
+        style = {styles.img} 
+        /> */}
+        {item ? 
+                <Image
+                    style={[styles.img]}
+                    source={{
+                        uri: item?.images[0]
+                    }}
+                />
+            : null
+            }
     </View>
     <View style = {[styles.containerv1]}>
         <Text style = {[styles.titleid]}>ORDER ID: {(item?.id).slice(-6)}</Text>

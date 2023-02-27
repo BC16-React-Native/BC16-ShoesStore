@@ -106,22 +106,20 @@ return (
         <Text style = {[styles.titletotal]}>${item.prices}</Text>
         <Text style = {[styles.titledate]}>Create: {localDateString}</Text>
     </View>
-    <Image
-        style= {[styles.icon, stylesIcon]}
-        source = {icon}>
-    </Image>
     <View style = {[styles.containerv2]}>
-        <Image 
-        source = {{uri: item.images?.[0]}}
-        style = {styles.img} />
+        {item ? 
+                <Image
+                    style={[styles.img]}
+                    source={{
+                        uri: item?.images[0]
+                    }}
+                />
+            : null
+            }
     </View>
     <View style = {styles.containerv3}>
     <Text style = {styles.titleamount}>Q:{item.amount}</Text>
     <TouchableOpacity style = {styles.buttonEdit} onPress = {() =>navigation.push('ProductDetail' , {
-        // screen: 'Detail',
-        // params : {
-        //   item: item
-        // }
         item: item
       })}>
     <Icon name='edit' size={20} color={'#5B9EE1'} />

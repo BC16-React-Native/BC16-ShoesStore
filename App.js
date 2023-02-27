@@ -23,7 +23,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import DetailScreen from './src/screens/DetailScreen';
 import OrderDetail from './src/screens/Admin/OrderDetail';
 import ProductDetail from './src/screens/Admin/ProductDetail';
-
+import OrderDetailUser from './src/screens/OrderDetail';
 
 
 
@@ -49,23 +49,6 @@ const App = () => {
   // const [lauch, setLauch] = useState(false);
   const roles = useSelector((state) => state.auth.role);
   const [authenticated, setAuthenticated] = useState(true);
-  // const HAS_LAUNCHED = 'HAS_LAUNCHED';
-  // useEffect(() => {
-  //   const getState = async () => {
-  //     // const lauch = await getData(HAS_LAUNCHED);
-  //     console.log('lauch',lauch)
-  //     if (lauch) {
-  //       // setLauch(true);
-  //       dispatch(setLauch(true));
-  //     }
-  //     else {
-  //       // await storeData(HAS_LAUNCHED, 'true');
-  //       dispatch(setLauch(true));
-  //     }
-  //   };
-  //   getState().catch((error) => {console.log(error)});
-  //   // console.log('lauch:',lauch);
-  // }, [])
 
   useEffect(() => {
       auth().onAuthStateChanged((user) => {
@@ -83,13 +66,8 @@ const App = () => {
     Platform.OS === 'ios'? null: SplashScreen.hide();
   }, [])
 
-  // console.log('lauch',lauch)
-  // console.log('authenticated',authenticated)
-
 
   if (loading) return null;
-  // console.log('lauch 2',lauch)
-  // console.log("authenticated",authenticated)
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
     <NavigationContainer>
@@ -140,19 +118,51 @@ const App = () => {
               name="Payment" 
               component={Payment}
           />
+          <Stack.Screen 
+              options={{
+                  // headerShown: false,
+                  headerStyle: {
+                      backgroundColor: '#F8F9FA',
+                  },
+                  headerShadowVisible: false,
+                  headerTitleAlign: 'center',
+              }} 
+              name="OrderDetail"  
+              component={OrderDetailUser}
+          />
           <Stack.Screen options={{headerShown: false}} name="Settings" component={SettingsScreen}/>
         </>)
         : (<>
           <Stack.Screen options = {{headerShown: false}} name="BottomTabAdmin" component={BottomTabAdmin} /> 
           <Stack.Screen options={{headerShown: false}} name="Settings" component={SettingsScreen}/>
-          <Stack.Screen options={{headerShown: false}} name="OrderDetail" component={OrderDetail}/>
-          <Stack.Screen options={{headerShown: false}} name="OrderHistoryDetails" component={OrderHistoryDetails}/>
+          <Stack.Screen 
+              options={{
+                  // headerShown: false,
+                  headerStyle: {
+                      backgroundColor: '#F8F9FA',
+                  },
+                  headerShadowVisible: false,
+                  headerTitleAlign: 'center',
+              }} 
+              name="OrderDetail"  
+              component={OrderDetail}
+          />
+          <Stack.Screen 
+              options={{
+                  // headerShown: false,
+                  headerStyle: {
+                      backgroundColor: '#F8F9FA',
+                  },
+                  headerShadowVisible: false,
+                  headerTitleAlign: 'center',
+              }} 
+              name="OrderHistoryDetails"  
+              component={OrderHistoryDetails}
+          />
           <Stack.Screen options={{headerShown: false}} name="ProductDetail" component={ProductDetail}/>
           <Stack.Screen options={{headerShown: false}} name="ProductCreate" component={ProductCreate}/>
           </>)
         }
-      
-
         </>)}
       
       </Stack.Navigator>

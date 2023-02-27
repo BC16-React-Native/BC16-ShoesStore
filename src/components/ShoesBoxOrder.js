@@ -20,9 +20,19 @@ const ShoesBoxOrder = ({item}) => {
                 <Text style = {[styles.titleam]}>Quantity: {item?.quantity}</Text>
             </View>
             <View style = {[styles.containerv2]}>
-                <Image 
-                source = {{uri: data?.images[0]}}
-                style = {styles.img} />
+                {/* <Image 
+                    source = {{uri: data?.images[0]}}
+                    style = {styles.img} 
+                /> */}
+                {data ? 
+                    <Image
+                        style={[styles.img]}
+                        source={{
+                            uri: data?.images[0]
+                        }}
+                    />
+                : null
+                }
             </View>
         </View>
     )

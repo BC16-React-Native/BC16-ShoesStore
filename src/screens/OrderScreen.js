@@ -82,6 +82,7 @@ const OrderScreen = () => {
           stylesContainer = {{marginVertical:heightScreen *0.01}}
           item = {item}
           index = {index}
+          nextNavigator= 'OrderDetail'
         />}
         keyExtractor={item => item.id}
       />

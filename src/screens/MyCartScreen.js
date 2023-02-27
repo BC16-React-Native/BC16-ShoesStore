@@ -21,7 +21,6 @@ const MyCartScreen = () => {
         await getCart(dispatch);
     }
     useEffect(() => {
-        console.log('hi');
         calldata();
     }, [])
     useLayoutEffect(() => { 

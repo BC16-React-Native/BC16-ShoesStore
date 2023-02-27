@@ -347,6 +347,7 @@ const ProductCreate = ({}) => {
                     items={categories}
                     setOpen={setOpen}
                     setValue = {setValue}
+
                     style= {styles.dropdown}
                     dropDownContainerStyle={{borderWidth:0.2,
                       backgroundColor: '#fafafa'
@@ -520,7 +521,8 @@ const styles = StyleSheet.create({
       shadowRadius: 2.62,
 
       elevation: 4,
-      marginVertical: heightScreen *0.01
+      marginVertical: heightScreen *0.01, 
+
     },
     viewnimg:{
       marginLeft: heightScreen * 0.012,
