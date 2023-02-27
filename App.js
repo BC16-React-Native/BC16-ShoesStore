@@ -36,6 +36,7 @@ import Favorite from './src/screens/FavoriteScreen';
 import MyCartScreen from './src/screens/MyCartScreen';
 import Payment from './src/screens/Payment';
 import ProductCreate from './src/screens/Admin/ProductCreate';
+import OrderHistoryDetails from './src/screens/Admin/OrderHistoryDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -145,6 +146,7 @@ const App = () => {
           <Stack.Screen options = {{headerShown: false}} name="BottomTabAdmin" component={BottomTabAdmin} /> 
           <Stack.Screen options={{headerShown: false}} name="Settings" component={SettingsScreen}/>
           <Stack.Screen options={{headerShown: false}} name="OrderDetail" component={OrderDetail}/>
+          <Stack.Screen options={{headerShown: false}} name="OrderHistoryDetails" component={OrderHistoryDetails}/>
           <Stack.Screen options={{headerShown: false}} name="ProductDetail" component={ProductDetail}/>
           <Stack.Screen options={{headerShown: false}} name="ProductCreate" component={ProductCreate}/>
           </>)

@@ -13,18 +13,14 @@ import { useNavigation } from '@react-navigation/native'
     
     return (
     <TouchableOpacity onPress = {() => navigation.push('OrderDetail' , {
-        // screen: 'Detail',
-        // params : {
-        //   item: item
-        // }
         item: item
       })}>
     <View style = {[styles.container, stylesContainer]}>
-        <Text style = {[styles.titleid]}>ORDER ID: {(item.id).slice(-6)}</Text>
-        <Text style = {[styles.titleadd]}>{item.address}</Text>
-        <Text style = {[styles.titlepr]}>${item.total}</Text>
-        <TouchableOpacity style = {[styles.btn, {backgroundColor: item.status == 'delivering'? "#5B9EE1": "#f37737"}]}>
-            <Text style = {[styles.btntext]}>{item.status == 'delivering' ? 'View Detail' : 'Pending'}</Text>
+        <Text style = {[styles.titleid]}>ORDER ID: {(item?.id).slice(-6)}</Text>
+        <Text style = {[styles.titleadd]}>{item?.address}</Text>
+        <Text style = {[styles.titlepr]}>${item?.total}</Text>
+        <TouchableOpacity style = {[styles.btn, {backgroundColor: item?.status == 'delivering'? "#5B9EE1": "#f37737"}]}>
+            <Text style = {[styles.btntext]}>{item?.status == 'delivering' ? 'View Detail' : 'Pending'}</Text>
         </TouchableOpacity>
     </View>
     </TouchableOpacity>

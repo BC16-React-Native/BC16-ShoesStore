@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, Platform } from 'react-native'
 import React, {useState, useEffect} from 'react'
 import NewShoes from './NewShoes'
 import { heightScreen, widthScreen } from '../../utility'
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
     },
     see_all : {
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontStyle: 'italic',
         fontWeight: '400',
         fontSize: 13,

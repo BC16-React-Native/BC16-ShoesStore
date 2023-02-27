@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     quantity:{
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '500',
         fontSize: 14,
         lineHeight: 14,
