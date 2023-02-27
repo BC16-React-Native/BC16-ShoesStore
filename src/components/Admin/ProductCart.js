@@ -2,19 +2,24 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import { MaterialCommunityIcons } from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 const ProductCart = ({
     stylesContainer,
     item,
     index,
     image,
     icon,
-    stylesIcon
+    stylesIcon,
 }) => {
+    const navigation = useNavigation();
     const date = new Date(item?.datedone)
     const options = { day: "2-digit", month: "2-digit", year: "numeric" };
     const localDateString = date.toLocaleDateString("en-US", options);
 return (
-    <TouchableOpacity style = {[styles.container, stylesContainer]}>
+    <TouchableOpacity onPress ={() => navigation.push('OrderHistoryDetails' , {
+        item: item,
+        type: 'admin',
+      })} style = {[styles.container, stylesContainer]}>
     <View style = {[styles.containerv2]}>
         <Image 
         source = {{uri: item.images?.[0]}}
@@ -22,7 +27,6 @@ return (
     </View>
     <View style = {[styles.containerv1]}>
         <Text style = {[styles.titleid]}>ORDER ID: {(item?.id).slice(-6)}</Text>
-        <Text style = {[styles.titleitem]}>{item?.productsid.length} items</Text>
         <Text style = {[styles.titletotal]}>${item?.total}</Text>
         <Text style = {[styles.titledate]}>Done: {localDateString}</Text>
     </View>
@@ -70,6 +74,7 @@ const styles = StyleSheet.create({
     },
     titletotal:{
         fontSize:18,
+        marginVertical: heightScreen * 0.01,
         fontWeight:'bold',
     },
     titledate:{

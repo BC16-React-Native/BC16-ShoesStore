@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../utility'
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -75,7 +75,7 @@ export default MyCartScreen
 
 const styles = StyleSheet.create({
     title:{
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '700',
         fontSize: 18,
         lineHeight: 22,
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         marginBottom: heightScreen * 0.01,
     },
     message:{
-        fontFamily: 'SF-Pro',
+        fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
         fontWeight: '700',
         fontSize: 16,
         lineHeight: 22,
