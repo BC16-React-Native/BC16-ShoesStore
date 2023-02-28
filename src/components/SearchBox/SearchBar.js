@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { Platform, StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { heightScreen, widthScreen } from '../../utility';
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         borderRadius:  20,
         paddingLeft: widthScreen * 0.025,
         marginVertical: heightScreen * 0.015,
-        // paddingVertical: heightScreen * 0.015,
+        paddingVertical: Platform.OS == 'ios'? heightScreen * 0.015 : null,
 
         shadowColor: "#000",
         shadowOffset: {

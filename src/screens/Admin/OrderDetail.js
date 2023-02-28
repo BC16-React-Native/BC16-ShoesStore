@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, Linking, Platform } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -22,6 +22,18 @@ const OrderDetail = ({route}) => {
   const [item, setItems] = useState(route.params.item);
   const [swipe, setSwipe] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const handlePressAddress = (address) => {
+    const url = Platform.OS == 'ios'?
+    `http://maps.apple.com/?q=${encodeURIComponent(address)}`:
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.log(`Don't know how to open this URL: ${url}`);
+      }
+    });
+  };
   let forceResetLastButton = null;
   const getUser = async () => {
     const currentUser = await firestore()
@@ -44,7 +56,6 @@ const OrderDetail = ({route}) => {
           status: 'delivering',
       })
       .then(() => {
-        // Update the item's status in real-time
         setItems(prevItem => ({
           ...prevItem,
           status: 'delivering',
@@ -65,7 +76,6 @@ const OrderDetail = ({route}) => {
           datedone: new Date().toUTCString(),
       })
       .then(() => {
-        // Update the item's status in real-time
         setItems(prevItem => ({
           ...prevItem,
           status: 'delivered',
@@ -80,7 +90,6 @@ const OrderDetail = ({route}) => {
     }
 
   }
-  console.log(swipe)
   useEffect(() => {
     getUser();
   },[])
@@ -114,7 +123,6 @@ const OrderDetail = ({route}) => {
 
   return (
     <SafeAreaView style = {styles.container}>
-    {/* <Header/> */}
     <View style={{
         flexDirection: 'row', 
         justifyContent: 'space-between', 
@@ -124,11 +132,14 @@ const OrderDetail = ({route}) => {
     }}>
       <View style = {styles.containerinfo}>
         <Text style ={styles.titleid}>ORDER ID: {(items.id).slice(-6)}</Text>
-        <Text style ={styles.titleadd}>Address: {items.address}</Text>
+        <TouchableOpacity onPress={() => handlePressAddress(items?.address)}>
+          <Text style ={styles.titleadd}>Address: {items?.address}</Text>
+        </TouchableOpacity>
+
       </View>
       {item?.status !== 'delivered'? 
-      <View style = {[styles.titlestatus, { backgroundColor: item?.status == 'pending' ? '#ffca3b': '#5B9EE1'}]}>
-        <Text style = {[styles.titlestatuss, { color: items?.status == 'pending' ? '#000': '#FFFFFF'}]}>{item?.status == 'pending' ? 'Pending': "Delivering"}</Text>
+      <View style = {[styles.titlestatus, { backgroundColor: item?.status == 'pending' ? '#f37737': '#5B9EE1'}]}>
+        <Text style = {[styles.titlestatuss, { color: '#FFFFFF'}]}>{item?.status == 'pending' ? 'Pending': "Delivering"}</Text>
       </View>:
       <></>
       }
@@ -143,7 +154,7 @@ const OrderDetail = ({route}) => {
         item = {item}
         index = {index}
       />}
-      keyExtractor={items => items.id}
+      keyExtractor={item => item.id}
       />
       <Modal
       animationIn={'fadeInLeftBig'}
@@ -235,14 +246,7 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     backgroundColor: '#F8F9FA',
-    justifyContent: 'space-between'
-  },
-  containerHeader: {
-    height : heightScreen * 0.07,
-    width: widthScreen,
-  },
-  containerinfo:{
-
+    justifyContent: 'center'
   },
   titleid:{
     fontSize:10,
@@ -256,9 +260,6 @@ const styles = StyleSheet.create({
   titlestatus:{
     height: heightScreen * 0.05,
     width: widthScreen * 0.25,
-
-    // alighItems:'center',
-    // justifyContent: 'center',
     borderRadius: 20
   },
   titlestatuss:{
@@ -276,7 +277,7 @@ const styles = StyleSheet.create({
   containerlist:{
     height: heightScreen * 0.47,
     width: widthScreen * 0.9,
-    alignSelf : 'center'
+    alignSelf : 'center',
   },
   containeraction:{
     // height: heightScreen * 0.2,

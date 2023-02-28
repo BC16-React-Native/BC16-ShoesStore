@@ -164,35 +164,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  textProfile:{
-    // position: 'absolute',
-    fontSize: 16,
-    marginTop: heightScreen * 0.02,
-    fontWeight: 'bold',
-    alignSelf: 'center',
-    color: '#1A2530'
-  },
-  buttonBack: {
-    // position: 'absolute',
-    width: widthScreen * 0.14,
-    height: heightScreen * 0.067,
-    backgroundColor: 'white',
-    borderRadius: 40,
-    marginLeft: widthScreen * 0.05,
-    justifyContent: 'center',
-    shadowColor: "#000",
-    shadowOffset: {
-        width: 0,
-        height: heightScreen * 0.001,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-
-    elevation: 4,
-  },
-  iconBack:{
-    alignSelf: 'center'
-  },
   containerlist:{
     height: heightScreen * 0.47,
     width: widthScreen * 0.9,
@@ -204,14 +175,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-  },
-  textinfo:{
-    flex:1,
-    marginVertical: heightScreen * 0.008,
-    fontSize: 16,
-    color: '#707B81',
-    fontWeight: 'bold',
-    paddingLeft: widthScreen * 0.05
   },
   containername:{
     flexDirection: 'row',

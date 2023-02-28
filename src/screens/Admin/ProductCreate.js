@@ -15,8 +15,7 @@ import Loader from '../../components/Auth/Loader';
 import firestore from '@react-native-firebase/firestore'
 import storage from '@react-native-firebase/storage'
 import DropDownPicker from 'react-native-dropdown-picker';
-import { get_ProductID } from '../../api/controller/products/getProducts';
-import Feather from 'react-native-vector-icons/Feather';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal'
 // import Carousel, {ParallaxImage, Pagination } from 'react-native-new-snap-carousel';
 
@@ -26,7 +25,7 @@ const ProductCreate = ({}) => {
   const [category, setCategory] = useState();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(items?.categoryid);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
     const navigation = useNavigation();
     useLayoutEffect(() => { 
         navigation.setOptions({ 
@@ -57,6 +56,9 @@ const ProductCreate = ({}) => {
       }
 
       useEffect(() => {
+        if(value == 'add_category'){
+          setModalVisible(!modalVisible)
+        }
         fetchCategories();
       }, []);
       const headerMotion = useRef(new Animated.Value(0)).current;
@@ -252,7 +254,6 @@ const ProductCreate = ({}) => {
           </View>
         );
 
-
   return (
     <SafeAreaView style= {styles.container}>
         <BottomSheet
@@ -271,7 +272,7 @@ const ProductCreate = ({}) => {
           opacity: AnimatedLib.add(0.1, AnimatedLib.multiply(fall, 1.0)),
         }}>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
-          <ScrollView>
+          <KeyboardAwareScrollView>
             <Animated.View style = {[styles.containerHeader, {marginTop: headerMotion}]}>
               <Text style={styles.textProfile}>Update Product</Text>
               <TouchableOpacity onPress={()=>navigation.navigate('BottomTabAdmin')} style={styles.buttonBack}>
@@ -339,32 +340,31 @@ const ProductCreate = ({}) => {
                 <Text 
                   style={ [styles.titlecategory]}
                 >Category</Text>
-                <DropDownPicker
-                    title = {'Name'}
-                    open={open}
-                    // placehoder = {value}
-                    value={value}
-                    items={categories}
-                    setOpen={setOpen}
-                    setValue = {setValue}
+                      <DropDownPicker
+                        title={'Name'}
+                        open={open}
+                        value={value}
+                        items={categories}
+                        setOpen={setOpen}
+                        setValue={setValue}
+                        enableOnAndroid={true}
+                        style={styles.dropdown}
+                        dropDownContainerStyle={{
+                          borderWidth: 0.2,
+                          backgroundColor: '#fafafa',
+                        }}
+                        listItemContainerStyle={{
+                          borderRadius: 20,
+                          borderBottomWidth: 1,
+                          borderBottomColor: 'gray',
+                        }}
+                      />
 
-                    style= {styles.dropdown}
-                    dropDownContainerStyle={{borderWidth:0.2,
-                      backgroundColor: '#fafafa'
-                    }}
-                    listItemContainerStyle={{
-                    borderRadius: 20,
-                    borderBottomWidth: 1, borderBottomColor: "gray"
-                  }}
-
-
-                />
-
-                  {value === 'add_category' && (
+                  {value === 'add_category' ? 
                     <Modal
-                      isVisible={!modalVisible}
+                      isVisible={modalVisible}
                       animationType="slide"
-                      onRequestClose={() => setModalVisible(false)}
+                      // onRequestClose={() => setModalVisible(false)}
                     >
                       <View style={styles.modalcontainer}>
                       <Text
@@ -400,7 +400,7 @@ const ProductCreate = ({}) => {
                                 'Category Created!',
                                 'Your Category has been created successfully.',
                               );
-                              setModalVisible(!modalVisible);
+                              setModalVisible(false);
                               fetchCategories();
                             })
                             .catch((err) => {
@@ -414,13 +414,17 @@ const ProductCreate = ({}) => {
                         <FieldButton
                         title={'Cancel'}
                         // stylesTitle={{color:"#5B9EE1"}}
-                        onPress={()=>setModalVisible(!modalVisible)}
+                        onPress={()=> {
+                          setModalVisible(false);
+                          console.log(modalVisible)
+                        }}
                         stylesContainer = {{width: widthScreen * 0.3, marginHorizontal: widthScreen * 0.02,marginTop:heightScreen * 0.6, borderColor:'#5B9EE1', borderWidth:1,backgroundColor:'#FFFFFF' }}
                         stylesTitle = {{fontSize:18, color:'#5B9EE1'}}
                         />
                       </View>
                     </Modal>
-                  )}
+                    :<></>
+                  }
 
 
                 {/* Text input Phone*/}
@@ -459,7 +463,7 @@ const ProductCreate = ({}) => {
                 />
 
             </View>
-          </ScrollView>
+          </KeyboardAwareScrollView>
         </KeyboardAvoidingView>
         
         </AnimatedLib.View>

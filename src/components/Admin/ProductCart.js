@@ -22,10 +22,6 @@ return (
         type: nextNavigator == 'OrderHistoryDetails' ?  'admin' : 'user',
       })} style = {[styles.container, stylesContainer]}>
     <View style = {[styles.containerv2]}>
-        {/* <Image 
-        source = {{uri: item.images?.[0]}}
-        style = {styles.img} 
-        /> */}
         {item ? 
                 <Image
                     style={[styles.img]}

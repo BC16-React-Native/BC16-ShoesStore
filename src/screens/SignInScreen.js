@@ -98,7 +98,6 @@ const Login = () => {
               if (isValid) {
                 const result = await get_RolesbyEmail(inputs.email);
                 roles = await result[0]["isAdmin"];
-                console.log(roles);
                 dispatch(setRole(roles));
                 dispatch(setEmail(inputs.email));
                 setLoading(true);
@@ -117,14 +116,8 @@ const Login = () => {
                 setLoading(false); 
                 },1000)
             }
-            console.log("ROLESASYNC",roles)
 
          }
-        // handle entry data login
-        // handle login
-        // const pressLogin = () => {
-
-        // }
         const pressLoginasGuess = () => {
             setLoading(true);
             setTimeout(() => {

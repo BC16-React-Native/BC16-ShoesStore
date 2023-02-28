@@ -32,7 +32,7 @@ export default OrderCart
 const styles = StyleSheet.create({
     container:{
         height: heightScreen * 0.14,
-        width: widthScreen * 0.8,
+        width: widthScreen * 0.85,
         backgroundColor:"#FFFFFF",
         justifyContent:'space-between',
         alignItems:'center',

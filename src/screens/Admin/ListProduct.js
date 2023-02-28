@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 import auth from '@react-native-firebase/auth';
@@ -18,10 +18,8 @@ import FieldButton from '../../components/Auth/FieldButton';
 const ListProduct = () => {
   const navigation = useNavigation();
   const [data, setData] = useState();
-  const [products, setProducts] = useState();
 
   useEffect(() => {
-      // getOrder_status_deliveried(setData)
       get_AllProducts(setData);
   },[])
   const Header = () => {
@@ -36,9 +34,9 @@ const ListProduct = () => {
     <Header/>
     <FlatList
       style={styles.containerfl} 
-      // contentContainerStyle={styles.listContainer}
-      data={data}
-      // horizontal={false}
+      data={data?.sort((a, b) => {
+              return new Date(b.datecreate) - new Date(a.datecreate);
+      })}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       renderItem={({item,index}) => <ProductManage
@@ -63,44 +61,18 @@ const styles = StyleSheet.create({
     height: heightScreen,
     width: widthScreen,
     backgroundColor: '#F8F9FA',
-    paddingBottom: heightScreen * 0.08
-  },
-  avt: {
-    width: 60,
-    height: 60,
-    marginTop: heightScreen * 0.01,
-    marginVertical: heightScreen * 0.03,
-    borderRadius: 60/ 2,
-    alignSelf: 'flex-start',
-    marginLeft: widthScreen * 0.08
   },
   containerHeader: {
-    height : heightScreen * 0.07,
+    height : heightScreen * 0.04,
     width: widthScreen,
     // borderWidth:1
 },
 textProfile:{
-  position: 'absolute',
   fontSize: 16,
-  marginTop: heightScreen * 0.02,
   fontWeight: 'bold',
   alignSelf: 'center',
   color: '#1A2530'
 },
-  titletxt:{
-    position:'absolute',
-    marginTop: heightScreen * 0.08,
-    marginLeft: widthScreen * 0.32,
-    fontSize: 16,
-  },
-  titletxt1:{
-    position:'absolute',
-    marginTop: heightScreen * 0.11,
-    marginLeft: widthScreen * 0.32,
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#5B9EE1',
-  },
   containerfl:{
     height: heightScreen * 1
   },
@@ -108,7 +80,7 @@ textProfile:{
     position: 'absolute',
     width: 70,
     height: 70,
-    marginTop: heightScreen * 0.8,
+    marginTop: Platform.OS == 'ios'? heightScreen * 0.8: heightScreen * 0.77,
     backgroundColor: '#5B9EE1',
     borderRadius: 70/2,
     right: widthScreen * 0.09,

@@ -45,6 +45,7 @@
 		5906CDF05EEB2A6A9DF0B446 /* Pods_ShoesStore_ShoesStoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShoesStore_ShoesStoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D5A448CF87532717FBB20C9 /* Pods-ShoesStore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoesStore.release.xcconfig"; path = "Target Support Files/Pods-ShoesStore/Pods-ShoesStore.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ShoesStore/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D408B72829ADF7F7009DB868 /* ShoesStore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ShoesStore.entitlements; path = ShoesStore/ShoesStore.entitlements; sourceTree = "<group>"; };
 		D429970A298CE33B00BC80AF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D4E18E51299094B100DABFA8 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -90,6 +91,7 @@
 		13B07FAE1A68108700A75B9A /* ShoesStore */ = {
 			isa = PBXGroup;
 			children = (
+				D408B72829ADF7F7009DB868 /* ShoesStore.entitlements */,
 				D4E18E51299094B100DABFA8 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -507,6 +509,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ShoesStore/ShoesStore.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -535,6 +538,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ShoesStore/ShoesStore.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = ShoesStore/Info.plist;
