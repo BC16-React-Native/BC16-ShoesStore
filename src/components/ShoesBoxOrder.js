@@ -10,7 +10,6 @@ const ShoesBoxOrder = ({item}) => {
     const [data, setData] = useState();
     useEffect(() => {
         get_ProductID(setData, item?.productid);
-
       }, [])
     return (
         <View style = {styles.container}>

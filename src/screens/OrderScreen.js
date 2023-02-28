@@ -10,6 +10,7 @@ import { get_User_byID } from '../api/controller/users/getRoles';
 import { getOrdersUserID, get_Order_userID } from '../api/controller/orders/getOrders';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ProductCart from '../components/Admin/ProductCart';
+import OrderCart from '../components/OrderCart';
 
 const OrderScreen = () => {
   const navigation = useNavigation();
@@ -33,7 +34,6 @@ const OrderScreen = () => {
   useEffect(() => {
     getOrdersUserID(setData, auth().currentUser.uid);
   }, [])
-  // console.log(data);
   useLayoutEffect(() => { 
     navigation.setOptions({ 
       headerTitle: (props) => <View style={{alignItems: 'center'}}>
@@ -72,16 +72,13 @@ const OrderScreen = () => {
   return (
     <SafeAreaView style = {styles.container}>
       <FlatList
-        style={styles.containerfl} 
-        // contentContainerStyle={styles.listContainer}
+        // style={styles.containerfl} 
         data={data}
         // horizontal={false}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
-        renderItem={({item,index}) => <ProductCart
-          stylesContainer = {{marginVertical:heightScreen *0.01}}
+        renderItem={({item,index}) => <OrderCart
           item = {item}
-          index = {index}
           nextNavigator= 'OrderDetail'
         />}
         keyExtractor={item => item.id}
@@ -94,14 +91,14 @@ export default OrderScreen
 
 const styles = StyleSheet.create({
   userName:{
-    fontFamily: 'SF-Pro',
+    fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
     fontWeight: '700',
     fontSize: 16,
     lineHeight: 22,
     color: '#000',
   }, 
   email: {
-    fontFamily: 'SF-Pro',
+    fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
     fontWeight: '400',
     fontSize: 16,
     lineHeight: 22,
@@ -110,6 +107,6 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     backgroundColor: '#F8F9FA',
-    paddingBottom: heightScreen * 0.08
+    paddingBottom: heightScreen * 0.1
   },
 })

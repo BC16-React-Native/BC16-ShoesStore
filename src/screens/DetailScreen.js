@@ -15,6 +15,7 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 import { addCart } from '../api/controller/cart/addToCart'
 import auth from "@react-native-firebase/auth"
 import { get_LenghtCart_uID } from '../api/controller/cart/getCart'
+import { useSelector } from 'react-redux'
 
 const DetailScreen = ({route}) => {
   
@@ -38,11 +39,14 @@ const DetailScreen = ({route}) => {
   // console.log("Detail Screen",item);
     const image = item.images;
     const navigation = useNavigation();
+    const roles = useSelector((state) => state.auth.role);
 
     // header card
     const [lenghtCart, setLenghtCart] = useState();
     useLayoutEffect(() => {
-      get_LenghtCart_uID(setLenghtCart, auth().currentUser.uid)
+      if (roles == false){
+        get_LenghtCart_uID(setLenghtCart, auth().currentUser.uid)
+      }
     }, [])
      // header card
 

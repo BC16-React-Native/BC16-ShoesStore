@@ -8,13 +8,18 @@ import { heightScreen, widthScreen } from '../utility/index';
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth'
 import ShoesBoxFavorite from '../components/ShoesBoxFavorite/ShoesBoxFavorite';
+import { useSelector } from 'react-redux';
 
 
 const Favorite = () => {
   const [fvlist, setFvl] = useState([]);
+  const roles = useSelector((state) => state.auth.role);
+
   useEffect(() => {
-    get_Favorite_userID(setFvl, auth().currentUser.uid);
-    console.log('hi');
+    if (roles == false){
+      get_Favorite_userID(setFvl, auth().currentUser.uid);
+      console.log('hi');
+    }
   }, [])
   
  const navigation = useNavigation();

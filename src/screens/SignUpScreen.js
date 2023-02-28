@@ -12,7 +12,7 @@ import Loader from '../components/Auth/Loader'
 
 const Login = () => {
     const headerMotion = useRef(new Animated.Value(0)).current;
-    const navigation = useNavigation();
+    const navigation = useNavigation(); 
     const [loading, setLoading] = useState(false);
     // function handle animation 
     const animatedKeyBoard = (motion, value, duration) => {

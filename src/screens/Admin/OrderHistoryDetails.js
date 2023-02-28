@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     paddingRight: widthScreen * 0.05,
     marginVertical: heightScreen * 0.008,
     fontSize: 18,
-    fontWeight: 600,
+    fontWeight: '600',
   },
   textship:{
     marginVertical: heightScreen * 0.008,
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     paddingRight: widthScreen * 0.05,
     marginVertical: heightScreen * 0.02,
     fontSize: 20,
-    fontWeight: 600,
+    fontWeight: '600',
   },
   swipe:{
     height: heightScreen * 0.12,
