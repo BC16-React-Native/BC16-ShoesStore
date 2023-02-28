@@ -12,6 +12,7 @@ const ProductCart = ({
     stylesIcon,
     nextNavigator = 'OrderHistoryDetails',
 }) => {
+    // console.log(item)
     const date = new Date(item?.datedone || item?.datecreate)
     const navigation = useNavigation();
     const options = { day: "2-digit", month: "2-digit", year: "numeric" };

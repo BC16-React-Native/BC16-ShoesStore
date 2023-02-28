@@ -12,6 +12,7 @@ import { StatusBar } from 'react-native'
 import ConfirmBuy from '../Modal/ConfirmBuy'
 
 const Checkout = ({item, type, address, phone, isBuyNow}) => {
+    console.log('HI');
     const [subprice, setSubprice] = useState(0)
     useLayoutEffect(() => {
         setSubprice(get_Cart_Price(item))

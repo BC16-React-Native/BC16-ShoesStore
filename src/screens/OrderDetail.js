@@ -24,10 +24,9 @@ const OrderDetail = ({
   }
   const items = route.params.item;
   const type = route.params.type;
-  console.log(items.status);
   const navigation = useNavigation();
   const [data, setData] = useState();
-  const date = new Date(items?.datedone)
+  const date = new Date(items?.datecreate)
   const options = { day: "2-digit", month: "2-digit", year: "numeric" };
   const localDateString = date.toLocaleDateString("en-US", options);
   useEffect(() => {
@@ -119,7 +118,7 @@ const OrderDetail = ({
       </View>
       <View style = {styles.containerdot}/>
       <View style = {styles.containername}>
-        <Text style = {styles.textinfo}>Date Done: </Text>
+        <Text style = {styles.textinfo}>Order on: </Text>
         <Text style = {styles.texttotal}>{localDateString} </Text>
       </View>
     </View>
@@ -223,7 +222,7 @@ const styles = StyleSheet.create({
     paddingRight: widthScreen * 0.05,
     marginVertical: heightScreen * 0.008,
     fontSize: 18,
-    fontWeight: 600,
+    fontWeight: '600',
   },
   textship:{
     marginVertical: heightScreen * 0.008,
@@ -255,7 +254,7 @@ const styles = StyleSheet.create({
     paddingRight: widthScreen * 0.05,
     marginVertical: heightScreen * 0.02,
     fontSize: 20,
-    fontWeight: 600,
+    fontWeight: '600',
   },
   swipe:{
     height: heightScreen * 0.12,
