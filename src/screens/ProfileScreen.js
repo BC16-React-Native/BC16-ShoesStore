@@ -173,9 +173,6 @@ const ProfileScreen = () => {
     useEffect(() => {
       getUser();
     },[])
-    useEffect(() => {
-      console.log('data',data);
-    },[data])
     
     const [edit, setEdit] = useState(false);
     const handleEdit = () => {

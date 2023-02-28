@@ -190,9 +190,6 @@ const ProfileScreen = () => {
     useEffect(() => {
       getUser();
     },[])
-    useEffect(() => {
-      console.log('data',data);
-    },[data])
     
     const [edit, setEdit] = useState(false);
     const handleEdit = () => {
@@ -246,7 +243,7 @@ const ProfileScreen = () => {
         <SafeAreaView style= {styles.container}>
         <BottomSheet
         ref={bs || null}
-        snapPoints={[heightScreen * 0.38, -heightScreen * 0.10]}
+        snapPoints={Platform.OS == "ios" ? [heightScreen * 0.38, -heightScreen * 0.10]: [heightScreen * 0.53, -heightScreen * 0.10]}
         showSubscription={{}}
         renderContent={renderInner}
         renderHeader={renderHeader}
@@ -281,9 +278,10 @@ const ProfileScreen = () => {
                 }} 
                 style={{width: 100, height: 100, borderRadius: 100/ 2, alignSelf: 'center'}} 
               />
+              {edit?
               <TouchableOpacity onPress={() => bs.current.snapTo(0)} style={styles.buttonCamera}>
                 <Icon name='camera-outline' color={'white'} size={20} style={styles.iconBack}/>
-              </TouchableOpacity> 
+              </TouchableOpacity>:<></>} 
             </Animated.View>
 
             <View style={styles.containerBody}>

@@ -65,6 +65,40 @@ export const getOrder_status_delivery_pending = (setData) => {
     }
   };
 
+  export const getOrder_status_pending = (setData) => {
+    let orders = [];
+    const queryRef = firestore().collection('orders');
+    const query = queryRef.where('status', '==','pending').onSnapshot(onResult, onError);
+
+    function onResult(QuerySnapshot) {
+        orders = [];
+        QuerySnapshot.forEach(doc => orders.push({ ...doc.data(), id: doc.id }));
+        // console.log('Got order collection result.');
+        setData(orders);
+    }
+      
+    function onError(error) {
+        console.error(error);
+    }
+  };
+
+  export const getOrder_status_delivering = (setData) => {
+    let orders = [];
+    const queryRef = firestore().collection('orders');
+    const query = queryRef.where('status', '==','delivering').onSnapshot(onResult, onError);
+
+    function onResult(QuerySnapshot) {
+        orders = [];
+        QuerySnapshot.forEach(doc => orders.push({ ...doc.data(), id: doc.id }));
+        // console.log('Got order collection result.');
+        setData(orders);
+    }
+      
+    function onError(error) {
+        console.error(error);
+    }
+  };
+
   export const getOrder_status_deliveried = (setData) => {
     let orders = [];
     const queryRef = firestore().collection('orders');

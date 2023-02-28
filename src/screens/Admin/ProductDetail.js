@@ -337,7 +337,7 @@ const DetailScreen = ({route}) => {
       
                   ><Image 
                       source={{ uri: item }} 
-                      style={{ width: 100, height: 100, borderRadius: 60/ 2, marginHorizontal: widthScreen * 0.01}} />
+                      style={styles.listimg} />
                       {edit?
                       <TouchableOpacity onPress={() => {
                             const newImages = images.filter((img) => img !== item);
@@ -363,7 +363,7 @@ const DetailScreen = ({route}) => {
             </Animated.View>
 
             <View style={styles.containerBody}>
-              <Text style={{fontSize:22, alignSelf: 'center', fontWeight: 'bold', textAlign:'center', lineHeight:32, marginBottom: heightScreen * 0.02}}>{items?.name}</Text>
+              <Text style={styles.namemain}>{items?.name}</Text>
                 {/* Text input Name*/}
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
@@ -380,7 +380,6 @@ const DetailScreen = ({route}) => {
                 <DropDownPicker
                     title = {'Name'}
                     open={open}
-                    // placehoder = {value}
                     value={value}
                     items={categories}
                     setOpen={setOpen}
@@ -479,6 +478,19 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginTop: heightScreen * 0.1,
+    },
+    listimg:{
+      width: 100, 
+      height: 100, 
+      borderRadius: 60/ 2, 
+      marginHorizontal: widthScreen * 0.01
+    },
+    namemain:{
+      fontSize:22, 
+      alignSelf: 'center', 
+      fontWeight: 'bold', textAlign:'center', 
+      lineHeight:32,
+      marginBottom: heightScreen * 0.02
     },
     titlecategory:{
       fontStyle: 'normal',

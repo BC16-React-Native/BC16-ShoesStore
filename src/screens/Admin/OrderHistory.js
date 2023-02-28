@@ -12,10 +12,7 @@ import ProductCart from '../../components/Admin/ProductCart';
 const OrderHistory = () => {
 
   const [data, setData] = useState();
-  const [products, setProducts] = useState();
-
   useEffect(() => {
-      // getOrder_status_deliveried(setData)
       getFirstProductInOrdersrealtime(setData);
   },[])
   const Header = () => {
@@ -31,7 +28,9 @@ const OrderHistory = () => {
     <FlatList
       style={styles.containerfl} 
       // contentContainerStyle={styles.listContainer}
-      data={data}
+      data={data?.sort((a, b) => {
+              return new Date(b.datedone) - new Date(a.datedone);
+      })}
       // horizontal={false}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
