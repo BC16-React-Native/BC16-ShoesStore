@@ -1,47 +1,54 @@
-import { PermissionsAndroid, StyleSheet, Text, View,  } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { PermissionsAndroid, StyleSheet, Text, TouchableOpacity, View, Linking, Platform } from 'react-native'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import Ionicons from "react-native-vector-icons/Ionicons"
-import { heightScreen } from '../../utility'
+import { heightScreen, widthScreen } from '../../utility'
 import Geolocation from '@react-native-community/geolocation';
  
 const HeaderHome = () => {
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongtitude] = useState(null);
   const [location, setLocation] = useState(null);
+  const apiKey = 'AIzaSyBAqoquRiy_bXJvQqVrExEZpxNoPgmmidk';
+  const handlePressAddress = (address) => {
+    const url = Platform.OS == 'ios'?
+    `http://maps.apple.com/?q=${encodeURIComponent(address)}`:
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+    Linking.openURL(url)
+  };
   useEffect(() => {
-    const requestLocationPermission = async () => {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          {
-            title: 'Location Permission',
-            message: 'This app needs access to your location.',
-            buttonNeutral: 'Ask Me Later',
-            buttonNegative: 'Cancel',
-            buttonPositive: 'OK',
-          },
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          Geolocation.getCurrentPosition(
-            position => {
-              setLocation(position.coords);
-            },
-            error => console.log(error),
-            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
-          );
-        } else {
-          console.log('Location permission denied');
-        }
-      } catch (err) {
-        console.warn(err);
-      }
-    };
-    requestLocationPermission();
-  }, []);
+    Geolocation.requestAuthorization();
+    Geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        setLatitude(latitude);
+        setLongtitude(longitude);
+  
+        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`)
+        .then(response => response.json())
+        .then(data => {
+          setLocation(data?.results[0].formatted_address)
+        });
+      },
+      error => {
+        console.log(error.code, error.message);
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+  },[]);
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Shoes Store</Text>
       <View style={{flexDirection:  'row', alignItems: 'center'}}>
         <Ionicons name="location-sharp" size={24} color="#F87265" />
-        <Text style={styles.address}>{location}</Text>
+        <TouchableOpacity
+          onPress={()=> handlePressAddress(location)}
+        >
+        <Text 
+          numberOfLines={1}
+          style={styles.address}
+        >
+        {location}</Text>
+        </TouchableOpacity>
       </View>
     </View>
   )
@@ -58,11 +65,13 @@ const styles = StyleSheet.create({
     },
     text:{
         fontSize: 12,
-        marginLeft: 4,
+        alignSelf:'center',
         color: '#707B81',
     },
     address :{
         fontSize: 14,
         color: '#1A2530',
+        width: widthScreen * 0.5,
+        fontWeight:'600'
     }
 })
