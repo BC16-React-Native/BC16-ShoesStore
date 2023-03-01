@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth'
 import ShoesBoxFavorite from '../components/ShoesBoxFavorite/ShoesBoxFavorite';
 import { useSelector } from 'react-redux';
+import NonAccount from '../components/NonAccount';
 
 
 const Favorite = () => {
@@ -46,13 +47,16 @@ const Favorite = () => {
 
   return (
       <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <FlatList
-          data={fvlist}
-          renderItem={({ item, index }) => <ShoesBoxFavorite item={item} />}
-          numColumns={2}
-          keyExtractor={item => item.id}
-          style={{ flex: 1, marginTop: heightScreen*0.2 }}
-        />
+        { auth().currentUser.email ? 
+          <FlatList
+            data={fvlist}
+            renderItem={({ item, index }) => <ShoesBoxFavorite item={item} />}
+            numColumns={2}
+            keyExtractor={item => item.id}
+            style={{ flex: 1, marginTop: heightScreen*0.2 }}
+          />
+          : <NonAccount /> 
+        }
       </SafeAreaView>
   )
 }

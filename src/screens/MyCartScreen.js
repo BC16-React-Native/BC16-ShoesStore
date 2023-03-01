@@ -13,6 +13,7 @@ import Lottie from 'lottie-react-native'
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import { getCart } from '../redux/action/cart/cartRequest';
 import { useDispatch, useSelector } from 'react-redux';
+import NonAccount from '../components/NonAccount';
 
 const MyCartScreen = () => {
     const dispatch = useDispatch();
@@ -45,7 +46,8 @@ const MyCartScreen = () => {
    const navigation = useNavigation();
    return (
        <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA'}}>   
-            {cart?.incart?.length > 0 ?
+       { auth().currentUser.email ? 
+            cart?.incart?.length > 0 ?
                 <>
                     <FlatList
                         data = {cart?.incart}
@@ -67,7 +69,9 @@ const MyCartScreen = () => {
                 <Text style={styles.title}>Empty Cart</Text>
                 <Text numberOfLines={2} style={styles.message}>Looks like you haven't made your choice yet.....</Text>
             </View>
-            }
+            
+            :  <NonAccount /> }
+
        </SafeAreaView>
    )
 }

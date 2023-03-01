@@ -11,6 +11,7 @@ import { getOrdersUserID, get_Order_userID } from '../api/controller/orders/getO
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ProductCart from '../components/Admin/ProductCart';
 import OrderCart from '../components/OrderCart';
+import NonAccount from '../components/NonAccount';
 
 const OrderScreen = () => {
   const navigation = useNavigation();
@@ -71,6 +72,7 @@ const OrderScreen = () => {
   }, [lenghtCart, user]);
   return (
     <SafeAreaView style = {styles.container}>
+      { auth().currentUser.email ? 
       <FlatList
         // style={styles.containerfl} 
         data={data}
@@ -83,6 +85,8 @@ const OrderScreen = () => {
         />}
         keyExtractor={item => item.id}
       />
+      : <NonAccount /> 
+        }
     </SafeAreaView>
   )
 }

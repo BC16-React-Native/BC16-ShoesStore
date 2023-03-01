@@ -23,7 +23,7 @@ const Description = ({description}) => {
   )
 }
 
-export default Description;
+export default React.memo(Description);
 
 const styles = StyleSheet.create({
     detail: {

@@ -16,6 +16,7 @@ import { setRole } from '../redux/features/auth/authSlice'
 import firestore from '@react-native-firebase/firestore'
 import storage from '@react-native-firebase/storage'
 import Loader from '../components/Auth/Loader'
+import NonAccount from '../components/NonAccount'
 
 const ProfileScreen = () => {
   
@@ -225,105 +226,112 @@ const ProfileScreen = () => {
     ); 
     return (
         <SafeAreaView style= {styles.container}>
-        <BottomSheet
-        ref={bs}
-        snapPoints={Platform.OS == "ios" ? [heightScreen * 0.38, -heightScreen * 0.10]: [heightScreen * 0.53, -heightScreen * 0.10]}
-        showSubscription={{}}
-        renderContent={renderInner}
-        renderHeader={renderHeader}
-        initialSnap={1}
-        callbackNode={fall}
-        enabledGestureInteraction={true}
-        enableContentGestures={true}
-        />
-        <AnimatedLib.View
-        style={{
-          opacity: AnimatedLib.add(0.1, AnimatedLib.multiply(fall, 1.0)),
-        }}>
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
-          <ScrollView>
-            {/* <Header/>
-            <Body/> */}
-            <Animated.View style = {[styles.containerHeader, {marginTop: headerMotion}]}>
-              <Text style={styles.textProfile}>Profile</Text>
-              <TouchableOpacity onPress={()=>navigation.navigate('Settings')} style={styles.buttonSettings}>
-                <Icon name='settings-outline' color={'black'} size={30} style={styles.iconBack}/>
-              </TouchableOpacity> 
-              <TouchableOpacity onPress={handleEdit} style={styles.buttonEdit}>
-                <Feather name='edit-3' color={'black'} size={30} style={styles.iconBack}/>
-              </TouchableOpacity> 
-              <Image 
-                source={{
-                  uri: image
-                    ? image
-                    : data?.image
-                    ? data?.image
-                    : 'https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
-                }} 
-                style={{width: 100, height: 100, borderRadius: 100/ 2, alignSelf: 'center'}} 
-              />
-              <TouchableOpacity onPress={() => bs.current.snapTo(0)} style={styles.buttonCamera}>
-                <Icon name='camera-outline' color={'white'} size={20} style={styles.iconBack}/>
-              </TouchableOpacity> 
-            </Animated.View>
+          { auth().currentUser.email ? 
+          <>
+          <BottomSheet
+          ref={bs}
+          snapPoints={Platform.OS == "ios" ? [heightScreen * 0.38, -heightScreen * 0.10]: [heightScreen * 0.53, -heightScreen * 0.10]}
+          showSubscription={{}}
+          renderContent={renderInner}
+          renderHeader={renderHeader}
+          initialSnap={1}
+          callbackNode={fall}
+          enabledGestureInteraction={true}
+          enableContentGestures={true}
+          />
+          <AnimatedLib.View
+          style={{
+            opacity: AnimatedLib.add(0.1, AnimatedLib.multiply(fall, 1.0)),
+          }}>
+          <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
+            <ScrollView>
+              {/* <Header/>
+              <Body/> */}
+              <Animated.View style = {[styles.containerHeader, {marginTop: headerMotion}]}>
+                <Text style={styles.textProfile}>Profile</Text>
+                <TouchableOpacity onPress={()=>navigation.navigate('Settings')} style={styles.buttonSettings}>
+                  <Icon name='settings-outline' color={'black'} size={30} style={styles.iconBack}/>
+                </TouchableOpacity> 
+                <TouchableOpacity onPress={handleEdit} style={styles.buttonEdit}>
+                  <Feather name='edit-3' color={'black'} size={30} style={styles.iconBack}/>
+                </TouchableOpacity> 
+                <Image 
+                  source={{
+                    uri: image
+                      ? image
+                      : data?.image
+                      ? data?.image
+                      : 'https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
+                  }} 
+                  style={{width: 100, height: 100, borderRadius: 100/ 2, alignSelf: 'center'}} 
+                />
+                <TouchableOpacity onPress={() => bs.current.snapTo(0)} style={styles.buttonCamera}>
+                  <Icon name='camera-outline' color={'white'} size={20} style={styles.iconBack}/>
+                </TouchableOpacity> 
+              </Animated.View>
 
-            <View style={styles.containerBody}>
-              <Text style={{fontSize:20, alignSelf: 'center', fontWeight: 'bold', marginTop: heightScreen * -0.05}}>{data?.name}</Text>
-                {/* Text input Name*/}
-                <FieldTextInput  
-                stylesContainer={{marginVertical:heightScreen * 0.01}}
-                title={'Full Name'}
-                onChangeText={(txt) => setData({...data, name: txt})}
-                value={data?.name}
-                onSubmitEditing={Keyboard.dismiss}
-                editable={edit}
-                stylesTitle={{fontWeight: 'bold'}}
-                />
-                <FieldTextInput  
-                stylesContainer={{marginVertical:heightScreen * 0.01}}
-                title={'Email Address'}
-                onChangeText={(txt) => setData({...data, email: txt})}
-                value={data?.email}
-                editable={false}
-                onSubmitEditing={Keyboard.dismiss}
-                stylesTitle={{fontWeight: 'bold'}}
-                />
-                {/* Text input Phone*/}
-                <FieldTextInput  
-                stylesContainer={{marginVertical:heightScreen * 0.01}}
-                title={'Phone Number'}
-                onChangeText={(txt) => setData({...data, phone: txt})}
-                value={data?.phone}
-                onSubmitEditing={Keyboard.dismiss}
-                editable={edit}
-                stylesTitle={{fontWeight: 'bold'}}
-                />
-                
-                <FieldTextInput  
-                stylesContainer={{marginVertical:heightScreen * 0.01}}
-                title={'Address'}
-                onChangeText={(txt) => setData({...data, address: txt})}
-                value={data?.address}
-                onSubmitEditing={Keyboard.dismiss}
-                editable={edit}
-                stylesTitle={{fontWeight: 'bold'}}
-                />
-                {edit ? <FieldButton
-                title={'Save'}
-                // stylesTitle={{color:"#5B9EE1"}}
-                onPress={handleUpdate}
-                stylesContainer = {{ marginVertical:heightScreen * 0.02}}
-                /> : <FieldButton
-                title={'Logout'}
-                // stylesTitle={{color:"#5B9EE1"}}
-                onPress={() => pressLogout()}
-                stylesContainer = {{ marginVertical:heightScreen * 0.02}}
-                />}
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-        </AnimatedLib.View>
-        <Loader visible={loading} />
+              <View style={styles.containerBody}>
+                <Text style={{fontSize:20, alignSelf: 'center', fontWeight: 'bold', marginTop: heightScreen * -0.05}}>{data?.name}</Text>
+                  {/* Text input Name*/}
+                  <FieldTextInput  
+                  stylesContainer={{marginVertical:heightScreen * 0.01}}
+                  title={'Full Name'}
+                  onChangeText={(txt) => setData({...data, name: txt})}
+                  value={data?.name}
+                  onSubmitEditing={Keyboard.dismiss}
+                  editable={edit}
+                  stylesTitle={{fontWeight: 'bold'}}
+                  />
+                  <FieldTextInput  
+                  stylesContainer={{marginVertical:heightScreen * 0.01}}
+                  title={'Email Address'}
+                  onChangeText={(txt) => setData({...data, email: txt})}
+                  value={data?.email}
+                  editable={false}
+                  onSubmitEditing={Keyboard.dismiss}
+                  stylesTitle={{fontWeight: 'bold'}}
+                  />
+                  {/* Text input Phone*/}
+                  <FieldTextInput  
+                  stylesContainer={{marginVertical:heightScreen * 0.01}}
+                  title={'Phone Number'}
+                  onChangeText={(txt) => setData({...data, phone: txt})}
+                  value={data?.phone}
+                  onSubmitEditing={Keyboard.dismiss}
+                  editable={edit}
+                  stylesTitle={{fontWeight: 'bold'}}
+                  />
+                  
+                  <FieldTextInput  
+                  stylesContainer={{marginVertical:heightScreen * 0.01}}
+                  title={'Address'}
+                  onChangeText={(txt) => setData({...data, address: txt})}
+                  value={data?.address}
+                  onSubmitEditing={Keyboard.dismiss}
+                  editable={edit}
+                  stylesTitle={{fontWeight: 'bold'}}
+                  />
+                  {edit ? <FieldButton
+                  title={'Save'}
+                  // stylesTitle={{color:"#5B9EE1"}}
+                  onPress={handleUpdate}
+                  stylesContainer = {{ marginVertical:heightScreen * 0.02}}
+                  /> : <FieldButton
+                  title={'Logout'}
+                  // stylesTitle={{color:"#5B9EE1"}}
+                  onPress={() => pressLogout()}
+                  stylesContainer = {{ marginVertical:heightScreen * 0.02}}
+                  />}
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
+          </AnimatedLib.View>
+          <Loader visible={loading} />
+          </>
+          : <NonAccount 
+          // type={'profile'} 
+          /> 
+        }
         </SafeAreaView>
     )
 

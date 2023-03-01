@@ -132,7 +132,6 @@ const Login = () => {
                 .signInAnonymously()
                 .then(() => {
                     console.log('User signed in anonymously');
-                    navigation.navigate('BottomTab');
                 })
                 .catch(error => {
                     if (error.code === 'auth/operation-not-allowed') {
