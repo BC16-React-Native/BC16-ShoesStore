@@ -37,7 +37,14 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>This app requires access to the camera.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+		<string>fetch</string>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Please Allow Location Services</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app does not require access to the microphone.</string>
@@ -49,6 +56,8 @@
 	</array>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This app requires access to the location</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
