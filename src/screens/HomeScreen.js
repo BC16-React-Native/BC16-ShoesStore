@@ -58,7 +58,6 @@ const HomeScreen = () => {
   }, [lenghtCart]);
 
   const [category, setCategory] = useState();
-  // console.log(category);
   return (
     <SafeAreaView style ={{paddingBottom: heightScreen * 0.09, flex:1, backgroundColor: '#F8F9FA'}}>
     <ScrollView style={styles.container}

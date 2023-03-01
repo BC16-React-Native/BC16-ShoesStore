@@ -16,25 +16,34 @@ import { addCart } from '../api/controller/cart/addToCart'
 import auth from "@react-native-firebase/auth"
 import { get_LenghtCart_uID } from '../api/controller/cart/getCart'
 import { useSelector } from 'react-redux'
+import CategogyName from '../components/Category/CategogyName'
+import NonAuthentication from '../components/Modal/NonAuthentication'
+import Modal from "react-native-modal";
 
 const DetailScreen = ({route}) => {
   
   const item = route.params.item;
-  const Add_Cart = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const addtocart = () => {
     addCart(data);
-    showMessage({
-      message: "Success",
-      description: `${data?.name} is added to cart.`,
-      type: "success",
-      backgroundColor: "#5B9EE1", 
-      icon: "success",
-      style:{ 
-        alignItems: 'center',
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
-        paddingVertical: 20,
-      },
-    });
+      showMessage({
+        message: "Success",
+        description: `${data?.name} is added to cart.`,
+        type: "success",
+        backgroundColor: "#5B9EE1", 
+        icon: "success",
+        style:{ 
+          alignItems: 'center',
+          borderBottomLeftRadius: 20,
+          borderBottomRightRadius: 20,
+          paddingVertical: 20,
+        },
+      });
+  }
+  const Add_Cart = () => {
+    auth().currentUser.email ? 
+      addtocart()
+    : setModalVisible(true);  
   } 
   // console.log("Detail Screen",item);
     const image = item.images;
@@ -108,18 +117,12 @@ const DetailScreen = ({route}) => {
         }) 
       }, [lenghtCart]);
 
-      const [category, setCategory] = useState();
       const [recommend, setRecommend] = useState();
       const [data, setData] = useState();
       useEffect(() => {
         get_ProductID(setData, item?.id);
-        get_Categories_byID(item?.categoryid).then((data) => {
-          setCategory(data.data());
-        });
         get_Products_categoryID(setRecommend, item?.categoryid);
-        // console.log('useeffect')
       }, []) 
-      // console.log(`Categories:`, category);
       function formatDate(d)
       {
         const date = new Date(d)
@@ -128,11 +131,8 @@ const DetailScreen = ({route}) => {
         var yyyy = date.getFullYear(); 
         if(dd<10){dd='0'+dd} 
         if(mm<10){mm='0'+mm};
-        return d = dd+'-'+mm+'-'+yyyy
+        return d = dd+'/'+mm+'/'+yyyy
       }
-
-      // console.log(data);
-
   return (
     <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA',}}>
     <FlatList
@@ -151,16 +151,7 @@ const DetailScreen = ({route}) => {
 
             <Description description={data?.info} />
 
-            <View style={{flexDirection: 'row', alignItems: 'center', paddingVertical: heightScreen * 0.0077}}>
-              <Image
-                source={require('../assets/images/shoes-icon.png')} 
-                style={[styles.icon,{
-                  height: heightScreen * 0.04, 
-                  width: widthScreen * 0.08,
-                }]} 
-              />
-              <Text style={styles.category}>Category: {category?.name}</Text>
-            </View>
+            <CategogyName categoryid={item?.categoryid} />
             <View style={{flexDirection: 'row', alignItems: 'center', paddingVertical: heightScreen * 0.0077}}>
             <Image
                 source={require('../assets/images/calendar.png')} 
@@ -252,6 +243,22 @@ const DetailScreen = ({route}) => {
             </TouchableOpacity>
       </View>
       </View>
+      <Modal
+        testID={'modal'}
+        isVisible={modalVisible}
+        onSwipeComplete={() => {
+            setModalVisible(false); 
+        }}
+        swipeDirection={['up', 'left', 'right', 'down']}
+        style={styles.view}
+      >
+            <StatusBar
+                animated={true}
+                barStyle = {modalVisible ? 'dark-content' : 'dark-content'}
+                backgroundColor  = '#4b4b4b'
+            />
+            <NonAuthentication />
+        </Modal>
       <StatusBar
         animated={true}
         backgroundColor="#F8F9FA"

@@ -6,25 +6,35 @@ import { useNavigation } from '@react-navigation/native'
 import { addFavorite } from '../../api/controller/favorite/addFavorite'
 import auth from '@react-native-firebase/auth'
 import { deleteFavorite, deleteFavorite_idProduct } from '../../api/controller/favorite/deleteFavorite'
+import Modal from "react-native-modal";
+import { StatusBar } from 'react-native'
+import NonAuthentication from '../Modal/NonAuthentication'
 
 const ShoesBox = ({item, isnoFav}) => {
   const [like, setLike] = useState(false);
   const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
   const handleLike = (product, id, noFav) =>{
-    console.log(product);
     let data = {
       productid: product?.id,
       userid: id
     }
     !noFav ? deleteFavorite_idProduct(id,item.id) : addFavorite(data);
-
   }
+
+  const add_Like = (product, id, noFav) => {
+    auth().currentUser.email ? 
+      handleLike(product, id, noFav)
+    : setModalVisible(true);  
+  } 
+
   return (
+    <>
     <TouchableOpacity style={styles.container} onPress={() =>{
       navigation.push('Detail' , {
         item: item
       });
-      console.log(item.id);
+      // console.log(item.id);
     }}>
         <Image
           style={styles.image}
@@ -40,11 +50,28 @@ const ShoesBox = ({item, isnoFav}) => {
       <TouchableOpacity style={[styles.icon_like, 
           {backgroundColor:  isnoFav ? '#5B9EE1' : '#E15B5B'}
         ]} 
-        onPress={() => {handleLike(item, auth().currentUser.uid,isnoFav)}}
+        onPress={() => {add_Like(item, auth().currentUser.uid,isnoFav)}}
       >
         <Feather name="heart" size={22} color="#fff" />
       </TouchableOpacity>
     </TouchableOpacity>
+    <Modal
+        testID={'modal'}
+        isVisible={modalVisible}
+        onSwipeComplete={() => {
+            setModalVisible(false); 
+        }}
+        swipeDirection={['up', 'left', 'right', 'down']}
+        style={styles.view}
+      >
+            <StatusBar
+                animated={true}
+                barStyle = {modalVisible ? 'dark-content' : 'dark-content'}
+                backgroundColor  = '#4b4b4b'
+            />
+            <NonAuthentication />
+        </Modal>
+    </>
   )
 }
 
