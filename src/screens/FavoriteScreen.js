@@ -43,10 +43,11 @@ const Favorite = () => {
   }, []);
   
 
- const navigation = useNavigation();
+  const navigation = useNavigation();
+  console.log(auth()?.currentUser);
   return (
       <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        { auth()?.currentUser.email ? 
+        { !auth()?.currentUser?.isAnonymous ? 
           <FlatList
             data={fvlist}
             renderItem={({ item, index }) => <ShoesBoxFavorite item={item} />}

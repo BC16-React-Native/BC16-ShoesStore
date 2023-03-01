@@ -46,7 +46,7 @@ const MyCartScreen = () => {
    const navigation = useNavigation();
    return (
        <SafeAreaView edges={['right', 'left', 'top']} style ={{flex:1, backgroundColor: '#F8F9FA'}}>   
-       { auth().currentUser.email ? 
+       { !auth()?.currentUser?.isAnonymous ? 
             cart?.incart?.length > 0 ?
                 <>
                     <FlatList

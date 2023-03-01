@@ -72,7 +72,7 @@ const OrderScreen = () => {
   }, [lenghtCart, user]);
   return (
     <SafeAreaView style = {styles.container}>
-      { auth().currentUser.email ? 
+      { !auth()?.currentUser?.isAnonymous ? 
       <FlatList
         // style={styles.containerfl} 
         data={data}

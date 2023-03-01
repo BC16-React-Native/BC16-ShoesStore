@@ -223,7 +223,7 @@ const ProfileScreen = () => {
     ); 
     return (
         <SafeAreaView style= {styles.container}>
-          { auth().currentUser.email ? 
+          { !auth()?.currentUser?.isAnonymous ? 
           <>
           <BottomSheet
           ref={bs}

@@ -23,7 +23,7 @@ const ShoesBox = ({item, isnoFav}) => {
   }
 
   const add_Like = (product, id, noFav) => {
-    auth().currentUser.email ? 
+    !auth()?.currentUser?.isAnonymous ?
       handleLike(product, id, noFav)
     : setModalVisible(true);  
   } 

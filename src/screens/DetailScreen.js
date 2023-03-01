@@ -41,7 +41,7 @@ const DetailScreen = ({route}) => {
       });
   }
   const Add_Cart = () => {
-    auth().currentUser.email ? 
+    !auth()?.currentUser?.isAnonymous ? 
       addtocart()
     : setModalVisible(true);  
   } 
