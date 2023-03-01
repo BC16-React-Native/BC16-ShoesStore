@@ -29,7 +29,6 @@ const OrderHistoryDetails = ({
   }
   const items = route.params.item;
   const type = route.params.type;
-  console.log(items)
   const navigation = useNavigation();
   const [data, setData] = useState();
   const [item, settype] = useState(route.params.item);
@@ -64,7 +63,6 @@ const OrderHistoryDetails = ({
 
   return (
     <SafeAreaView style = {styles.container}>
-    {/* <Header/> */}
     <View style={{
         flexDirection: 'row', 
         justifyContent: 'space-between', 
@@ -142,9 +140,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   containerinfo:{
-    // height : heightScreen * 0.1,
-    // width: widthScreen,
-    // paddingLeft: heightScreen * 0.02
   },
   titleid:{
     fontSize:10,
@@ -158,10 +153,6 @@ const styles = StyleSheet.create({
   titlestatus:{
     height: heightScreen * 0.05,
     width: widthScreen * 0.25,
-    // marginLeft: widthScreen * 0.7,
-    // marginTop: heightScreen * 0.13,
-    // alighItems:'center',
-    // justifyContent: 'center',
     borderRadius: 20
   },
   titlestatuss:{
@@ -273,11 +264,9 @@ const styles = StyleSheet.create({
     marginVertical:heightScreen * 0.02,
     fontWeight:'bold',
     textAlign:'center',
-    // width: widthScreen * 0.6,
   },
   modalcontainer:{
       alignSelf: 'center',
-      // width: widthScreen * 0.9,
       paddingHorizontal: widthScreen * 0.15,
       height: heightScreen * 0.4,
       justifyContent: 'center',

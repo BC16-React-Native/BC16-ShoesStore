@@ -17,7 +17,7 @@ import { useNavigation } from '@react-navigation/native'
       })}>
     <View style = {[styles.container, stylesContainer]}>
         <Text style = {[styles.titleid]}>ORDER ID: {(item?.id).slice(-6)}</Text>
-        <Text style = {[styles.titleadd]}>{item?.address}</Text>
+        <Text numberOfLines={1} style = {[styles.titleadd]}>{item?.address}</Text>
         <Text style = {[styles.titlepr]}>${item?.total}</Text>
         <TouchableOpacity style = {[styles.btn, {backgroundColor: item?.status == 'delivering'? "#5B9EE1": "#f37737"}]}>
             <Text style = {[styles.btntext]}>{item?.status == 'delivering' ? 'View Detail' : 'Pending'}</Text>
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
         fontSize:15,
         marginVertical: heightScreen * 0.03,
         fontWeight:'bold',
+        paddingHorizontal:widthScreen * 0.03,
     },
     titlepr:{
         position: 'absolute',

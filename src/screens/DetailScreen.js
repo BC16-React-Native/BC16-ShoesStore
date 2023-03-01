@@ -134,7 +134,7 @@ const DetailScreen = ({route}) => {
         return d = dd+'/'+mm+'/'+yyyy
       }
   return (
-    <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA',}}>
+    <SafeAreaView edges={['right', 'left', 'top']} style ={{flex:1, backgroundColor: '#F8F9FA',}}>
     <FlatList
       data={[]}
       keyExtractor={(e, i) => 'dom' + i.toString()}

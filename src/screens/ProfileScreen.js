@@ -77,7 +77,7 @@ const ProfileScreen = () => {
       image: imgUrl,
     })
     .then(() => {
-      setLoading(true)
+      setLoading(false)
       console.log('User Updated!');
       Alert.alert(
         'Profile Updated!',
