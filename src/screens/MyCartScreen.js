@@ -44,7 +44,7 @@ const MyCartScreen = () => {
   }, []);
    const navigation = useNavigation();
    return (
-       <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA'}}>   
+       <SafeAreaView edges={['right', 'left', 'top']} style ={{flex:1, backgroundColor: '#F8F9FA'}}>   
             {cart?.incart?.length > 0 ?
                 <>
                     <FlatList

@@ -5,9 +5,11 @@ import { heightScreen, widthScreen, ORANGE_DARK, BLUE_DARK } from '../utility'
 import { useNavigation } from '@react-navigation/native'
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useSelector } from 'react-redux';
 
 const SettingsScreen = () => {
     const navigation = useNavigation();
+    const roles = useSelector((state) => state.auth.role);
     const [isNotiEnabled, setIsNotiEnabled] = useState(true);
     const toggleSwitch1 = () => setIsNotiEnabled(previousState => !previousState);
     const [isLocaEnabled, setIsLocaEnabled] = useState(true);
@@ -18,7 +20,12 @@ const SettingsScreen = () => {
         return(
             <View style={styles.containerHeader}>
               <Text style={styles.textProfile}>Settings</Text>
-              <TouchableOpacity onPress={()=>navigation.navigate('BottomTab')} style={styles.buttonBack}>
+              <TouchableOpacity onPress={()=>
+              roles == false?
+              navigation.navigate('BottomTab'):navigation.navigate('BottomTabAdmin')
+              }
+              style={styles.buttonBack}
+              >
                 <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack}/>
               </TouchableOpacity> 
             </View>
@@ -89,9 +96,10 @@ const styles = StyleSheet.create({
       backgroundColor:'#F8F9FA',
   },
   containerHeader: {
-      height : heightScreen * 0.15,
+      height : heightScreen * 0.10,
       width: widthScreen,
       // borderWidth:1
+      
   },
   containerBody: {
       height : heightScreen * 0.25,

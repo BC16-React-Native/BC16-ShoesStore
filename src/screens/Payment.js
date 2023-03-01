@@ -55,7 +55,7 @@ const Payment = ({route}) => {
     const isBuyNow = route.params.isBuyNow;
     const [quantity, setQuantity] = useState(1);
   return (
-    <SafeAreaView style ={{flex:1, backgroundColor: '#F8F9FA', justifyContent: 'space-between'}}>
+    <SafeAreaView edges={['right', 'left', 'top']} style ={{flex:1, backgroundColor: '#F8F9FA', justifyContent: 'space-between'}}>
         <ScrollView>
             <View style={{ 
             }}>

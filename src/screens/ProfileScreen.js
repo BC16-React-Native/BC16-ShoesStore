@@ -76,7 +76,7 @@ const ProfileScreen = () => {
       image: imgUrl,
     })
     .then(() => {
-      setLoading(true)
+      setLoading(false)
       console.log('User Updated!');
       Alert.alert(
         'Profile Updated!',
@@ -259,9 +259,12 @@ const ProfileScreen = () => {
                 }} 
                 style={{width: 100, height: 100, borderRadius: 100/ 2, alignSelf: 'center'}} 
               />
+              {edit?
               <TouchableOpacity onPress={() => bs.current.snapTo(0)} style={styles.buttonCamera}>
                 <Icon name='camera-outline' color={'white'} size={20} style={styles.iconBack}/>
-              </TouchableOpacity> 
+              </TouchableOpacity>:<></>
+              }
+
             </Animated.View>
 
             <View style={styles.containerBody}>

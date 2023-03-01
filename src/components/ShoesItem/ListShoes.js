@@ -8,10 +8,12 @@ import { get_Categories_handle_all } from '../../api/controller/category/getCate
 import { get_AllProducts_limit } from '../../api/controller/products/getProducts'
 import { getallProducts_id, get_unFavorite_userID } from '../../api/controller/favorite/getFavorite'
 import auth from '@react-native-firebase/auth'
+import { useSelector } from 'react-redux'
 
 const ListShoes = ({category}) => {
     const [data, setData] = useState();
     const [unFav, setUnFav] = useState([]);
+    const roles = useSelector((state) => state.auth.role);
     useEffect(() => {
         get_AllProducts_limit(category)
             .onSnapshot(
@@ -26,7 +28,10 @@ const ListShoes = ({category}) => {
                     console.log(error)
                 }
             )
-        get_unFavorite_userID(setUnFav, auth().currentUser.uid);
+        if (roles == false){
+            get_unFavorite_userID(setUnFav, auth().currentUser.uid);    
+          }
+
     }, [category])
     const handleFavo = (proid) => {
         return !unFav.includes(proid);
