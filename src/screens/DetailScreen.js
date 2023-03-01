@@ -150,7 +150,7 @@ const DetailScreen = ({route}) => {
             <Text style={styles.price}>$ {data?.prices}</Text>
 
             <Description description={data?.info} />
-
+            {/* create  component to reduce performance */}
             <CategogyName categoryid={item?.categoryid} />
             <View style={{flexDirection: 'row', alignItems: 'center', paddingVertical: heightScreen * 0.0077}}>
             <Image
