@@ -11,9 +11,11 @@ import auth from "@react-native-firebase/auth"
 import Quantity from './Quantity'
 import { deleteItemCart } from '../redux/action/cart/cartRequest'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigation } from '@react-navigation/native'
 
 const ShoesBoxMyCart = ({ item, type }) => {
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const cart = useSelector((state) => state.cart.cart);
     const [data, setData] = useState();
     // console.log(item);
@@ -24,7 +26,11 @@ const ShoesBoxMyCart = ({ item, type }) => {
     return (
         <TouchableOpacity 
             style={[styles.container, {paddingBottom: type == 'payment' ? 8 : 0}]} 
-            onPress={() => { console.log('go to detail') }}
+            onPress={() =>{
+                navigation.push('Detail' , {
+                  item: data
+                });
+            }}
         >
             {/* check data before render */}
             {data ? 

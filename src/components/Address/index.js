@@ -7,21 +7,21 @@ import { widthScreen } from '../../utility'
 
 const Address = ({address, setAddress}) => {
   const  [edit, setEdit] = useState(false);
-  const [location, setLocation] = useState(null);
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongtitude] = useState(null);
+  const [ilatitude, setLatitude] = useState(null);
+  const [ilongitude, setLongtitude] = useState(null);
   const apiKey = 'AIzaSyBAqoquRiy_bXJvQqVrExEZpxNoPgmmidk';
   const handleLocation = () =>{
     Geolocation.getCurrentPosition(
-      position => {
+    position => {
         const { latitude, longitude } = position.coords;
         setLatitude(latitude);
         setLongtitude(longitude);
   
-  fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`)
+  fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${ilatitude},${ilongitude}&key=${apiKey}`)
   .then(response => response.json())
   .then(data => {
-    setAddress(data?.results[0].formatted_address)
+    console.log("location",data?.results[0]);
+    setAddress(data?.results[0]?.formatted_address)
   });
     },
     error => {
@@ -34,9 +34,7 @@ const Address = ({address, setAddress}) => {
     Geolocation.requestAuthorization()
   },[])
   return (
-    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        {/* <Text style={styles.infor_text}>214-216-218 Nguyen Phuoc Lan, Danang, </Text> */}
-        
+    <View style={{flexDirection: 'row', alignItems: 'center'}}>        
         <TouchableOpacity onPress={() => {setEdit(!edit)}} style={{flex: 1 , flexDirection: 'row', alignItems: 'center'}}>
         {!edit && address ? 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -46,7 +44,7 @@ const Address = ({address, setAddress}) => {
           <AntDesign name="edit" size={24} color="black" />
         </View>
 
-        : <View  style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+        : 
         <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between' }}
         onPress = {() => setEdit(!edit)}
         >
@@ -56,22 +54,24 @@ const Address = ({address, setAddress}) => {
                 mode={'outlined'}
                 placeholder={'You must add an address'}
                 placeholderTextColor={'#ff5353'}
-                onChangeText={text => setAddress(text)}s
+                onChangeText={text => setAddress(text)}
                 onEndEditing={() => {setEdit(!edit)}}
                 autoFocus={true}
                 style={styles.textinput}
             />
           <AntDesign name="edit" size={24} color="black" style = {{right: widthScreen * 0.12}}/>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={()=>{ 
+        
+        
+        </TouchableOpacity>
+        }
+        </TouchableOpacity>
+        <TouchableOpacity onPress={()=>{ 
           handleLocation();
           setEdit(!edit)
-          }}>
-          <Ionicons name="location-sharp" size={24} color="#ff5353" style = {{right: widthScreen * 0.10}}/>
-          </TouchableOpacity>
-          </View>
-        }
-        
+        }}
+        style = {{ zIndex: 10, elevation: 10}}
+        >
+          <Ionicons name="location-sharp" size={24} color="#ff5353"/>
         </TouchableOpacity>
     </View>
   )

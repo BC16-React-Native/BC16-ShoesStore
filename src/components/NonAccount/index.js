@@ -24,6 +24,7 @@ const NonAccount = ({type}) => {
                 require('../../utility/nonauthen/auth-error.json')
             } 
             autoPlay 
+            loop={false}
             style={{height: heightScreen * 0.40, width: widthScreen * 0.40}}
         />
         <Text style={styles.title}>Who are you?</Text>

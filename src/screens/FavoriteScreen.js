@@ -19,7 +19,7 @@ const Favorite = () => {
   useEffect(() => {
     if (roles == false){
       get_Favorite_userID(setFvl, auth().currentUser.uid);
-      console.log('hi');
+      
     }
   }, [])
   useLayoutEffect(() => { 
@@ -44,10 +44,9 @@ const Favorite = () => {
   
 
  const navigation = useNavigation();
-
   return (
       <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        { auth().currentUser.email ? 
+        { auth()?.currentUser.email ? 
           <FlatList
             data={fvlist}
             renderItem={({ item, index }) => <ShoesBoxFavorite item={item} />}

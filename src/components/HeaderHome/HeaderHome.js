@@ -49,7 +49,8 @@ const HeaderHome = () => {
           numberOfLines={1}
           style={styles.address}
         >
-        {location}</Text>
+          {location || null}
+        </Text>
         </TouchableOpacity>
       </View>
     </View>

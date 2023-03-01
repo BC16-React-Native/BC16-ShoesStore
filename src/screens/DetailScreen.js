@@ -45,8 +45,6 @@ const DetailScreen = ({route}) => {
       addtocart()
     : setModalVisible(true);  
   } 
-  // console.log("Detail Screen",item);
-    const image = item.images;
     const navigation = useNavigation();
     const roles = useSelector((state) => state.auth.role);
 
@@ -120,7 +118,7 @@ const DetailScreen = ({route}) => {
       const [recommend, setRecommend] = useState();
       const [data, setData] = useState();
       useEffect(() => {
-        get_ProductID(setData, item?.id);
+        get_ProductID(setData, item?.id || item?.productid);
         get_Products_categoryID(setRecommend, item?.categoryid);
       }, []) 
       function formatDate(d)
