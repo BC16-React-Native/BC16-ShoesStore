@@ -1,7 +1,7 @@
 import { Animated, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View, ScrollView,Switch, Keyboard, TouchableOpacity } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 
-import { heightScreen, widthScreen, ORANGE_DARK, BLUE_DARK } from '../utility'
+import { heightScreen, widthScreen } from '../utility'
 import { useNavigation } from '@react-navigation/native'
 
 import Icon from 'react-native-vector-icons/Ionicons';

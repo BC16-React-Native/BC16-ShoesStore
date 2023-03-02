@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View, StatusBar, FlatList, Image, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Image, SafeAreaView } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import OrderCart from '../../components/Admin/OrderCart'
 import MaterialCommunityIcons from'react-native-vector-icons/MaterialCommunityIcons'
@@ -7,7 +7,6 @@ import { getOrder_status_delivery_pending, getOrder_status_pending, getOrder_sta
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import Ionicons from 'react-native-vector-icons/Ionicons'
 import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
 const HomeScreen = () => {
 

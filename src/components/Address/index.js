@@ -1,4 +1,4 @@
-import { Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import AntDesign from "react-native-vector-icons/AntDesign"
 import Ionicons from "react-native-vector-icons/Ionicons"
@@ -7,32 +7,41 @@ import { widthScreen } from '../../utility'
 
 const Address = ({address, setAddress}) => {
   const  [edit, setEdit] = useState(false);
+  const [location, setLocation] = useState();
   const [ilatitude, setLatitude] = useState(null);
-  const [ilongitude, setLongtitude] = useState(null);
+  const [ilongitude, setLongitude] = useState(null);
   const apiKey = 'AIzaSyBAqoquRiy_bXJvQqVrExEZpxNoPgmmidk';
-  const handleLocation = () =>{
-    Geolocation.getCurrentPosition(
+  const handleLocation = async () =>{
+    Alert.alert('Allow "ShoesStore" to access your location?','You must allow access location for ShoesStore app to work.',
+    [{text: 'Allow', onPress: () => {
+      setAddress(location);
+    }
+    },
+    {text: 'Cancel', onPress: () => {
+      setEdit(!edit)
+    }
+    }],
+    )
+};
+useEffect(() => {
+  Geolocation.requestAuthorization();
+  Geolocation.getCurrentPosition(
     position => {
-        const { latitude, longitude } = position.coords;
-        setLatitude(latitude);
-        setLongtitude(longitude);
-  
-  fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${ilatitude},${ilongitude}&key=${apiKey}`)
-  .then(response => response.json())
-  .then(data => {
-    console.log("location",data?.results[0]);
-    setAddress(data?.results[0]?.formatted_address)
-  });
+      const { latitude, longitude } = position.coords;
+      setLatitude(latitude);
+      setLongitude(longitude);
+      fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        setLocation(data?.results[0].formatted_address);
+      });
     },
     error => {
       console.log(error.code, error.message);
     },
     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
   );
-  }
-  useEffect(()=>{
-    Geolocation.requestAuthorization()
-  },[])
+}, []);
   return (
     <View style={{flexDirection: 'row', alignItems: 'center'}}>        
         <TouchableOpacity onPress={() => {setEdit(!edit)}} style={{flex: 1 , flexDirection: 'row', alignItems: 'center'}}>
@@ -45,7 +54,7 @@ const Address = ({address, setAddress}) => {
         </View>
 
         : 
-        <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}
         onPress = {() => setEdit(!edit)}
         >
             <TextInput
@@ -59,7 +68,7 @@ const Address = ({address, setAddress}) => {
                 autoFocus={true}
                 style={styles.textinput}
             />
-          <AntDesign name="edit" size={24} color="black" style = {{right: widthScreen * 0.12}}/>
+          <AntDesign name="edit" size={24} color="black" style = {{}}/>
         
         
         </TouchableOpacity>
@@ -67,7 +76,6 @@ const Address = ({address, setAddress}) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={()=>{ 
           handleLocation();
-          setEdit(!edit)
         }}
         style = {{ zIndex: 10, elevation: 10}}
         >
@@ -92,7 +100,7 @@ const styles = StyleSheet.create({
       flex: 1, 
       // marginLeft: 12, 
       backgroundColor: '#F8F9FA', 
-      marginRight: widthScreen * 0.15,
+      marginRight: widthScreen * 0.04,
       paddingHorizontal: 4,
       paddingVertical: 6,
       borderRadius: 8

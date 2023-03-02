@@ -2,9 +2,7 @@ import { View, Text, SafeAreaView, KeyboardAvoidingView, Animated, Keyboard,Aler
 import React, { useEffect, useRef, useState,useLayoutEffect } from 'react'
 import FieldTextInput from '../components/Auth/FieldTextInput'
 import FieldButton from '../components/Auth/FieldButton'
-// import Ionicons from "react-native-vector-icons/Ionicons"
 import auth from "@react-native-firebase/auth"
-import firestore from '@react-native-firebase/firestore';
 import { heightScreen, widthScreen } from '../utility'
 import { useNavigation } from '@react-navigation/native'
 import Loader from '../components/Auth/Loader'
@@ -49,10 +47,6 @@ const Login = () => {
     const Header = () => {
         return(
             <Animated.View style = {[styles.containerHeader, {marginTop: headerMotion}]}>
-                {/* <Image 
-                style= {styles.imageTitle}
-                source= {require('../../utility/images/image_title.png')}
-                ></Image> */}
                 <Text style= {[styles.title, {color:"black", fontWeight:"bold"}]}>Hello!</Text>
                 <Text style= {[styles.title, {fontSize:25, fontWeight:'300', color:"black"}]}>Welcome Back You're Been Missed!</Text>
             </Animated.View>

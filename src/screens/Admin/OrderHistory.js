@@ -1,12 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
-import MaterialCommunityIcons from'react-native-vector-icons/MaterialCommunityIcons'
 import  { heightScreen, widthScreen } from '../../utility'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import { getFirstProductInOrders, getFirstProductInOrdersrealtime, getOrder_status_deliveried, getOrder_status_deliveried_img, getProduct_id } from '../../api/controller/orders/getOrders';
+import { FlatList } from 'react-native-gesture-handler';
+import { getFirstProductInOrdersrealtime } from '../../api/controller/orders/getOrders';
 import ProductCart from '../../components/Admin/ProductCart';
 
 const OrderHistory = () => {
@@ -27,11 +24,9 @@ const OrderHistory = () => {
     <Header/>
     <FlatList
       style={styles.containerfl} 
-      // contentContainerStyle={styles.listContainer}
       data={data?.sort((a, b) => {
               return new Date(b.datedone) - new Date(a.datedone);
       })}
-      // horizontal={false}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       renderItem={({item,index}) => <ProductCart

@@ -17,7 +17,6 @@ import storage from '@react-native-firebase/storage'
 import DropDownPicker from 'react-native-dropdown-picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal'
-// import Carousel, {ParallaxImage, Pagination } from 'react-native-new-snap-carousel';
 
 const ProductCreate = ({}) => {
   const [items,setItem] = useState();
@@ -274,7 +273,7 @@ const ProductCreate = ({}) => {
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
           <KeyboardAwareScrollView>
             <Animated.View style = {[styles.containerHeader, {marginTop: headerMotion}]}>
-              <Text style={styles.textProfile}>Update Product</Text>
+              <Text style={styles.textProfile}>Create Product</Text>
               <TouchableOpacity onPress={()=>navigation.navigate('BottomTabAdmin')} style={styles.buttonBack}>
                 <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack}/>
               </TouchableOpacity> 
@@ -288,6 +287,7 @@ const ProductCreate = ({}) => {
                   renderItem={({item,index}) => <View
                   style = {{
                     backgroundColor:'#F8F9FA',
+                    marginVertical: heightScreen * 0.0015,
                     shadowColor: "#000",
                     shadowOffset: {
                     width: 0,
@@ -303,16 +303,10 @@ const ProductCreate = ({}) => {
       
                   ><Image 
                       source={{ uri: item }} 
-                      style={{ width: 100, height: 100, borderRadius: 60/ 2, marginHorizontal: widthScreen * 0.01}} />
+                      style={{ width: 100, height: 100, borderRadius: 60/ 2, marginHorizontal: widthScreen * 0.01, resizeMode: 'contain'}} />
                       <TouchableOpacity onPress={() => {
                             const newImages = images.filter((img) => img !== item);
-                            // firestore().collection('products')
-                            // .doc(items.id)
-                            // .update({
-                            //     images: firestore.FieldValue.arrayRemove(item),
-                            // });
                             setImages(newImages);
-                            // setItems();
                       }} style={styles.buttonDel}>
                         <Icon name='close-circle' color={'red'} size={20} style={styles.iconBack}/>
                   </TouchableOpacity>

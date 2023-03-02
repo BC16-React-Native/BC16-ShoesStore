@@ -1,19 +1,12 @@
 import { Alert, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-
-import auth from '@react-native-firebase/auth';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import  { heightScreen, widthScreen } from '../../utility'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import ProductCart from '../../components/Admin/ProductCart';
+import { FlatList } from 'react-native-gesture-handler';
 import { get_AllProducts } from '../../api/controller/products/getProducts';
 import ProductManage from '../../components/Admin/ProductManage';
-import Icon from 'react-native-vector-icons/Feather';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-
 import { useNavigation } from '@react-navigation/native';
-import FieldButton from '../../components/Auth/FieldButton';
 
 const ListProduct = () => {
   const navigation = useNavigation();

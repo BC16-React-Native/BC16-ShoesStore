@@ -23,7 +23,6 @@ const ProfileScreen = () => {
   const headerMotion = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
   const dispatch = useDispatch();
-    // function handle animation 
     const animatedKeyBoard = (motion, value, duration) => {
       Animated.timing(
             motion,
@@ -36,7 +35,6 @@ const ProfileScreen = () => {
             }
         ).start();
     }
-    // hanlde to avoid view when showing key board
     useEffect(()=> {
         const SHOW_KEYBOARD_EVENT = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow'
         const HIDE_KEYBOARD_EVENT = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide'
@@ -178,7 +176,6 @@ const ProfileScreen = () => {
     const [edit, setEdit] = useState(false);
     const handleEdit = () => {
       setEdit(!edit);
-      console.log(edit)
     }
     const pressLogout = () => {
       auth()
@@ -262,9 +259,10 @@ const ProfileScreen = () => {
                   }} 
                   style={{width: 100, height: 100, borderRadius: 100/ 2, alignSelf: 'center'}} 
                 />
+                {edit?
                 <TouchableOpacity onPress={() => bs.current.snapTo(0)} style={styles.buttonCamera}>
                   <Icon name='camera-outline' color={'white'} size={20} style={styles.iconBack}/>
-                </TouchableOpacity> 
+                </TouchableOpacity> :<></>}
               </Animated.View>
 
               <View style={styles.containerBody}>
@@ -348,13 +346,10 @@ containerHeader: {
     width: widthScreen,
     paddingVertical: heightScreen * 0.10,
     paddingHorizontal: widthScreen * 0.075,
-    // borderWidth:1
 },
 title: {
     fontSize: 28,
     fontWeight: 'bold',
-    // height:heightScreen*0.2,
-    // color: ORANGE_DARK,
     alignSelf:"center",
     textAlign:"center",
 },

@@ -2,6 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import { useNavigation } from '@react-navigation/native'
+import { Image } from 'react-native-animatable'
     const OrderCart = ({
     stylesContainer,
     item,
@@ -13,15 +14,26 @@ import { useNavigation } from '@react-navigation/native'
     
     return (
     <TouchableOpacity onPress = {() => navigation.push('OrderDetail' , {
-        item: item
-      })}>
-    <View style = {[styles.container, stylesContainer]}>
-        <Text style = {[styles.titleid]}>ORDER ID: {(item?.id).slice(-6)}</Text>
+            item: item
+          })} style = {[styles.container, stylesContainer]}>
+    <View style = {[styles.containerv1]}>
+        {item ? 
+                <Image
+                    style={[styles.img]}
+                    source={
+                        item?.status == 'delivering' ?
+                        require('../../assets/images/delivering2.png'):
+                        require('../../assets/images/pending-icon.png')
+                        
+                    }
+                />
+            : null
+            }
+    </View>
+    <View style = {[styles.containerv2]}>
+        <Text style = {[styles.titleid,{color: item?.status == 'delivering'? "#5B9EE1":"#f37737"}]}>ORDER ID: {(item?.id).slice(-6)}</Text>
         <Text numberOfLines={1} style = {[styles.titleadd]}>{item?.address}</Text>
-        <Text style = {[styles.titlepr]}>${item?.total}</Text>
-        <TouchableOpacity style = {[styles.btn, {backgroundColor: item?.status == 'delivering'? "#5B9EE1": "#f37737"}]}>
-            <Text style = {[styles.btntext]}>{item?.status == 'delivering' ? 'View Detail' : 'Pending'}</Text>
-        </TouchableOpacity>
+        <Text style = {[styles.titletotal]}>${item?.total}</Text>
     </View>
     </TouchableOpacity>
     )
@@ -32,12 +44,11 @@ export default OrderCart
 const styles = StyleSheet.create({
     container:{
         height: heightScreen * 0.14,
-        width: widthScreen * 0.85,
+        width: widthScreen * 0.9,
         backgroundColor:"#FFFFFF",
-        justifyContent:'space-between',
+        flexDirection: 'row',
         alignItems:'center',
         alignSelf:'center',
-        paddingTop: heightScreen * 0.01,
         borderRadius:16,
         shadowColor: "#000",
         shadowOffset: {
@@ -50,36 +61,41 @@ const styles = StyleSheet.create({
         elevation: 4,
     },
     titleid:{
-        fontSize:10,
-        color:'#5B9EE1'
+        fontSize:15,
+        color:'#5B9EE1',
+        fontWeight:'bold',
     },
     titleadd:{
-        position: 'absolute',
         fontSize:15,
-        marginVertical: heightScreen * 0.03,
+        paddingVertical: heightScreen * 0.015,
         fontWeight:'bold',
-        paddingHorizontal:widthScreen * 0.03,
+        width: widthScreen * 0.55   
     },
-    titlepr:{
-        position: 'absolute',
-        fontSize:15,
-        marginVertical: heightScreen * 0.06,
-        fontWeight:'bold',
+    img:{
+        height: heightScreen * 0.10,
+        width: widthScreen * 0.22,
+        borderRadius: 10,
+        alignItems: 'flex-start',
     },
-    btn:{
-        position: 'absolute',
-        height: heightScreen * 0.035,
-        backgroundColor: '#5B9EE1',
-        marginVertical: heightScreen * 0.095,
-        width: widthScreen * 0.4,
-        borderRadius: 30,
+    containerv2:{
+        paddingLeft: heightScreen * 0.010
+    },
+    containerv1:{
+        alighItems: 'center',
         justifyContent: 'center',
-        alignItems: 'center',
-        
+        paddingVertical: heightScreen * 0.02,
+        padding: heightScreen * 0.022,
     },
-    btntext:{
-        fontSize:13,
-        color:'#FFFFFF',
+    titleid:{
+        fontSize:15,
+        color:'#5B9EE1',
         fontWeight:'bold',
-    }
+    },
+    titleitem:{
+        fontSize:16,
+    },
+    titletotal:{
+        fontSize:17,
+        fontWeight:'bold',
+    },
 })

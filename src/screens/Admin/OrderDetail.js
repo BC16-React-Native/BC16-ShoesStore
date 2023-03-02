@@ -2,7 +2,6 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View, Linking, Platform }
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import ShoesBoxOrder from '../../components/ShoesBoxOrder';
@@ -197,7 +196,7 @@ const OrderDetail = ({route}) => {
     <View style = {styles.containeraction}>
       <View style = {styles.containername}>
         <Text style = {styles.textinfo}>Name: </Text>
-        <Text style = {styles.textname}>{data?.name} </Text>
+        <Text style = {styles.textname}>{data?.name === undefined? 'Guess': data?.name} </Text>
       </View>
       <View style = {styles.containername}>
         <Text style = {styles.textinfo}>Phone Number: </Text>

@@ -2,15 +2,10 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import ShoesBoxOrder from '../../components/ShoesBoxOrder';
 import firestore from '@react-native-firebase/firestore'
-import SwipeButton from 'rn-swipe-button';
-import Modal from 'react-native-modal'
-import FieldButton from '../../components/Auth/FieldButton';
-import AnimatedLottieView from 'lottie-react-native';
 
 
 const OrderHistoryDetails = ({

@@ -1,11 +1,9 @@
 import { View, Text, SafeAreaView, KeyboardAvoidingView, Animated, Keyboard,Alert, StyleSheet, ScrollView} from 'react-native'
-import React, { useEffect, useRef, useState,useLayoutEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import FieldTextInput from '../components/Auth/FieldTextInput'
 import FieldButton from '../components/Auth/FieldButton'
-// import Ionicons from "react-native-vector-icons/Ionicons"
 import auth from "@react-native-firebase/auth"
-import firestore from '@react-native-firebase/firestore';
-import { heightScreen, widthScreen, ORANGE_DARK, BLUE_DARK } from '../utility'
+import { heightScreen, widthScreen } from '../utility'
 import { useNavigation } from '@react-navigation/native'
 import { registerUser } from '../api/controller/users/registerUser'
 import Loader from '../components/Auth/Loader'
@@ -54,13 +52,6 @@ const Login = () => {
     }
 
     const Body = () => {
-        // variable dataLogin
-        // const [name, setName] = useState('');
-        // const [username, setUsername] = useState('');
-        // const [phone, setPhone] = useState('');
-        // const [email, setEmail] = useState('');
-        // const [password, setPassword] = useState('');
-        // const [repass, setRepassword] = useState('');
         const [inputs, setInputs] = useState({
             name: '',
             phone: '',

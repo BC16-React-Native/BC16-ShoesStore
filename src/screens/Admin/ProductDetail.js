@@ -17,8 +17,6 @@ import storage from '@react-native-firebase/storage'
 import DropDownPicker from 'react-native-dropdown-picker';
 import { get_ProductID } from '../../api/controller/products/getProducts';
 import Feather from 'react-native-vector-icons/Feather';
-// import Carousel, {ParallaxImage, Pagination } from 'react-native-new-snap-carousel';
-
 const DetailScreen = ({route}) => {
   const item = route.params.item;
   const [items,setItem] = useState();
@@ -213,7 +211,6 @@ const DetailScreen = ({route}) => {
       const [edit, setEdit] = useState(false);
       const handleEdit = () => {
         setEdit(!edit);
-        console.log(edit)
       }
 
       
@@ -321,6 +318,7 @@ const DetailScreen = ({route}) => {
                   horizontal
                   renderItem={({item,index}) => <View
                   style = {{
+                    marginVertical: heightScreen * 0.0015,
                     backgroundColor:'#F8F9FA',
                     shadowColor: "#000",
                     shadowOffset: {
@@ -481,9 +479,10 @@ const styles = StyleSheet.create({
     },
     listimg:{
       width: 100, 
-      height: 100, 
+      height: 100,
       borderRadius: 60/ 2, 
-      marginHorizontal: widthScreen * 0.01
+      marginHorizontal: widthScreen * 0.01,
+      resizeMode: 'contain'
     },
     namemain:{
       fontSize:22, 
@@ -514,19 +513,6 @@ const styles = StyleSheet.create({
 
       elevation: 4,
       marginVertical: heightScreen *0.01
-    },
-    viewnimg:{
-      marginLeft: heightScreen * 0.012,
-      position: "absolute",
-      shadowColor: "#000",
-      shadowOffset: {
-          width: 0,
-          height: heightScreen * 0.001,
-      },
-      shadowOpacity: 0.23,
-      shadowRadius: 2.62,
-    
-      elevation: 4,
     },
     title: {
         fontSize: 28,
