@@ -3,9 +3,7 @@ const getProducts_id = (id) => {
     const query = firestore().collection('products').doc(id).get();
     return query;
  }
- export const get_Favorite_userID = (setData, id) => {
-        // console.log(req.params.id)
-   
+ export const get_Favorite_userID = (setData, id) => {   
     const queryRef = firestore().collection('favorite');
     const query =  queryRef.where('userid', '==', id).onSnapshot(onResult, onError);
 
@@ -20,7 +18,6 @@ const getProducts_id = (id) => {
             )
            
         });
-        console.log('Got Favorites collection result.', result);
         setData(result);
     }
      
@@ -30,7 +27,6 @@ const getProducts_id = (id) => {
 };
 
  export const get_unFavorite_userID = (setData,id) => {
-        // console.log(req.params.id)
     const result = [];
     const queryRef = firestore().collection('favorite');
     const query =  queryRef.where('userid', '==', id).onSnapshot(onResult, onError);
@@ -55,7 +51,6 @@ export const getallProducts_id = (setData) => {
     function onResult(QuerySnapshot) {
         allEntries = [];
         QuerySnapshot.forEach(doc => allEntries.push(doc.id ));
-        // console.log('Got products collection result.', allEntries);
         setData(allEntries);
     }
       

@@ -20,6 +20,7 @@ import CategogyName from '../components/Category/CategogyName'
 import NonAuthentication from '../components/Modal/NonAuthentication'
 import Modal from "react-native-modal";
 
+
 const DetailScreen = ({route}) => {
   
   const item = route.params.item;
@@ -50,11 +51,22 @@ const DetailScreen = ({route}) => {
 
     // header card
     const [lenghtCart, setLenghtCart] = useState();
+    // const [nolike, setNoLike] = useState(isnoFav);
     useLayoutEffect(() => {
       if (roles == false){
         get_LenghtCart_uID(setLenghtCart, auth().currentUser.uid)
       }
     }, [])
+    // const handleLike = (product, id, noFav) =>{
+    //   console.log(product);
+    //   let data = {
+    //     productid: product?.id,
+    //     userid: id
+    //   }
+    //   !noFav ? deleteFavorite_idProduct(id,product.id) : addFavorite(data);
+    //   setNoLike(false);
+    //   console.log(nolike);
+    // }
      // header card
 
     useLayoutEffect(() => { 
@@ -71,12 +83,12 @@ const DetailScreen = ({route}) => {
                     borderRadius: widthScreen * 0.056
                   }}
                 >
-                    <FontAwesome name="angle-left" size={24} color="black" />
+                    <FontAwesome name="angle-left" size={24} color='black' />
                 </TouchableOpacity>
           ), 
           headerRight: () => (
             <View style= {{flexDirection: 'row'}}>
-            <TouchableOpacity onPress={() =>{}} 
+              {isnoFav ? <TouchableOpacity onPress={() =>{}} 
                   style={{
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -86,8 +98,20 @@ const DetailScreen = ({route}) => {
                     borderRadius: widthScreen * 0.056
                   }}
                 >
-                    <FontAwesome name="heart-o" size={24} color="black" />
-            </TouchableOpacity>
+                    <FontAwesome name="heart-o" size={24} color='black' />
+            </TouchableOpacity> : <TouchableOpacity onPress={() =>{}} 
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: '#F87265',
+                    height: heightScreen * 0.0566,
+                    width: widthScreen * 0.112,
+                    borderRadius: widthScreen * 0.056
+                  }}
+                >
+                    <FontAwesome name="heart-o" size={24} color='#fff' />
+            </TouchableOpacity>}
+            
             <TouchableOpacity onPress={() =>{navigation.navigate("MyCart")}} 
                   style={{
                     alignItems: 'center',

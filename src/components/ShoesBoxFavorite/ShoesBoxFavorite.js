@@ -1,15 +1,22 @@
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, TurboModuleRegistry, View } from 'react-native'
+import React, { memo, useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility/index'
 import Feather  from "react-native-vector-icons/Feather"
 import { deleteFavorite } from '../../api/controller/favorite/deleteFavorite'
+import { useNavigation } from '@react-navigation/native'
 
 const ShoesBoxFavorite = ({item}) => {
   const deleteFavo = (id) =>{
     deleteFavorite(id);
   }
+  const navigation = useNavigation()
   return (
-    <TouchableOpacity style={styles.container} onPress={() =>{console.log('go to detail')}}>
+    <TouchableOpacity style={styles.container} onPress={() =>{
+      navigation.push('Detail' , {
+      item: item, 
+      isnoFav: true
+    });
+    }}>
         <Image
           style={styles.image}
           source={{

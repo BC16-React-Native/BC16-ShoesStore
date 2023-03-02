@@ -28,10 +28,16 @@ const ListShoes = ({category}) => {
                     console.log(error)
                 }
             )
+<<<<<<< HEAD
         if (roles == false){
             get_unFavorite_userID(setUnFav, auth().currentUser.uid);    
           }
 
+=======
+            if (roles == false){
+                get_unFavorite_userID(setUnFav, auth().currentUser.uid);
+            }
+>>>>>>> features/JOB43
     }, [category])
     const handleFavo = (proid) => {
         return !unFav.includes(proid);

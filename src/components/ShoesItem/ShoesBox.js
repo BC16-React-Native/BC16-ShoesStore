@@ -32,9 +32,9 @@ const ShoesBox = ({item, isnoFav}) => {
     <>
     <TouchableOpacity style={styles.container} onPress={() =>{
       navigation.push('Detail' , {
-        item: item
+        item: item, 
+        isnoFav: isnoFav
       });
-      // console.log(item.id);
     }}>
         <Image
           style={styles.image}
