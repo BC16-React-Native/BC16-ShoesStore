@@ -27,9 +27,10 @@ const styles = StyleSheet.create({
        flexDirection: 'row',
        justifyContent:'space-between',
        height: heightScreen*0.05,
-       width: widthScreen*0.4,
+       width: widthScreen*0.55,
        alignItems: 'center',
        margin: 3,
+       lineHeight: 150
    },
    containerSon:{
        width: '70%'

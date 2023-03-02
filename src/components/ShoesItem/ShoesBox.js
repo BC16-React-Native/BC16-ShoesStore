@@ -11,20 +11,19 @@ const ShoesBox = ({item, isnoFav}) => {
   const [like, setLike] = useState(false);
   const navigation = useNavigation();
   const handleLike = (product, id, noFav) =>{
-    console.log(product);
     let data = {
       productid: product?.id,
       userid: id
     }
-    !noFav ? deleteFavorite_idProduct(id,item.id) : addFavorite(data);
+    !noFav ? deleteFavorite_idProduct(id,product.id) : addFavorite(data);
 
   }
   return (
     <TouchableOpacity style={styles.container} onPress={() =>{
       navigation.push('Detail' , {
-        item: item
+        item: item, 
+        isnoFav: isnoFav
       });
-      console.log(item.id);
     }}>
         <Image
           style={styles.image}

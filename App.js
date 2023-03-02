@@ -32,7 +32,6 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
 
 import SearchScreen from './src/screens/SearchScreen';
 import ResultScreen from './src/screens/ResultScreen';
-import Favorite from './src/screens/FavoriteScreen';
 import MyCartScreen from './src/screens/MyCartScreen';
 import Payment from './src/screens/Payment';
 import ProductCreate from './src/screens/Admin/ProductCreate';

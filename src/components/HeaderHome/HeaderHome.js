@@ -36,12 +36,13 @@ const HeaderHome = () => {
     };
     requestLocationPermission();
   }, []);
+  console.log(location)
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Shoes Store</Text>
       <View style={{flexDirection:  'row', alignItems: 'center'}}>
         <Ionicons name="location-sharp" size={24} color="#F87265" />
-        <Text style={styles.address}>{location}</Text>
+        <Text style={styles.address}>a</Text>
       </View>
     </View>
   )

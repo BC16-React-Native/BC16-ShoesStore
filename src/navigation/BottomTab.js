@@ -1,6 +1,5 @@
 
 import ProfileScreen from '../screens/ProfileScreen';
-import FavoriteScreen from '../screens/FavoriteScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect, useRef } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
@@ -9,12 +8,13 @@ import * as Animatable from 'react-native-animatable';
 import { heightScreen, widthScreen } from '../utility';
 import Home from './HomeNavigator/Home';
 import Order from './OrderNavigator/Order';
+import Favorite from './FavoriteNavigator/Favorite';
 
 
 
 const TabArr = [
   { route: 'Home', label: 'Home', type: Icons.Feather, icon: 'home', component: Home },
-  { route: 'Favorite', label: 'Favorite', type: Icons.Feather, icon: 'heart', component: FavoriteScreen },
+  { route: 'FavoriteShoes', label: 'Favorite', type: Icons.Feather, icon: 'heart', component: Favorite },
   { route: 'Order', label: 'Order', type: Icons.Feather, icon: 'shopping-bag', component: Order },
   { route: 'Profile', label: 'Profile', type: Icons.FontAwesome, icon: 'user-o', component: ProfileScreen },
 ];

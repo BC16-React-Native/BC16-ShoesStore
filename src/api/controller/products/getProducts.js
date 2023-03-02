@@ -1,15 +1,14 @@
 import firestore from '@react-native-firebase/firestore';
 import { get_day_between_2day } from '../../helper';
 
-export const get_AllProducts = (setData) => {
+export const get_AllProducts =  (setData) => {
     let allEntries = [];
-    const querySnapshot = firestore().collection('products').onSnapshot(onResult, onError);
+    const querySnapshot =  firestore().collection('products').onSnapshot(onResult, onError);
 
-    function onResult(QuerySnapshot) {
+    async function onResult(QuerySnapshot) {
         allEntries = [];
         QuerySnapshot.forEach(doc => allEntries.push({ ...doc.data(), id: doc.id }));
-        // console.log('Got products collection result.');
-        setData(allEntries);
+        await setData(allEntries);
     }
       
     function onError(error) {  
