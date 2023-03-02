@@ -64,7 +64,7 @@ const OrderDetail = ({
     }}>
         <View style = {styles.containerinfo}>
             <Text style ={styles.titleid}>ORDER ID: {(items.id).slice(-6)}</Text>
-            <Text style ={styles.titleadd}>Address: {items.address}</Text>
+            <Text numberOfLines={1} style ={styles.titleadd}>Address: {items.address}</Text>
         </View>
         { type == 'user'?
                 <View style = {[styles.titlestatus, 
@@ -92,11 +92,8 @@ const OrderDetail = ({
         item = {item}
         index = {index}
       />}
-      keyExtractor={items => items.id}
+      keyExtractor={item => item}
       />
-
-
-
     </View>
     <View style = {styles.containeraction}>
       <View style = {styles.containername}>
@@ -129,19 +126,10 @@ const OrderDetail = ({
 export default OrderDetail
 
 const styles = StyleSheet.create({
-
   container:{
     flex: 1,
     backgroundColor: '#F8F9FA',
-  },
-  containerHeader: {
-    height : heightScreen * 0.07,
-    width: widthScreen,
-  },
-  containerinfo:{
-    // height : heightScreen * 0.1,
-    // width: widthScreen,
-    // paddingLeft: heightScreen * 0.02
+    
   },
   titleid:{
     fontSize:10,
@@ -150,30 +138,41 @@ const styles = StyleSheet.create({
   },
   titleadd:{
     fontSize: 15,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    width:widthScreen * 0.65
   },
   titlestatus:{
-    // height: heightScreen * 0.05,
-    // width: widthScreen * 0.25,
-    paddingHorizontal: widthScreen * 0.05,
-    paddingVertical: heightScreen * 0.01,
-    borderRadius: 20
+    height: heightScreen * 0.05,
+    width: widthScreen * 0.25,
+    borderRadius: 20,
   },
   titlestatuss:{
     fontWeight: 'bold',
     textAlign: 'center',
+    lineHeight:40
+  },
+  textProfile:{
+    fontSize: 16,
+    marginTop: heightScreen * 0.02,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    color: '#1A2530'
   },
   containerlist:{
-    height: heightScreen * 0.47,
-    width: widthScreen * 0.9,
-    alignSelf : 'center'
+    flex:1
   },
   containeraction:{
-    height: heightScreen * 0.35,
-    width: widthScreen,
     backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
+  },
+  textinfo:{
+    flex:1,
+    marginVertical: heightScreen * 0.008,
+    fontSize: 16,
+    color: '#707B81',
+    fontWeight: 'bold',
+    paddingLeft: widthScreen * 0.05
   },
   containername:{
     flexDirection: 'row',
@@ -203,14 +202,6 @@ const styles = StyleSheet.create({
     marginTop: heightScreen * 0.01,
     alignSelf: 'center'
   },
-  containerdot:{
-    height:1,
-    width: widthScreen * 0.9,
-    borderWidth: 0.8, 
-    borderColor: 'gray', 
-    borderStyle: 'dashed',
-    alignSelf: 'center'
-  },
   texttotal:{
     flex: 1,
     textAlign: 'right',
@@ -223,6 +214,7 @@ const styles = StyleSheet.create({
     height: heightScreen * 0.12,
     backgroundColor:'#FFFFFF',
     alignItems: 'center',
+    // borderWidth: 1
   },
   iconquestion:{
     paddingBottom:heightScreen * 0.15

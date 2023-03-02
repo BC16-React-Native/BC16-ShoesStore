@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View,TouchableOpacity, StatusBar } from 'react-native'
+import React, { useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import Lottie from 'lottie-react-native'
 import auth from "@react-native-firebase/auth"
 import { useDispatch } from 'react-redux'
 import { setRole } from '../../redux/features/auth/authSlice'
+import Modal from "react-native-modal";
+import ConfirmLogout from '../Modal/ConfirmLogout'
 
 const NonAccount = ({type}) => {
     const dispatch = useDispatch();
@@ -16,6 +18,8 @@ const NonAccount = ({type}) => {
             dispatch(setRole(null));
         });
     }
+    const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={{flex: 1, alignItems:'center', marginTop: heightScreen * 0.1}}>
         <Lottie 
@@ -29,9 +33,25 @@ const NonAccount = ({type}) => {
         />
         <Text style={styles.title}>Who are you?</Text>
         <Text numberOfLines={1} style={styles.message}>Please Login/Sign In to use Feature.....</Text>
-        <TouchableOpacity style={styles.button} onPress={() => {pressLogout()}} >
+        <TouchableOpacity style={styles.button} onPress={() => {setModalVisible(true)}} >
             <Text style={styles.textButton}>Let's Login</Text>
         </TouchableOpacity>
+        <Modal
+            testID={'modal'}
+            isVisible={modalVisible}
+            onSwipeComplete={() => {
+                setModalVisible(false); 
+            }}
+            swipeDirection={['up', 'left', 'right', 'down']}
+            style={styles.view}
+        >
+            <StatusBar
+                animated={true}
+                barStyle = {modalVisible ? 'dark-content' : 'dark-content'}
+                backgroundColor  = '#4b4b4b'
+            />
+            <ConfirmLogout funClose={() => {setModalVisible(false)}} />
+        </Modal>
     </View>
   )
 }   

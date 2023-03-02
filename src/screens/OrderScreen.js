@@ -12,6 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ProductCart from '../components/Admin/ProductCart';
 import OrderCart from '../components/OrderCart';
 import NonAccount from '../components/NonAccount';
+import Lottie from 'lottie-react-native'
 
 const OrderScreen = () => {
   const navigation = useNavigation();
@@ -37,9 +38,13 @@ const OrderScreen = () => {
   }, [])
   useLayoutEffect(() => { 
     navigation.setOptions({ 
-      headerTitle: (props) => <View style={{alignItems: 'center'}}>
-        <Text style={styles.userName}>{user?.name}</Text>
-        <Text style={styles.email}>{user?.email}</Text>
+      headerTitle: (props) => 
+      <View style={{alignItems: 'center'}}>
+        {user?.name || user?.email ?
+        <><Text style={styles.userName}>{user?.name}</Text>
+        <Text style={styles.email}>{user?.email}</Text></>
+        : <Text style={styles.title}>Order</Text>
+        }
       </View>,
       headerRight: () => (
         <View style= {{flexDirection: 'row'}}>
@@ -72,21 +77,31 @@ const OrderScreen = () => {
   }, [lenghtCart, user]);
   return (
     <SafeAreaView style = {styles.container}>
-      { !auth()?.currentUser?.isAnonymous ? 
-      <FlatList
-        // style={styles.containerfl} 
-        data={data}
-        // horizontal={false}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        renderItem={({item,index}) => <OrderCart
-          item = {item}
-          nextNavigator= 'OrderDetail'
-        />}
-        keyExtractor={item => item.id}
-      />
-      : <NonAccount /> 
-        }
+      {/* { !auth()?.currentUser?.isAnonymous ?  */}
+      {data?.length > 0 ?
+        <FlatList
+          // style={styles.containerfl} 
+          data={data}
+          // horizontal={false}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item,index}) => <OrderCart
+            item = {item}
+            nextNavigator= 'OrderDetail'
+          />}
+          keyExtractor={item => item.id}
+        />
+      : <View style={{flex: 1, alignItems:'center', marginTop: heightScreen * 0.1}}>
+            <Lottie 
+                source={require('../utility/order/empty-box.json')} 
+                autoPlay 
+                loop={false}
+                style={{height: heightScreen * 0.40, width: widthScreen * 0.40,}}
+            />
+            <Text style={styles.title}>Empty Cart</Text>
+            <Text numberOfLines={2} style={styles.message}>Looks like you haven't made your choice yet.....</Text>
+        </View>
+       }
     </SafeAreaView>
   )
 }
@@ -107,6 +122,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 22,
     color: '#757575',
+  },
+  title:{
+    fontFamily: Platform.OS != 'ios'? 'SF-Pro': null,
+    fontWeight: '700',
+    fontSize: 18,
+    lineHeight: 22,
+    color: '#000',
   },
   container:{
     flex: 1,

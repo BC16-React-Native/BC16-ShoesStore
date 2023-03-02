@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import { setRole } from '../../../redux/features/auth/authSlice'
 import Ionicons from "react-native-vector-icons/Ionicons"
 
-const NonAuthentication = ({funClose}) => {
+const ConfirmLogout = ({funClose}) => {
   const dispatch = useDispatch();
 
   const pressLogout = () => {
@@ -32,16 +32,16 @@ const NonAuthentication = ({funClose}) => {
         autoPlay 
         style={{height: heightScreen * 0.25, width: widthScreen * 0.20}}
     />
-    <Text style={styles.title}>Who are you?</Text>
-    <Text numberOfLines={1} style={styles.message}>Please Login/Sign In to use Feature.....</Text>
-    {/* <TouchableOpacity style={styles.button} onPress={() => {pressLogout()}}>
-        <Text style={styles.textButton}>Let's Login</Text>
-    </TouchableOpacity> */}
+    <Text style={styles.title}>Are You Sure?</Text>
+    <Text numberOfLines={2} style={styles.message}>You will lose all order data if you continue...</Text>
+    <TouchableOpacity style={styles.button} onPress={() => {pressLogout()}}>
+        <Text style={styles.textButton}>Continue Logout</Text>
+    </TouchableOpacity>
 </View>
   )
 }
 
-export default NonAuthentication
+export default ConfirmLogout
 
 const styles = StyleSheet.create({
   container: {
@@ -63,10 +63,10 @@ message:{
     fontWeight: '700',
     fontSize: 16,
     lineHeight: 22,
-    color: '#757575',
-    width: widthScreen,
+    color: '#F87265',
+    width: widthScreen*0.7,
     textAlign: 'center',
-    marginBottom: heightScreen * 0.04
+    // marginBottom: heightScreen * 0.04
 
 },
 button: {

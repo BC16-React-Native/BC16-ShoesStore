@@ -44,7 +44,7 @@ const Favorite = () => {
   
 
   const navigation = useNavigation();
-  console.log(auth()?.currentUser);
+  // console.log(auth()?.currentUser);
   return (
       <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         { !auth()?.currentUser?.isAnonymous ? 
