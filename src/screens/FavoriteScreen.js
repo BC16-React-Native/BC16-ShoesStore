@@ -41,54 +41,21 @@ const FavoriteScreen = () => {
   const navigation = useNavigation();
   // console.log(auth()?.currentUser);
   return (
-      <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        { !auth()?.currentUser?.isAnonymous ? 
+      <SafeAreaView style={{ flex: 1, paddingHorizontal: widthScreen * 0.05 }}>
+        {!auth()?.currentUser?.isAnonymous || fvlist?.length > 0 ?
           <FlatList
             data={fvlist}
-            renderItem={({ item, index }) => <ShoesBoxFavorite item={item} />}
+            renderItem={({ item, index }) => 
+              <View style={{ marginRight: widthScreen * 0.02}}>
+                <ShoesBoxFavorite item={item} />
+              </View>
+              }
             numColumns={2}
             keyExtractor={item => item.id}
-            style={{ flex: 1, marginTop: heightScreen*0.2 }}
-          />
-          : <NonAccount /> 
+            style={{ flex: 1, marginBottom: heightScreen * 0.13 }}
+        /> 
+        : <NonAccount /> 
         }
-        {fvlist?.length == 1 
-        ? 
-        <TouchableOpacity style={styles.container} onPress={() =>{
-          console.log(fvlist[0]);
-          navigation.push('Detail' , {
-          item: fvlist[0], 
-          isnoFav: true
-        });}}>
-          <Image
-            style={styles.image}
-            source={{
-              uri: fvlist[0]?.images[0]
-            }}
-          />
-          <View style={{marginVertical: heightScreen * 0.02}}>
-            <Text style={styles.title}>BEST SELLER</Text> 
-            <Text numberOfLines={1} style={styles.name}>{fvlist[0]?.name}</Text>
-          </View>
-            <Text style={styles.price}>${fvlist[0]?.prices}</Text>
-          <TouchableOpacity style={[styles.icon_like, 
-              {backgroundColor: '#E15B5B'}
-            ]} 
-            onPress={() => {deleteFavo(fvlist[0]?.id)}}
-          >
-            <Feather name="heart" size={22} color="#fff" />
-          </TouchableOpacity>
-        </TouchableOpacity>
-        : 
-        <FlatList
-          data={fvlist}
-          renderItem={({ item, index }) => <ShoesBoxFavorite item={item} />}
-          numColumns={2}
-          keyExtractor={item => item.id}
-          style={{ flex: 1, marginBottom: heightScreen * 0.13 }}
-        />
-        }
-        
         <Loader visible = {loading}/>
       </SafeAreaView>
   )

@@ -24,6 +24,7 @@ import Modal from "react-native-modal";
 const DetailScreen = ({route}) => {
   
   const item = route.params.item;
+  const isnoFav = route.params.isnoFav;
   const [modalVisible, setModalVisible] = useState(false);
   const addtocart = () => {
     addCart(data);

@@ -69,7 +69,7 @@ const ShoesBox = ({item, isnoFav}) => {
                 barStyle = {modalVisible ? 'dark-content' : 'dark-content'}
                 backgroundColor  = '#4b4b4b'
             />
-            <NonAuthentication />
+            <NonAuthentication funClose={() => {setModalVisible(false)}} />
         </Modal>
     </>
   )
