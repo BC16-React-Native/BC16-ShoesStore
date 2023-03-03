@@ -7,17 +7,20 @@ import { useDispatch } from 'react-redux'
 import { setRole } from '../../redux/features/auth/authSlice'
 import Modal from "react-native-modal";
 import ConfirmLogout from '../Modal/ConfirmLogout'
+import Ionicons from "react-native-vector-icons/Ionicons"
+
 
 const NonAccount = ({type}) => {
     const dispatch = useDispatch();
-    const pressLogout = () => {
+    
+    const pressLogout = () => setTimeout(() => {
         auth()
         .signOut()
         .then(() => {
             console.log('User signed out!');
             dispatch(setRole(null));
         });
-    }
+    }, 400);
     const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -50,7 +53,26 @@ const NonAccount = ({type}) => {
                 barStyle = {modalVisible ? 'dark-content' : 'dark-content'}
                 backgroundColor  = '#4b4b4b'
             />
-            <ConfirmLogout funClose={() => {setModalVisible(false)}} />
+            {/* <ConfirmLogout funClose={() => {setModalVisible(false)}} /> */}
+            <View style={styles.container}>
+                <TouchableOpacity style={{alignSelf: 'flex-end',}} 
+                    onPress={() => {setModalVisible(false); }} 
+                >
+                    <Ionicons name="close-circle-outline" size={28} color="red" 
+                    style={{paddingRight: 10, paddingTop: 10}}
+                    />
+                </TouchableOpacity>
+                <Lottie 
+                    source={require('../../utility/nonauthen/auth-error1.json')} 
+                    autoPlay 
+                    style={{height: heightScreen * 0.25, width: widthScreen * 0.20}}
+                />
+                <Text style={styles.title}>Are You Sure?</Text>
+                <Text numberOfLines={2} style={styles.message}>You will lose all order data if you continue...</Text>
+                <TouchableOpacity style={styles.button} onPress={() => { setModalVisible(false);pressLogout()}}>
+                    <Text style={styles.textButton}>Continue Logout</Text>
+                </TouchableOpacity>
+            </View>
         </Modal>
     </View>
   )
@@ -90,5 +112,10 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 16,
         lineHeight: 22,
-    }
+    },
+    container: {
+        alignItems:'center',  
+        backgroundColor: '#fff',
+        borderRadius: 30
+     },
 })

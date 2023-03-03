@@ -64,7 +64,7 @@ const App = () => {
   useEffect(() => {
     Platform.OS === 'ios'? null: SplashScreen.hide();
   }, [])
-
+  // console.log(authenticated)
 
   if (loading) return null;
   return (

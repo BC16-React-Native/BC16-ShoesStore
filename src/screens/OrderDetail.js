@@ -98,7 +98,7 @@ const OrderDetail = ({
     <View style = {styles.containeraction}>
       <View style = {styles.containername}>
         <Text style = {styles.textinfo}>Name: </Text>
-        <Text style = {styles.textname}>{data?.name} </Text>
+        <Text style = {styles.textname}>{data?.name === undefined? 'Guess': data?.name} </Text>
       </View>
       <View style = {styles.containername}>
         <Text style = {styles.textinfo}>Phone Number: </Text>

@@ -15,6 +15,7 @@ const ListProduct = () => {
   useEffect(() => {
       get_AllProducts(setData);
   },[])
+  // console.log(data)
   const Header = () => {
     return(
         <View style={styles.containerHeader}>

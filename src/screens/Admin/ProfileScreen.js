@@ -103,7 +103,7 @@ const ProfileScreen = () => {
     })
     .catch(err => {console.log(err)})
     }
-
+    setImage(imgUrl);
     
   }
   const uploadImage = async () => {
@@ -272,7 +272,7 @@ const ProfileScreen = () => {
                 source={{
                   uri: image
                     ? image
-                    : data
+                    : data?.image
                     ? data?.image
                     : 'https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg',
                 }} 

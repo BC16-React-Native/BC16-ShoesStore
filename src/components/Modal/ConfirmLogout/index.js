@@ -11,12 +11,14 @@ const ConfirmLogout = ({funClose}) => {
   const dispatch = useDispatch();
 
   const pressLogout = () => {
+    funClose();
     auth()
     .signOut()
     .then(() => {
       console.log('User signed out!');
       dispatch(setRole(null));
   });
+  // console.log('User signed out!');
 }
   return (
     <View style={styles.container}>

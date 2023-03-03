@@ -58,7 +58,6 @@ const DetailScreen = ({route}) => {
         fetchCategories();
         setImages(item?.images)
       }, []);
-      console.log("categories",category)
       const headerMotion = useRef(new Animated.Value(0)).current;
       const dispatch = useDispatch();
         // function handle animation 
@@ -100,17 +99,17 @@ const DetailScreen = ({route}) => {
           setEdit(!edit)
           setLoading(true);
           let imgUrls = await uploadImages();
-          if (imgUrls == null) {
+          if (imgUrls == []) {
             firestore()
               .collection('products')
-              .doc(items.id)
+              .doc(item?.id)
               .update({
                 name: items.name,
                 amount: items.amount,
                 prices: items.prices,
                 categoryid: value,
                 info: items.info,
-                images: items?.images,
+                images: images,
                 datecreate: new Date().toISOString(),
               })
               .then(() => {
@@ -125,15 +124,25 @@ const DetailScreen = ({route}) => {
                 console.log(err);
               });
           } else {
+            // console.log("here",imgUrls);
             const newImages = [];
-            const oldImages = items?.images;
+
+            let oldImages = images;
+            console.log("here1",oldImages);
+            
+            imagesnew.forEach((item1) => {
+                oldImages = oldImages.filter(item => item !== item1);
+            })
+
               for (let i = 0; i < imgUrls.length; i++) {
                 newImages.push(imgUrls[i]);
               }
+              console.log("here2",imagesnew);
               const allImages = [...oldImages, ...newImages];
+              console.log("here3",allImages);
               firestore()
               .collection('products')
-              .doc(items.id)
+              .doc(item?.id)
               .update({
                 name: items.name,
                 amount: items.amount,
@@ -161,7 +170,11 @@ const DetailScreen = ({route}) => {
 
 
       const uploadImages = async () => {
-        if (!imagesnew || imagesnew.length === 0) {
+        if (!images || images.length === 0) {
+          Alert.alert(
+            'Oops!',
+            'Please upload images.',
+          );
           return null;
         }
         else {
@@ -241,7 +254,7 @@ const DetailScreen = ({route}) => {
               photo.sourceURL
             ));
             setImages(prevImages => prevImages ? [...prevImages, ...imagePaths] : imagePaths);
-            setnewImages(imagePaths)
+            setnewImages(prevImages => prevImages ? [...prevImages, ...imagePaths] : imagePaths);
           this.bs.current.snapTo(1);
         });
         console.log('pathnew',imagesnew);
@@ -339,12 +352,15 @@ const DetailScreen = ({route}) => {
                       {edit?
                       <TouchableOpacity onPress={() => {
                             const newImages = images.filter((img) => img !== item);
+                            const newImages1 = imagesnew?.filter((img) => img !== item);
+
                             firestore().collection('products')
-                            .doc(items.id)
+                            .doc(items?.productid)
                             .update({
                                 images: firestore.FieldValue.arrayRemove(item),
                             });
                             setImages(newImages);
+                            setnewImages(newImages1);
                             // setItems();
                       }} style={styles.buttonDel}>
                         <Icon name='close-circle' color={'red'} size={20} style={styles.iconBack}/>
@@ -394,6 +410,7 @@ const DetailScreen = ({route}) => {
                     }}
                     labelStyle= {{paddingLeft: widthScreen * 0.02}}
                     disabled={!edit}
+                    listMode = "SCROLLVIEW"
                 />
 
                 {/* Text input Phone*/}
@@ -517,8 +534,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 28,
         fontWeight: 'bold',
-        // height:heightScreen*0.2,
-        // color: ORANGE_DARK,
         alignSelf:"center",
         textAlign:"center",
     },
@@ -582,14 +597,6 @@ const styles = StyleSheet.create({
       shadowRadius: 2.62,
     
       elevation: 4,
-    },
-    textAdd:{
-      position: 'absolute',
-      fontSize:20,
-      fontWeight: 'bold',
-      marginTop: heightScreen * 0.04,
-      textAlign: 'center',
-      marginLeft: widthScreen * 0.35
     },
     buttonDel:{
       borderRadius: 40,

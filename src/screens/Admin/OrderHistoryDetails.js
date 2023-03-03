@@ -67,7 +67,7 @@ const OrderHistoryDetails = ({
     }}>
     <View style = {styles.containerinfo}>
       <Text style ={styles.titleid}>ORDER ID: {(items.id).slice(-6)}</Text>
-      <Text style ={styles.titleadd}>Address: {items.address}</Text>
+      <Text numberOfLines={1} style ={styles.titleadd}>Address: {items.address}</Text>
     </View>
     { type == 'admin'?
       <View style = {[styles.titlestatus, { backgroundColor: '#34A202'}]}>
@@ -143,7 +143,8 @@ const styles = StyleSheet.create({
   },
   titleadd:{
     fontSize: 15,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    width:widthScreen * 0.65
   },
   titlestatus:{
     height: heightScreen * 0.05,

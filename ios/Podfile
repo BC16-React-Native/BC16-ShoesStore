@@ -26,6 +26,7 @@ target 'ShoesStore' do
   $RNFirebaseAsStaticFramework = true
   use_frameworks! :linkage => :static
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  pod 'RNFBAuth', :path => '../node_modules/@react-native-firebase/auth'
   pod 'Firebase', :modular_headers => true
   pod 'FirebaseCoreInternal', :modular_headers => true
   pod 'GoogleUtilities', :modular_headers => true
@@ -36,7 +37,8 @@ target 'ShoesStore' do
   pod 'GTMSessionFetcher', :modular_headers => true
   # Flags change depending on the env values.
   flags = get_default_flags()
-
+# Override Firebase SDK Version
+  $FirebaseSDKVersion = '10.3.0'
   use_react_native!(
     :path => config[:reactNativePath],
     # Hermes is now enabled by default. Disable by setting this flag to false.

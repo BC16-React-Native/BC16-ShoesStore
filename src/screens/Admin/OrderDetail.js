@@ -153,7 +153,7 @@ const OrderDetail = ({route}) => {
         item = {item}
         index = {index}
       />}
-      keyExtractor={item => item.id}
+      keyExtractor={item => item}
       />
       <Modal
       animationIn={'fadeInLeftBig'}
@@ -221,7 +221,6 @@ const OrderDetail = ({route}) => {
             enableRightToLeftSwipe
             railBackgroundColor="#5B9EE1"
             thumbIconWidth={heightScreen * 0.074}
-            disabledRailBackgroundColor
             thumbIconBackgroundColor="#FFFFFF"
             shouldResetAfterSuccess={item?.status !== 'delivered'? true: false}
             title={item?.status == 'pending'? "Swipe to delivering": 'Swipe to complete'}

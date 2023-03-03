@@ -46,7 +46,7 @@ const FavoriteScreen = () => {
           <FlatList
             data={fvlist}
             renderItem={({ item, index }) => 
-              <View style={{ marginRight: widthScreen * 0.02}}>
+              <View style={{marginLeft: widthScreen * 0.05}}>
                 <ShoesBoxFavorite item={item} />
               </View>
               }

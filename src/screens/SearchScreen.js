@@ -1,4 +1,4 @@
-import { Animated, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View, ScrollView, Keyboard,Image, TouchableOpacity, TextInput, FlatList } from 'react-native'
+import { Animated, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View, ScrollView, Keyboard,Image, TouchableOpacity, TextInput, FlatList, Platform } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import auth from "@react-native-firebase/auth"
 import { heightScreen, widthScreen } from '../utility/index'
@@ -12,14 +12,14 @@ import { get_unFavorite_userID } from '../api/controller/favorite/getFavorite'
 
 const Header = ({title, search, setSearch, listProducts, setFilterData}) => {
     const navigation = useNavigation();
-const handleSearch = (word, data) => {
-   if(word !== ''){
-       const filterName = data.filter((item)=>{
-           return Object.values(item?.name).join('').toLowerCase().includes(word.toLowerCase())
-       })
-       setFilterData(filterName);
-       }
-  }
+    const handleSearch = (word, data) => {
+    if(word !== ''){
+        const filterName = data.filter((item)=>{
+            return Object.values(item?.name).join('').toLowerCase().includes(word.toLowerCase())
+        })
+        setFilterData(filterName);
+        }
+    }
   
     return(
          <View style = {styles.containerHeader}>
@@ -213,6 +213,8 @@ textSearch:{
  color: '#1A2530'
 },
 serachBar:{
+    marginVertical: heightScreen * 0.015,
+    paddingVertical: Platform.OS == 'ios'? heightScreen * 0.015 : null,
    flexDirection: 'row',
    alignItems: 'center',
    backgroundColor: '#fff',

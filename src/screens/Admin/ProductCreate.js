@@ -91,15 +91,25 @@ const ProductCreate = ({}) => {
             }
             
         },[]);
-        const [images, setImages] = useState();
+        const [images, setImages] = useState([]);
         const [imagesnew, setnewImages] = useState(null);
         const [uploading, setUploading] = useState(false);
         const [transferred, setTransferred] = useState(0);
         const [loading, setLoading] = useState(false);
 
         const handleUpdate = async () => {
-          setLoading(true);
-          let imgUrls = await uploadImages();
+          console.log('img',images);
+          
+          if(images.length === 0){
+            Alert.alert(
+              'Oops!',
+              'Please upload images.',
+            );
+            return null;
+          }
+          else {
+            setLoading(true);
+            let imgUrls = await uploadImages();
             const newImages = [];
               for (let i = 0; i < imgUrls.length; i++) {
                 newImages.push(imgUrls[i]);
@@ -127,23 +137,25 @@ const ProductCreate = ({}) => {
               .catch((err) => {
                 console.log(err);
               });
+          }
+          
         };
 
 
       const uploadImages = async () => {
-        if (!imagesnew || imagesnew.length === 0) {
+        if (images == null || images.length === 0) {
             setLoading(false);
             Alert.alert(
-                'Product Created!',
-                'Your product has been created successfully.',
+                'Oops!',
+                'Please upload images.',
               );
           return null;
         }
         else {
           const urls = [];
       
-        for (let i = 0; i < imagesnew.length; i++) {
-          const uploadUri = imagesnew[i];
+        for (let i = 0; i < images.length; i++) {
+          const uploadUri = images[i];
           let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
           const extension = filename.split('.').pop();
           const name = filename.split('.').slice(0, -1).join('.');
@@ -211,6 +223,7 @@ const ProductCreate = ({}) => {
             const imagePaths = response.map(photo => (
               photo.sourceURL
             ));
+            console.log(imagePaths)
             setImages(prevImages => prevImages ? [...prevImages, ...imagePaths] : imagePaths);
             setnewImages(imagePaths)
           this.bs.current.snapTo(1);
@@ -271,13 +284,13 @@ const ProductCreate = ({}) => {
           opacity: AnimatedLib.add(0.1, AnimatedLib.multiply(fall, 1.0)),
         }}>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null}>
-          <KeyboardAwareScrollView>
+          <KeyboardAwareScrollView behavior='position'>
             <Animated.View style = {[styles.containerHeader, {marginTop: headerMotion}]}>
               <Text style={styles.textProfile}>Create Product</Text>
               <TouchableOpacity onPress={()=>navigation.navigate('BottomTabAdmin')} style={styles.buttonBack}>
                 <Icon name='chevron-back-outline' color={'black'} size={30} style={styles.iconBack}/>
               </TouchableOpacity> 
-              {images?
+              {images?.length !== 0?
               <View style = {styles.containerImg}>
                 <FlatList
                   data={images}
@@ -352,6 +365,7 @@ const ProductCreate = ({}) => {
                           borderBottomWidth: 1,
                           borderBottomColor: 'gray',
                         }}
+                        listMode = "SCROLLVIEW"
                       />
 
                   {value === 'add_category' ? 
@@ -384,10 +398,14 @@ const ProductCreate = ({}) => {
                               name: category
                             })
                             .then(async () => {
+                              const newCategoryId = firestore().collection('category').where('category','==',category).get()
+                              .then(querySnapshot => {
+                                console.log('query',querySnapshot.docs.id)
                               // const newCategory = {
                               //   label: category,
                               //   value: newCategoryId,
                               // };
+                              })
                               console.log('Category Created!');
                               setLoading(false);
                               Alert.alert(
@@ -396,6 +414,7 @@ const ProductCreate = ({}) => {
                               );
                               setModalVisible(false);
                               fetchCategories();
+                              setValue()
                             })
                             .catch((err) => {
                               console.log(err);
@@ -425,7 +444,7 @@ const ProductCreate = ({}) => {
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Price'}
-                onChangeText={(txt) => setItem({...items, prices: Number(txt)})}
+                onChangeText={(txt) => setItem({...items, prices: txt})}
                 value={items?.prices}
                 onSubmitEditing={Keyboard.dismiss}
                 stylesTitle={{fontWeight: 'bold'}}
@@ -433,7 +452,7 @@ const ProductCreate = ({}) => {
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Amount'}
-                onChangeText={(txt) => setItem({...items, amount: Number(txt)})}
+                onChangeText={(txt) => setItem({...items, amount: txt})}
                 value={items?.amount}
                 onSubmitEditing={Keyboard.dismiss}
                 stylesTitle={{fontWeight: 'bold'}}
