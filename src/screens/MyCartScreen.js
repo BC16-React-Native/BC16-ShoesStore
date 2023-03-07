@@ -45,7 +45,7 @@ const MyCartScreen = () => {
   }, []);
    const navigation = useNavigation();
    return (
-       <SafeAreaView edges={['right', 'left', 'top']} style ={{flex:1, backgroundColor: '#F8F9FA'}}>   
+       <SafeAreaView edges={['right', 'left', 'top']} style ={{flex:1, backgroundColor: '#F8F9FA', marginTop: Platform.OS == 'ios'? -heightScreen * 0.03: null}}>   
        { !auth()?.currentUser?.isAnonymous ? 
             cart?.incart?.length > 0 ?
                 <>

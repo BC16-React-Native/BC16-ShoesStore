@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, FlatList, Platform } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import HeaderHome from '../components/HeaderHome/HeaderHome';
@@ -38,7 +38,7 @@ const OrderScreen = () => {
   }, [])
   useLayoutEffect(() => { 
     navigation.setOptions({ 
-      headerTitle: (props) => 
+      headerTitle: () => 
       <View style={{alignItems: 'center'}}>
         {user?.name || user?.email ?
         <><Text style={styles.userName}>{user?.name}</Text>
@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     backgroundColor: '#F8F9FA',
-    paddingBottom: heightScreen * 0.1
+    paddingBottom: heightScreen * 0.08,
+    marginTop: Platform.OS == 'ios'? -heightScreen * 0.03: null
   },
 })

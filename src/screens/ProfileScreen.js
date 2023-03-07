@@ -57,6 +57,28 @@ const ProfileScreen = () => {
     const [loading, setLoading] = useState(false);
 
   const handleUpdate = async () => {
+    if( image == null ) {
+      setLoading(true)
+      firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .update({
+        name: data.name,
+        email: auth().currentUser.email,
+        phone: data.phone,
+        address: data.address,
+      })
+      .then(() => {
+        setLoading(false)
+        console.log('User Updated!');
+        Alert.alert(
+          'Profile Updated!',
+          'Your profile has been updated successfully.'
+        );
+      })
+      setEdit(!edit);
+    }
+    else {
     setLoading(true)
     let imgUrl = await uploadImage();
 
@@ -82,17 +104,11 @@ const ProfileScreen = () => {
         'Your profile has been updated successfully.'
       );
     })
-    setImage(imgUrl);
+    setEdit(!edit);
+    setImage(imgUrl);      
+    }
   }
   const uploadImage = async () => {
-    if( image == null ) {
-      Alert.alert(
-        'Opps!',
-        'Please choose your image.'
-      );
-      setLoading(false)
-      return null;
-    }
     const uploadUri = image;
     let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
     const extension = filename.split('.').pop(); 

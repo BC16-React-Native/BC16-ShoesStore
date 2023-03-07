@@ -30,11 +30,11 @@ const Payment = ({route}) => {
         setPhone(user?.phone);
         setAddress(user?.address);
     }, [user])
-    // console.log(isBuyNow);
+    // console.log('isBuyNow');
     const navigation = useNavigation();
     useLayoutEffect(() => { 
         navigation.setOptions({ 
-          title: 'Payment',
+          title: 'Order',
           headerLeft : () => (    
                 <TouchableOpacity onPress={() => navigation.goBack()} 
                   style={{
@@ -55,7 +55,7 @@ const Payment = ({route}) => {
     const isBuyNow = route.params.isBuyNow;
     const [quantity, setQuantity] = useState(1);
   return (
-    <SafeAreaView edges={['right', 'left', 'top']} style ={{flex:1, backgroundColor: '#F8F9FA', justifyContent: 'space-between'}}>
+    <SafeAreaView edges={['right', 'left', 'top']} style ={{flex:1, backgroundColor: '#F8F9FA', justifyContent: 'space-between', marginTop: Platform.OS == 'ios'? -heightScreen * 0.03: null}}>
         <ScrollView>
             <View style={{ 
             }}>

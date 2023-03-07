@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // paddingTop: Platform.OS == 'ios'? heightScreen * 0.015 : 0,
+    paddingTop: Platform.OS == 'ios'? heightScreen * 0.015 : 0,
   },
   tabBar: {
     height: heightScreen * 0.09,

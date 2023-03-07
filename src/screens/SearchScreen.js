@@ -87,27 +87,6 @@ const Result = ({dataFilter, handleFavo}) => {
     return (      
         <SafeAreaView style={{alignItems: 'center', marginBottom: heightScreen * 0.08}}>
             {dataFilter?.length == 0 ? <Text style={{ marginTop: heightScreen * 0.05, fontSize: 18 }}>Shop haven't products matching.</Text>  
-            // : dataFilter?.length == 1 ? 
-            // <TouchableOpacity style={styles.container} onPress={() =>{console.log('go to detail')}}>
-            //     <Image
-            //         style={styles.image}
-            //         source={{
-            //         uri: dataFilter[0]?.images[0]
-            //         }}
-            //     />
-            //     <View style={{marginVertical: heightScreen * 0.02}}>
-            //         <Text style={styles.title}>BEST SELLER</Text> 
-            //         <Text numberOfLines={1} style={styles.name}>{dataFilter[0]?.name}</Text>
-            //     </View>
-            //         <Text style={styles.price}>${dataFilter[0]?.prices}</Text>
-            //     <TouchableOpacity style={[styles.icon_like, 
-            //         {backgroundColor: '#E15B5B'}
-            //         ]} 
-            //         onPress={() => {deleteFavo(dataFilter[0]?.id)}}
-            //     >
-            //         <Feather name="heart" size={22} color="#fff" />
-            //     </TouchableOpacity>
-            // </TouchableOpacity>
             :
             <FlatList
                 data={dataFilter}

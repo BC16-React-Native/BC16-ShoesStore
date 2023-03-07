@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../utility'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -55,46 +55,47 @@ const OrderDetail = ({
 
   return (
     <SafeAreaView style = {styles.container}>
-    <View style={{
-        flexDirection: 'row', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        paddingHorizontal: heightScreen * 0.02,
-        marginVertical: heightScreen * 0.01,
-    }}>
-        <View style = {styles.containerinfo}>
-            <Text style ={styles.titleid}>ORDER ID: {(items.id).slice(-6)}</Text>
-            <Text numberOfLines={1} style ={styles.titleadd}>Address: {items.address}</Text>
-        </View>
-        { type == 'user'?
-                <View style = {[styles.titlestatus, 
-                    { backgroundColor: 
-                        items?.status == 'pending' ?'#ffca3b' 
-                        : items?.status == 'delivered' ? '#34A202' 
-                        : '#5B9EE1'
-                    }]}>
-                    <Text style = {[styles.titlestatuss, 
-                        { color: items?.status == 'pending' ? '#000'
-                        : '#FFFFFF' }]}>{items?.status == 'pending' ? 'Pending': items?.status == 'delivered' ? "Delivered" : "Delivering"}</Text>
-                </View>
-            : 
-            <>
-            </>
-        }
-    </View>
-    <View style = {styles.containerlist}>
-      <FlatList
-      data={items?.productsid}
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-      renderItem={({item,index}) => <ShoesBoxOrder
-        stylesContainer = {{marginVertical:heightScreen *0.02}}
-        item = {item}
-        index = {index}
-      />}
-      keyExtractor={item => item}
-      />
-    </View>
+      <View style={{
+          flexDirection: 'row', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          paddingHorizontal: heightScreen * 0.02,
+          marginVertical: heightScreen * 0.01,
+          marginTop: Platform.OS == 'ios'? -heightScreen * 0.03: null
+      }}>
+          <View style = {styles.containerinfo}>
+              <Text style ={styles.titleid}>ORDER ID: {(items.id).slice(-6)}</Text>
+              <Text numberOfLines={1} style ={styles.titleadd}>Address: {items.address}</Text>
+          </View>
+          { type == 'user'?
+                  <View style = {[styles.titlestatus, 
+                      { backgroundColor: 
+                          items?.status == 'pending' ?'#ffca3b' 
+                          : items?.status == 'delivered' ? '#34A202' 
+                          : '#5B9EE1'
+                      }]}>
+                      <Text style = {[styles.titlestatuss, 
+                          { color: items?.status == 'pending' ? '#000'
+                          : '#FFFFFF' }]}>{items?.status == 'pending' ? 'Pending': items?.status == 'delivered' ? "Delivered" : "Delivering"}</Text>
+                  </View>
+              : 
+              <>
+              </>
+          }
+      </View>
+      <View style = {styles.containerlist}>
+        <FlatList
+        data={items?.productsid}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({item,index}) => <ShoesBoxOrder
+          stylesContainer = {{marginVertical:heightScreen *0.02}}
+          item = {item}
+          index = {index}
+        />}
+        keyExtractor={item => item}
+        />
+      </View>
     <View style = {styles.containeraction}>
       <View style = {styles.containername}>
         <Text style = {styles.textinfo}>Name: </Text>
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     backgroundColor: '#F8F9FA',
-    
+    justifyContent: 'space-between'
   },
   titleid:{
     fontSize:10,
@@ -159,7 +160,8 @@ const styles = StyleSheet.create({
     color: '#1A2530'
   },
   containerlist:{
-    flex:1
+    flex:1,
+    // backgroundColor: 'red',
   },
   containeraction:{
     backgroundColor: '#FFFFFF',

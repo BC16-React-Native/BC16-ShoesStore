@@ -10,7 +10,7 @@ const Address = ({address, setAddress}) => {
   const [location, setLocation] = useState();
   const [ilatitude, setLatitude] = useState(null);
   const [ilongitude, setLongitude] = useState(null);
-  const apiKey = 'AIzaSyBAqoquRiy_bXJvQqVrExEZpxNoPgmmidk';
+  const apiKey = 'AIzaSyBzIYOwR_0_-lRZeZpFLPyHEcyZ_CQaE_4';
   const handleLocation = async () =>{
     Alert.alert('Allow "ShoesStore" to access your location?','You must allow access location for ShoesStore app to work.',
     [{text: 'Allow', onPress: () => {
@@ -33,7 +33,7 @@ useEffect(() => {
       fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`)
       .then(response => response.json())
       .then(data => {
-        setLocation(data?.results[0].formatted_address);
+        setLocation(data?.results[0]?.formatted_address);
       });
     },
     error => {

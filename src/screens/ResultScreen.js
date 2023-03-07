@@ -34,9 +34,9 @@ const ResultScreen = ({ route }) => {
     )
   }
   return (
-    <View>
+    <SafeAreaView>
       <Header />
-      <SafeAreaView style={{ alignSelf: 'center' }}>
+      <View style={{ marginLeft:widthScreen*0.05}}>
 
         {data.length === 0 ? <Text style={{ marginTop: heightScreen * 0.05, fontSize: 18 }}>Shop haven't products matching.</Text> : <FlatList
           data={data}
@@ -46,8 +46,8 @@ const ResultScreen = ({ route }) => {
           style={{ marginTop: heightScreen * 0.05 }}
         />}
 
-      </SafeAreaView>
       </View>
+      </SafeAreaView>
   )
   }
 export default ResultScreen
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: heightScreen * 0.12,
     alignSelf: 'center',
+    paddingVertical: heightScreen*0.015,
     shadowOffset: {
       width: 0,
       height: 1,

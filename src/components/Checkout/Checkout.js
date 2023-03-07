@@ -1,4 +1,4 @@
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { Alert, Platform, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { heightScreen, widthScreen } from '../../utility'
 import FieldButton from '../Auth/FieldButton'
@@ -12,29 +12,36 @@ import { StatusBar } from 'react-native'
 import ConfirmBuy from '../Modal/ConfirmBuy'
 
 const Checkout = ({item, type, address, phone, isBuyNow}) => {
+    // console.log(address, phone);
     const [subprice, setSubprice] = useState(0)
     useLayoutEffect(() => {
         setSubprice(get_Cart_Price(item))
     });
 
     const createOrder_isBuyNow = () => {
-        const data  = {
-            address: address,
-            phone: phone,
-            productsid: [{
-                productid: item.productid,
-                price: item.prices,
-                quantity: item.quantity
-            }],
-            status: 'pending',
-            total: subprice + 9,
-            userid: auth().currentUser.uid,
-            datecreate : new Date().toISOString(),
+        if(address && phone) {
+            const data  = {
+                address: address,
+                phone: phone,
+                productsid: [{
+                    productid: item.productid,
+                    price: item.prices,
+                    quantity: item.quantity
+                }],
+                status: 'pending',
+                total: subprice + 9,
+                userid: auth().currentUser.uid,
+                datecreate : new Date().toISOString(),
+            }
+            addOrder(data);
+            setModalVisible(true);
+        } else {
+            Alert.alert('Opps!', "You must add address and phone to order!");
+            return null;
         }
-        addOrder(data);
-        // console.log(data);
     }
     const createOrder_notBuyNow = () => {
+        if(address && phone) {
         const data  = {
             address: address,
             phone: phone,
@@ -45,8 +52,12 @@ const Checkout = ({item, type, address, phone, isBuyNow}) => {
             datecreate : new Date().toISOString(),
         }
         addOrder(data);
+        setModalVisible(true);
         removeCart();
-        // console.log(data);
+    } else {
+        Alert.alert('Opps!', "You must add address and phone to order!");
+        return null;
+    }
     }
     const navigation = useNavigation();
     const [modalVisible, setModalVisible] = useState(false);
@@ -68,11 +79,11 @@ const Checkout = ({item, type, address, phone, isBuyNow}) => {
         </View>
         <FieldButton
             stylesContainer={{}}
-            title={type == 'payment' ? 'Payment' : 'Checkout'}
+            title={type == 'payment' ? 'Order' : 'Checkout'}
             onPress={() => {
                 if(type == 'payment'){
                     isBuyNow ? createOrder_isBuyNow() : createOrder_notBuyNow();
-                    setModalVisible(true);
+                    
                 } else if (type == 'order'){
                     navigation.navigate('Payment', {
                         item : item,

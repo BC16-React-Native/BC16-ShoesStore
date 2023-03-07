@@ -7,7 +7,7 @@ const HeaderHome = () => {
   const [location, setLocation] = useState(null);
   const latitude = '16.019236519630358'
   const longitude = '108.22907373679898'
-  const apiKey = 'AIzaSyBAqoquRiy_bXJvQqVrExEZpxNoPgmmidk';
+  const apiKey = 'AIzaSyBzIYOwR_0_-lRZeZpFLPyHEcyZ_CQaE_4';
   const handlePressAddress = (location) => {
     const url = Platform.OS == 'ios'?
     `maps://maps.apple.com/?q=${encodeURIComponent(location)}`:
@@ -18,7 +18,8 @@ const HeaderHome = () => {
         fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`)
         .then(response => response.json())
         .then(data => {
-          setLocation(data?.results[0].formatted_address)
+          setLocation(data?.results[0]?.formatted_address)
+          console.log(data?.results[0]?.formatted_address)
         });
   },[]);
   return (
@@ -33,7 +34,7 @@ const HeaderHome = () => {
           numberOfLines={1}
           style={styles.address}
         >
-          {location || null}
+          {location || undefined}
         </Text>
         </TouchableOpacity>
       </View>

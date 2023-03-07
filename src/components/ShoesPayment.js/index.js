@@ -42,7 +42,7 @@ const ShoesPayment = ({ item, type = 'order', quantity, setQuantity }) => {
                     // flex: 1
                     // marginTop: 10
                 }}>
-                    <TouchableOpacity
+                    {quantity == 1 ? <View style={{height: 25, width: 25,}}/> :<TouchableOpacity
                         onPress={() => setQuantity(quantity - 1)}
                         style={{ 
                             height: 25, 
@@ -53,7 +53,7 @@ const ShoesPayment = ({ item, type = 'order', quantity, setQuantity }) => {
                             alignItems: 'center' 
                         }}>
                         <Text style={{ fontSize: 15, }}>-</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                     <Text>{quantity}</Text>
                     <TouchableOpacity 
                         onPress={() => setQuantity(quantity + 1)} 
