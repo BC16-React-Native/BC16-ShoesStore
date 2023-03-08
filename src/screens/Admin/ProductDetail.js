@@ -99,7 +99,8 @@ const DetailScreen = ({route}) => {
           setEdit(!edit)
           setLoading(true);
           let imgUrls = await uploadImages();
-          if (imgUrls == []) {
+          console.log(imgUrls);
+          if (imgUrls.length == 0) {
             firestore()
               .collection('products')
               .doc(item?.id)
@@ -170,7 +171,7 @@ const DetailScreen = ({route}) => {
 
 
       const uploadImages = async () => {
-        if (!images || images.length === 0) {
+        if (!images) {
           Alert.alert(
             'Oops!',
             'Please upload images.',
@@ -179,7 +180,7 @@ const DetailScreen = ({route}) => {
         }
         else {
           const urls = [];
-      
+          if (!imagesnew) return urls;  
         for (let i = 0; i < imagesnew.length; i++) {
           const uploadUri = imagesnew[i];
           let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
@@ -417,7 +418,7 @@ const DetailScreen = ({route}) => {
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Price'}
-                onChangeText={(txt) => setItem({...items, prices: Number(txt)})}
+                onChangeText={(txt) => setItem({...items, prices: txt})}
                 value={String(items?.prices)}
                 editable={edit}
                 onSubmitEditing={Keyboard.dismiss}
@@ -426,7 +427,7 @@ const DetailScreen = ({route}) => {
                 <FieldTextInput  
                 stylesContainer={{marginVertical:heightScreen * 0.01}}
                 title={'Amount'}
-                onChangeText={(txt) => setItem({...items, amount: Number(txt)})}
+                onChangeText={(txt) => setItem({...items, amount: txt})}
                 value={String(items?.amount)}
                 editable={edit}
                 onSubmitEditing={Keyboard.dismiss}
