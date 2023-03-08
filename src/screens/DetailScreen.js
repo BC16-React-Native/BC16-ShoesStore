@@ -174,7 +174,7 @@ const DetailScreen = ({route}) => {
 
             <Description description={data?.info} />
             {/* create  component to reduce performance */}
-            <CategogyName categoryid={item?.categoryid} />
+            <CategogyName categoryid={data?.categoryid} />
             <View style={{flexDirection: 'row', alignItems: 'center', paddingVertical: heightScreen * 0.0077}}>
             <Image
                 source={require('../assets/images/calendar.png')} 
@@ -235,7 +235,7 @@ const DetailScreen = ({route}) => {
             color: '#1A2530',
             marginTop: heightScreen * 0.01
           }}>
-            $ {item.prices}
+            $ {data?.prices}
           </Text>
         </View>
         <View style ={{flexDirection: 'row'}}>

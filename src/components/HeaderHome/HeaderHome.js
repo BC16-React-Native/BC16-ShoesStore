@@ -7,7 +7,7 @@ const HeaderHome = () => {
   const [location, setLocation] = useState(null);
   const latitude = '16.019236519630358'
   const longitude = '108.22907373679898'
-  const apiKey = 'AIzaSyBzIYOwR_0_-lRZeZpFLPyHEcyZ_CQaE_4';
+  const apiKey = 'AIzaSyDSsNkYEqbVe79er4b4Kwe66wnXnyAKG14';
   const handlePressAddress = (location) => {
     const url = Platform.OS == 'ios'?
     `maps://maps.apple.com/?q=${encodeURIComponent(location)}`:

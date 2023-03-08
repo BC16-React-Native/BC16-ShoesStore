@@ -10,7 +10,7 @@ const Address = ({address, setAddress}) => {
   const [location, setLocation] = useState();
   const [ilatitude, setLatitude] = useState(null);
   const [ilongitude, setLongitude] = useState(null);
-  const apiKey = 'AIzaSyBzIYOwR_0_-lRZeZpFLPyHEcyZ_CQaE_4';
+  const apiKey = 'AIzaSyDSsNkYEqbVe79er4b4Kwe66wnXnyAKG14';
   const handleLocation = async () =>{
     Alert.alert('Allow "ShoesStore" to access your location?','You must allow access location for ShoesStore app to work.',
     [{text: 'Allow', onPress: () => {

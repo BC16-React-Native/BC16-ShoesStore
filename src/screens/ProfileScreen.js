@@ -63,10 +63,10 @@ const ProfileScreen = () => {
       .collection('users')
       .doc(auth().currentUser.uid)
       .update({
-        name: data.name,
-        email: auth().currentUser.email,
-        phone: data.phone,
-        address: data.address,
+        name: data?.name,
+        email: auth().currentUser?.email,
+        phone: data?.phone,
+        address: data?.address,
       })
       .then(() => {
         setLoading(false)
